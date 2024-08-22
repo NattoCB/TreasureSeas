@@ -1,3 +1,4 @@
+![banner](https://github.com/i493052739/TreasureSeas/blob/main/src/main/resources/treasure_seas.png)
 
 > 开始一段冒险之旅，在这里钓鱼不再仅仅是放线。
 > 
