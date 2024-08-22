@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PFP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "F": {
+      "tag": "treasure_seas:raw_fishes"
+    }
+  },
+  "result": {
+    "item": "treasure_seas:fish_shop",
+    "count": 1
+  }
+}

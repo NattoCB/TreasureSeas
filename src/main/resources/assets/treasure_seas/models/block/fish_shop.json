@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "treasure_seas:block/fish_shop_bottom",
+    "up": "treasure_seas:block/fish_shop_top",
+    "north": "treasure_seas:block/fish_shop_front",
+    "south": "treasure_seas:block/fish_shop_side",
+    "west": "treasure_seas:block/fish_shop_side",
+    "east": "treasure_seas:block/fish_shop_side",
+    "particle": "treasure_seas:block/fish_shop_side"
+  }
+}

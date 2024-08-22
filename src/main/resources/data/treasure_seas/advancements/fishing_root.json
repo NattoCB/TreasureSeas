@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:fishing_rod"
+    },
+    "title": {
+      "translate": "advancement.treasure_seas.root.title"
+    },
+    "description": {
+      "translate": "advancement.treasure_seas.root.description"
+    },
+    "background": "minecraft:textures/block/water_flow.png",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fishing": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

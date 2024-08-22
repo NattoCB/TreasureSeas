@@ -1,0 +1,23 @@
+{
+  "parent": "treasure_seas:fishing_root",
+  "display": {
+    "title": {
+      "translate": "advancement.treasure_seas.length_100_fish.title"
+    },
+    "description": {
+      "translate": "advancement.treasure_seas.length_100_fish.description"
+    },
+    "icon": {
+      "item": "minecraft:salmon"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fishing": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+issueTrackerURL = "${mod_github}/issues"
+license = "${mod_license}"
+
+[[mods]]
+modId = "treasure_seas"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+logoFile = "treasure_seas.png"
+description = '''
+Embark on an adventurous journey where fishing is more than just casting a line.
+In Treasure Seas‘ enchantment, every catch is a battle as you engage in thrilling duels
+with the aquatic creatures of the deep. Once you've reeled in your prized catches,
+sell them to earn gold and upgrade your gear. Master your fishing rod, discover rare treasures,
+and become the ultimate angler in this dynamic, treasure-filled world.
+
+Made by NattoCB, the Bear from Snowk
+'''
+
+[[dependencies.treasure_seas]]
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.treasure_seas]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
