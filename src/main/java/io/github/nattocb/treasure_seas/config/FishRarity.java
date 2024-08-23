@@ -47,11 +47,11 @@ public enum FishRarity {
             return FishRarity.RARE;
         } else if (percentage <= 90) {
             return FishRarity.SUPERIOR;
-        } else if (percentage <= 99) {
+        } else if (percentage <= 95) {
             return FishRarity.EXCEPTIONAL;
-        } else if (percentage <= 99.9) {
+        } else if (percentage <= 97.5) {
             return FishRarity.LEGEND;
-        } else if (percentage <= 99.99) {
+        } else if (percentage <= 99) {
             return FishRarity.MYTHIC;
         } else {
             return FishRarity.DIVINE;
