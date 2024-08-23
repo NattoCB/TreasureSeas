@@ -1,0 +1,41 @@
+name: "[BugReport] Game crash / Erroneous behaviours"
+description: Report an issue that crashes the game or interferes with normal gameplay behavior
+labels: [ "type: bug" ]
+body:
+    -   type: textarea
+        attributes:
+            label: Context
+            description: "
+                What were you doing when it happend? 
+                Can you repruduce this error? 
+                Add images, screenshots, or video links if they could be useful.
+            "
+        validations:
+            required: true
+
+    -   type: textarea
+        attributes:
+            label: Context
+            description: "
+                Which Minecraft Version you are playing? (1.18.2/...)
+                Which Mod Loader you are using? (Forge/Fabric/...)
+                Which Mod Version you are using?
+            "
+        validations:
+            required: true
+
+    -   type: input
+        attributes:
+            label: Crash Report
+            description: "
+            We need the crash report to figure out why the crash happened.
+            This file can be found in the \"crash-reports\" folder of your Minecraft folder.
+            Please upload the latest file to https://mclo.gs/ and then put the link here.
+            Do not paste the lengthy full-content of the report directly at here, please.
+            "
+        validations:
+            required: false
+
+    -   type: markdown
+        attributes:
+            value: "Thank you for taking the time to make a report and help us improve!"
