@@ -1,5 +1,5 @@
 ---
-name: "[BugReport] Game crash / Erroneous behaviours"
+name: "[BugReport] GameCrash / ErroneousBehaviors"
 about: Report an issue that crashes the game or interferes with normal gameplay behavior
 title: ''
 labels: ''
