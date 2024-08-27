@@ -146,13 +146,11 @@ public class FishShopInv extends AbstractContainerMenu {
                             (int) (basePrice * fishRarity.getPriceMultiplier());
                 } else {
                     // e.g. junk, normal treasures, ultimateTreasures, unModded fish items but id within the config
-                    if (fishWrapper.isUltimateTreasure() || fishWrapper.isTreasure()) {
+                    if (fishWrapper.isUltimateTreasure()) {
                         return basePrice;
-                    } else if (fishWrapper.isJunk()) {
-                        return 0;
                     } else {
-                        // unModded fish items but id within the config
-                        return 1;
+                        // junk / un-modded fish, do not make it saleable for preventing auto-emerald-machines
+                        return 0;
                     }
                 }
             }
