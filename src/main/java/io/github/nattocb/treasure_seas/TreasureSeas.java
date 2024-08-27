@@ -85,15 +85,8 @@ public class TreasureSeas {
     // todo 客户端配置在每次进入游戏时重载
     // todo 不同的稀有度会越来越难钓（对于低等级钓竿来说）
     // todo 甩竿决定深度，新 gui
-    // todo 模组建议：搭配：
-    //          旅行背包
-    //          水产业
-    //          Mouse Tweak
-    //          可选联动：Unusual Fish Mod、Fish of Thieves、螃农乐事、炽海生机
-    //          （提示配置者可自行配置新mod鱼类（降低本模组的加载优先级，在最后））
     // todo 如果 world path not found，默认用 overworld（但前提是，世界类型需要是 overworld）从而支持 multiverse 的其他主世界
     // todo mod logo png in toml file
     // todo 个人计分板（服务器排行榜？如何联动）
     // todo 写 readme
-    // todo 岩浆、末地、暮色 default fish
 }

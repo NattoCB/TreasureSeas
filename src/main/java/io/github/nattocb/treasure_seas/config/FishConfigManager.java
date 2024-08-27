@@ -162,7 +162,7 @@ public class FishConfigManager {
                 FishWrapper.AllowedTime.ALL,
                 FishWrapper.AllowedWeather.ALL,
                 new String[]{},
-                new String[]{"overworld"},
+                new String[]{},
                 "minecraft",
                 "salmon",
                 5.0,
