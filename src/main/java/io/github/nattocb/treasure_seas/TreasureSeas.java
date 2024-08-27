@@ -63,7 +63,8 @@ public class TreasureSeas {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         // 因为配置中可能涉及到其他模组的鱼类物品，所以在这里才初始化，确保其余模组在 FML 已经加载完成
         fishConfigManager = new FishConfigManager();
-        fishConfigManager.loadConfig();
+        fishConfigManager.loadCommonConfig();
+        fishConfigManager.loadClientConfig();
     }
 
     public static TreasureSeas getInstance() {

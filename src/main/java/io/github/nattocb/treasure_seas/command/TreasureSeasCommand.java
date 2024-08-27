@@ -26,7 +26,12 @@ public class TreasureSeasCommand {
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treasureseas")
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("reload")
-                        .executes(context -> reloadConfig(context.getSource())))
+                        .then(Commands.literal("client")
+                                .requires(source -> source.hasPermission(0))
+                                .executes(context -> reloadClient(context.getSource())))
+                        .then(Commands.literal("common")
+                                .requires(source -> source.hasPermission(2))
+                                .executes(context -> reloadCommon(context.getSource()))))
                 .then(Commands.literal("log_biomes")
                         .executes(context -> logBiomes(context.getSource())))
                 .then(Commands.literal("log_world_paths")
@@ -35,11 +40,19 @@ public class TreasureSeasCommand {
         dispatcher.register(builder);
     }
 
-    private static int reloadConfig(CommandSourceStack source) {
+    private static int reloadCommon(CommandSourceStack source) {
         long startTs = System.currentTimeMillis();
         FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
-        configManager.loadConfig();
-        source.sendSuccess(new TextComponent("TreasureSeas configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
+        configManager.loadCommonConfig();
+        source.sendSuccess(new TextComponent("TreasureSeas common configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
+        return 1;
+    }
+
+    private static int reloadClient(CommandSourceStack source) {
+        long startTs = System.currentTimeMillis();
+        FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+        configManager.loadClientConfig();
+        source.sendSuccess(new TextComponent("TreasureSeas client configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
         return 1;
     }
 

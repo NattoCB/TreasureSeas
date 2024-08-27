@@ -67,13 +67,7 @@ public class FishConfigManager {
     /**
      * config-init
      */
-
-    public void loadConfig() {
-        loadCommonConfig();
-        loadClientConfig();
-    }
-
-    private void loadCommonConfig() {
+    public void loadCommonConfig() {
         String commonConfigFilePath = "config/treasureseas-common.toml";
         Path commonConfigPath = new File(commonConfigFilePath).toPath();
         preCheckConfigExistence(commonConfigPath, commonConfigFilePath);
@@ -108,7 +102,7 @@ public class FishConfigManager {
         doLog();
     }
 
-    private void loadClientConfig() {
+    public void loadClientConfig() {
         String clientConfigFilePath = "config/treasureseas-client.properties";
         Path clientConfigPath = new File(clientConfigFilePath).toPath();
         preCheckConfigExistence(clientConfigPath, clientConfigFilePath);
