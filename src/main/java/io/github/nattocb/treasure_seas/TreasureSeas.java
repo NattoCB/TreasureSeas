@@ -87,5 +87,7 @@ public class TreasureSeas {
     // todo 增加暮色默认鱼
     // todo 增加海灵物语默认鱼
     // todo 个人计分板（服务器排行榜？如何联动）
+    // todo 加回 speedModifier 提示不建议过大，给出建议范围
+    // todo 增加个人垂钓统计书，记录每一种鱼的垂钓最大、最小长度、现实系统时间、地点、群系
 
 }
