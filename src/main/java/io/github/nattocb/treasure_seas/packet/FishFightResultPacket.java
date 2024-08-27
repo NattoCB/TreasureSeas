@@ -5,7 +5,8 @@ import io.github.nattocb.treasure_seas.config.FishWrapper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 
-public record FishFightResultPacket(boolean success, Vec3 bobberPos, FishWrapper fishWrapper, boolean isRaining, boolean isThundering, boolean isNightTime) {
+public record FishFightResultPacket(boolean success, Vec3 bobberPos, FishWrapper fishWrapper, boolean isRaining,
+                                    boolean isThundering, boolean isNightTime) {
     public FishFightResultPacket(boolean success, Vec3 bobberPos, FishWrapper fishWrapper, boolean isRaining, boolean isThundering, boolean isNightTime) {
         this.success = success;
         this.bobberPos = bobberPos;

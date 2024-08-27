@@ -71,7 +71,7 @@ public class AnvilOperationHandler {
             if (!loreList.isEmpty()) {
                 // 更新第0行
                 int requiredExperienceForNextLvl = FishingRodUpgradeRequirement.getRequiredExperienceForLevel(newLevel);
-                ListTag updatedLores = FishUtils.prepareLoreInfo(loreList, count, requiredExperienceForNextLvl);
+                ListTag updatedLores = FishUtils.addFishCountLoreIntoItem(loreList, count, requiredExperienceForNextLvl);
                 displayTag.put("Lore", updatedLores);
                 newTag.put("display", displayTag);
                 newRod.setTag(newTag);

@@ -25,7 +25,9 @@ public class ModItems {
                             new TranslatableComponent("item.treasure_seas.pirate_treasure.lore2")
                     )));
 
-    // Register Fruit of Power with attribute modification and lore
+    /**
+     * Register Fruit of Power with attribute modification and lore
+     */
     public static final RegistryObject<Item> POWER_FRUIT = ITEMS.register("power_fruit", () ->
             new EdibleFruitItem(
                     new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),
@@ -39,7 +41,9 @@ public class ModItems {
                     )
             ));
 
-    // Register Fruit of Vitality with attribute modification and lore
+    /**
+     * Register Fruit of Vitality with attribute modification and lore
+     */
     public static final RegistryObject<Item> LIFE_FRUIT = ITEMS.register("life_fruit", () ->
             new EdibleFruitItem(
                     new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),

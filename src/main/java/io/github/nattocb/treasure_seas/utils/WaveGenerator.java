@@ -1,4 +1,5 @@
 package io.github.nattocb.treasure_seas.utils;
+
 import io.github.nattocb.treasure_seas.TreasureSeas;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class WaveGenerator {
 
     private class Segment {
         double xStart, xEnd, yStart, yEnd;
+
         Segment(double xStart, double xEnd, double yStart, double yEnd) {
             this.xStart = xStart;
             this.xEnd = xEnd;

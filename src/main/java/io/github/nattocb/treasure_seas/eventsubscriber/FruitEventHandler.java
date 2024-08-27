@@ -23,7 +23,8 @@ public class FruitEventHandler {
             if (EdibleFruitItem.getOwner(stack) == null) {
                 EdibleFruitItem.setOwner(stack, player);
             } else if (!EdibleFruitItem.isOwner(stack, player)) {
-                event.setCanceled(true); // Prevent other players from picking up
+                // Prevent other players from picking up
+                event.setCanceled(true);
             }
         }
     }
@@ -34,7 +35,8 @@ public class FruitEventHandler {
         Player player = event.getPlayer();
 
         if (stack.getItem() instanceof EdibleFruitItem && !EdibleFruitItem.isOwner(stack, player)) {
-            event.setCanceled(true); // Prevent interaction by non-owners
+            // Prevent interaction by non-owners
+            event.setCanceled(true);
         }
     }
 
@@ -43,7 +45,8 @@ public class FruitEventHandler {
         Player player = (Player) event.getEntity();
         player.getInventory().items.forEach(stack -> {
             if (stack.getItem() instanceof EdibleFruitItem && !EdibleFruitItem.isOwner(stack, player)) {
-                if (event.isCancelable()) event.setCanceled(true); // Prevent taking the item out of the container by non-owners
+                // Prevent taking the item out of the container by non-owners
+                if (event.isCancelable()) event.setCanceled(true);
             }
         });
     }

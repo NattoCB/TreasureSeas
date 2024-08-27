@@ -157,7 +157,8 @@ public class FishShopInv extends AbstractContainerMenu {
                 }
             }
         }
-        return 0; // If no matching FishWrapper is found, return zero value
+        // If no matching FishWrapper is found, return zero value
+        return 0;
     }
 
     private void updateOutputSlots() {
@@ -169,14 +170,17 @@ public class FishShopInv extends AbstractContainerMenu {
         // Fill output slots with emerald blocks first, then emeralds
         for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
             if (emeraldBlockCount > 0) {
-                int countToPlace = Math.min(emeraldBlockCount, 64); // Up to 64 blocks per slot
+                // Up to 64 blocks per slot
+                int countToPlace = Math.min(emeraldBlockCount, 64);
                 outputSlots.setItem(i, new ItemStack(Items.EMERALD_BLOCK, countToPlace));
                 emeraldBlockCount -= countToPlace;
             } else if (emeraldCount > 0) {
                 outputSlots.setItem(i, new ItemStack(Items.EMERALD, emeraldCount));
-                emeraldCount = 0; // All remaining emeralds placed
+                // All remaining emeralds placed
+                emeraldCount = 0;
             } else {
-                outputSlots.setItem(i, ItemStack.EMPTY); // Clear remaining slots
+                // Clear remaining slots
+                outputSlots.setItem(i, ItemStack.EMPTY);
             }
         }
 
@@ -209,10 +213,11 @@ public class FishShopInv extends AbstractContainerMenu {
         if (availableSlots >= requiredSlots) {
             transferItemsToPlayer(player);
         } else {
-            dropItemsToWorld(player.level, player);
+            dropItemsToWorld(player);
         }
         clearInputSlots();
-        updateOutputSlots(); // Reset output slots after taking
+        // Reset output slots after taking
+        updateOutputSlots();
     }
 
 
@@ -253,17 +258,19 @@ public class FishShopInv extends AbstractContainerMenu {
         for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
             ItemStack stack = outputSlots.getItem(i);
             if (!stack.isEmpty()) {
-                player.getInventory().add(stack); // Directly add to player inventory
+                // Directly add to player inventory
+                player.getInventory().add(stack);
                 outputSlots.setItem(i, ItemStack.EMPTY);
             }
         }
     }
 
-    private void dropItemsToWorld(Level world, Player player) {
+    private void dropItemsToWorld(Player player) {
         for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
             ItemStack stack = outputSlots.getItem(i);
             if (!stack.isEmpty()) {
-                player.drop(stack, false); // Drop item at player's location
+                // Drop item at player's location
+                player.drop(stack, false);
                 outputSlots.setItem(i, ItemStack.EMPTY);
             }
         }

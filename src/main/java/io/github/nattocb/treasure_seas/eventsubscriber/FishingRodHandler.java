@@ -78,11 +78,11 @@ public class FishingRodHandler {
             // FISH
             default -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
                     .filter(fish ->
-                        {
-                            TreasureSeas.getLogger().dev("try matching fish: " + fish.getModNamespace() + ":" + fish.getFishItemName());
-                            return fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
-                                    maxDepthAllowed, isCave, false, false, false);
-                        }
+                            {
+                                TreasureSeas.getLogger().dev("try matching fish: " + fish.getModNamespace() + ":" + fish.getFishItemName());
+                                return fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
+                                        maxDepthAllowed, isCave, false, false, false);
+                            }
                     )
                     .toList();
         };

@@ -31,8 +31,9 @@ public class FishUtils {
     /**
      * 获取 bobber 鱼漂 location下方的水位深度格数
      * 即：鱼漂到它正下方海底的 y 距离
+     *
      * @param bobberPos 鱼漂位置
-     * @param level 世界实例
+     * @param level     世界实例
      * @return 此处的海洋深度
      */
     public static int calculateFluidDepth(@NotNull BlockPos bobberPos, @NotNull Level level) {
@@ -40,7 +41,6 @@ public class FishUtils {
         BlockPos currentPos = bobberPos;
         BlockState blockState = level.getBlockState(currentPos);
         FluidState fluidState = blockState.getFluidState();
-        // Checks if the FluidState is non-empty, meaning it's a fluid
         while (!fluidState.isEmpty()) {
             depth++;
             currentPos = currentPos.below();
@@ -219,23 +219,26 @@ public class FishUtils {
      */
     public static int getCurrentFishingCount(ItemStack fishRod) {
         if (fishRod == null || fishRod.isEmpty()) {
-            return 0; // Safety check for null or empty item stacks
+            return 0;
         }
 
         // Check if the fishing rod has the Fish Fighter enchantment
         if (EnchantmentHelper.getEnchantments(fishRod).containsKey(TreasureSeas.FISH_FIGHTER.get())) {
-            CompoundTag tag = fishRod.getTag(); // Only get the tag, do not create it
+            CompoundTag tag = fishRod.getTag();
             if (tag != null && tag.contains("FishingCount")) {
                 return tag.getInt("FishingCount");
             }
         }
 
-        return 0; // Return 0 if no tag, no "FishingCount", or no Fish Fighter enchantment
+        return 0;
     }
 
-    /** 各 FISH FIGHTER 附魔等级下的 TREASURE、JUNK、FISH、ULTIMATE 几率 */
+    /**
+     * 各 FISH FIGHTER 附魔等级下的 TREASURE、JUNK、FISH、ULTIMATE 几率
+     */
     private static final Map<Integer, List<Double>> rewardTypeProbabilitiesForCommonWorlds = new HashMap<>();
     private static final Map<Integer, List<Double>> rewardTypeProbabilitiesForNether = new HashMap<>();
+
     static {
         rewardTypeProbabilitiesForCommonWorlds.put(1, Arrays.asList(5.0, 10.0, 84.8, 0.2));
         rewardTypeProbabilitiesForCommonWorlds.put(2, Arrays.asList(5.0, 8.0, 86.6, 0.4));
@@ -275,7 +278,7 @@ public class FishUtils {
 
 
     @NotNull
-    public static ListTag prepareLoreInfo(ListTag loreList, int count, int nextLvlExp) {
+    public static ListTag addFishCountLoreIntoItem(ListTag loreList, int count, int nextLvlExp) {
         StringTag countLore;
         if (count >= nextLvlExp) {
             countLore = StringTag.valueOf(
@@ -303,4 +306,5 @@ public class FishUtils {
         }
         return loreList;
     }
+
 }

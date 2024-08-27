@@ -19,8 +19,10 @@ public class FireproofItemEntity extends ItemEntity {
 
         // 在防火时间内，确保物品不会着火
         if (currentTime <= fireImmuneUntil) {
-            this.setSecondsOnFire(0);  // 确保物品不着火
-            this.fireImmune();  // 使物品在防火时间内免疫火焰
+            // 确保物品不着火
+            this.setSecondsOnFire(0);
+            // 使物品在防火时间内免疫火焰
+            this.fireImmune();
         }
     }
 

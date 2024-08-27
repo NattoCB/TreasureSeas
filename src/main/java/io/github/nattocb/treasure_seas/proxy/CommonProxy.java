@@ -282,7 +282,7 @@ public class CommonProxy {
 
             // 直接更新 lore 的第0行
             ListTag lores = ItemUtils.getLoreList(fishRod);
-            ListTag updatedLores = FishUtils.prepareLoreInfo(lores, count, nextLvlExp);
+            ListTag updatedLores = FishUtils.addFishCountLoreIntoItem(lores, count, nextLvlExp);
 
             // 更新 itemStack 的 lore
             ItemUtils.setLoreList(fishRod, updatedLores);

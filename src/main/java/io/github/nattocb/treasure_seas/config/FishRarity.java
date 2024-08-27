@@ -17,12 +17,12 @@ public enum FishRarity {
 
     private final Component name;
     private final double experienceMultiplier;
-    private final double priceMultiplier; // Add this field
+    private final double priceMultiplier;
 
     FishRarity(Component name, double experienceMultiplier, double priceMultiplier) {
         this.name = name;
         this.experienceMultiplier = experienceMultiplier;
-        this.priceMultiplier = priceMultiplier; // Initialize the field
+        this.priceMultiplier = priceMultiplier;
     }
 
     public Component getName() {

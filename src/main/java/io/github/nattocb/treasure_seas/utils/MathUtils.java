@@ -8,7 +8,8 @@ public class MathUtils {
 
     /**
      * 输入一个区间和比例值，返回随机子区间
-     * @param interval 母区间
+     *
+     * @param interval          母区间
      * @param minimumProportion 子区间占比母区间的最小比例
      * @return 子区间
      */
@@ -63,8 +64,15 @@ public class MathUtils {
         return randomValue * (maxLength - minLength) + minLength;
     }
 
-    // 生成γ随机变量
-    public static double generateGamma(double shape, double scale, Random random) {
+    /**
+     * 生成γ随机变量
+     *
+     * @param shape
+     * @param scale
+     * @param random
+     * @return
+     */
+    private static double generateGamma(double shape, double scale, Random random) {
         if (shape < 1) {
             shape += 1;
             double u = random.nextDouble();
@@ -87,7 +95,14 @@ public class MathUtils {
         }
     }
 
-    // 计算β分布CDF
+    /**
+     * 计算β分布CDF
+     *
+     * @param x
+     * @param a
+     * @param b
+     * @return
+     */
     public static double betaCDF(double x, double a, double b) {
         double bt = (x == 0 || x == 1) ? 0 : Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
         if (x < (a + 1) / (a + b + 2)) {
@@ -97,8 +112,15 @@ public class MathUtils {
         }
     }
 
-    // β不完全函数的连续分数表示
-    public static double betaCF(double x, double a, double b) {
+    /**
+     * β不完全函数的连续分数表示
+     *
+     * @param x
+     * @param a
+     * @param b
+     * @return
+     */
+    private static double betaCF(double x, double a, double b) {
         int maxIterations = 100;
         double epsilon = 3.0e-7;
         double am = 1, bm = 1, az = 1, qab = a + b, qap = a + 1, qam = a - 1, bz = 1 - qab * x / qap;
@@ -122,8 +144,13 @@ public class MathUtils {
         return az;
     }
 
-    // 计算γ函数的对数
-    public static double logGamma(double x) {
+    /**
+     * 计算γ函数的对数
+     *
+     * @param x
+     * @return
+     */
+    private static double logGamma(double x) {
         double[] coef = {
                 76.18009172947146, -86.50532032941677,
                 24.01409824083091, -1.231739572450155,

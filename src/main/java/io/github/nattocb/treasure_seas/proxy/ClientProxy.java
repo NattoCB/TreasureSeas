@@ -11,8 +11,7 @@ import net.minecraft.network.chat.*;
 /**
  * Client-side logics - extends from CommonProxy (server-side's logics)
  */
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     public ClientProxy() {
         MinecraftForge.EVENT_BUS.register(this);
     }

@@ -86,7 +86,8 @@ public class ItemUtils {
     // Helper method to get the lore list from the item stack
     public static ListTag getLoreList(ItemStack stack) {
         CompoundTag displayTag = stack.getOrCreateTagElement("display");
-        return displayTag.getList("Lore", 8); // 8 is the tag type for strings
+        // 8 is the tag type for strings
+        return displayTag.getList("Lore", 8);
     }
 
     // Helper method to set the lore list to the item stack
@@ -97,6 +98,7 @@ public class ItemUtils {
 
     /**
      * Creates an ItemStack for the specified item registry name.
+     *
      * @return The created ItemStack, or null if the item was not found.
      */
     @Nullable

@@ -1,4 +1,5 @@
 package io.github.nattocb.treasure_seas.item;
+
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
