@@ -24,7 +24,6 @@ public class TreasureSeasCommand {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treasureseas")
-                .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("reload")
                         .then(Commands.literal("client")
                                 .requires(source -> source.hasPermission(0))
@@ -33,8 +32,10 @@ public class TreasureSeasCommand {
                                 .requires(source -> source.hasPermission(2))
                                 .executes(context -> reloadCommon(context.getSource()))))
                 .then(Commands.literal("log_biomes")
+                        .requires(source -> source.hasPermission(2))
                         .executes(context -> logBiomes(context.getSource())))
                 .then(Commands.literal("log_world_paths")
+                        .requires(source -> source.hasPermission(2))
                         .executes(context -> logWorldPaths(context.getSource())));
 
         dispatcher.register(builder);
