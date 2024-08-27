@@ -20,6 +20,7 @@ public class FruitEventHandler {
         Player player = event.getPlayer();
 
         if (stack.getItem() instanceof EdibleFruitItem) {
+            // Check and set owner if not already set
             if (EdibleFruitItem.getOwner(stack) == null) {
                 EdibleFruitItem.setOwner(stack, player);
             } else if (!EdibleFruitItem.isOwner(stack, player)) {
@@ -34,9 +35,14 @@ public class FruitEventHandler {
         ItemStack stack = event.getItemStack();
         Player player = event.getPlayer();
 
-        if (stack.getItem() instanceof EdibleFruitItem && !EdibleFruitItem.isOwner(stack, player)) {
-            // Prevent interaction by non-owners
-            event.setCanceled(true);
+        if (stack.getItem() instanceof EdibleFruitItem) {
+            // Check and set owner if not already set
+            if (EdibleFruitItem.getOwner(stack) == null) {
+                EdibleFruitItem.setOwner(stack, player);
+            } else if (!EdibleFruitItem.isOwner(stack, player)) {
+                // Prevent interaction by non-owners
+                event.setCanceled(true);
+            }
         }
     }
 
@@ -44,9 +50,14 @@ public class FruitEventHandler {
     public static void onInventoryClick(PlayerContainerEvent.Open event) {
         Player player = (Player) event.getEntity();
         player.getInventory().items.forEach(stack -> {
-            if (stack.getItem() instanceof EdibleFruitItem && !EdibleFruitItem.isOwner(stack, player)) {
-                // Prevent taking the item out of the container by non-owners
-                if (event.isCancelable()) event.setCanceled(true);
+            if (stack.getItem() instanceof EdibleFruitItem) {
+                // Check and set owner if not already set
+                if (EdibleFruitItem.getOwner(stack) == null) {
+                    EdibleFruitItem.setOwner(stack, player);
+                } else if (!EdibleFruitItem.isOwner(stack, player)) {
+                    // Prevent taking the item out of the container by non-owners
+                    if (event.isCancelable()) event.setCanceled(true);
+                }
             }
         });
     }

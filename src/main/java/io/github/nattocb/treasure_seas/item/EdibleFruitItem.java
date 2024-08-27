@@ -21,8 +21,6 @@ import java.util.List;
 
 public class EdibleFruitItem extends Item {
 
-    // todo 直接点击放入背包的，也要自动绑定
-
     private final double attributeAmount;
     private final String attributeName;
     private final int maxUses;
