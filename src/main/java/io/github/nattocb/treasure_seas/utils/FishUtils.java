@@ -68,7 +68,7 @@ public class FishUtils {
     }
 
     @NotNull
-    public static FishWrapper.AllowedWeather getCurrentWeatherEnum(Level world) {
+    public static FishWrapper.AllowedWeather getCurrentWeatherEnum(@NotNull Level world) {
         FishWrapper.AllowedWeather currentWeather;
         if (world.isThundering()) {
             currentWeather = FishWrapper.AllowedWeather.STORM;
@@ -189,7 +189,7 @@ public class FishUtils {
      * @param pos   要检查的BlockPos。
      * @return 如果块位于海平面以下且没有太阳直射，返回true，否则返回false。
      */
-    public static boolean isCave(Level world, BlockPos pos) {
+    public static boolean isCave(@NotNull Level world, @NotNull BlockPos pos) {
         // 获取海平面的高度
         int seaLevel = world.getSeaLevel();
         // 检查位置是否在海平面以下 5 格
@@ -217,7 +217,7 @@ public class FishUtils {
      * @param fishRod the fishing rod item stack
      * @return the current fishing count or 0 if no count is found or if the rod does not have the enchantment
      */
-    public static int getCurrentFishingCount(ItemStack fishRod) {
+    public static int getCurrentFishingCount(@Nullable ItemStack fishRod) {
         if (fishRod == null || fishRod.isEmpty()) {
             return 0;
         }
@@ -253,7 +253,8 @@ public class FishUtils {
         rewardTypeProbabilitiesForNether.put(5, Arrays.asList(9.0, 33.0, 53.0, 5.0));
     }
 
-    public static RewardType getRandomRewardType(Level world, int value) {
+    @NotNull
+    public static RewardType getRandomRewardType(@NotNull Level world, int value) {
         if (!rewardTypeProbabilitiesForCommonWorlds.containsKey(value)) {
             TreasureSeas.getLogger().error("Fish fighter enchant level could not be lower than 1 or greater than 5");
             return RewardType.FISH;
@@ -278,7 +279,7 @@ public class FishUtils {
 
 
     @NotNull
-    public static ListTag addFishCountLoreIntoItem(ListTag loreList, int count, int nextLvlExp) {
+    public static ListTag addFishCountLoreIntoItem(@NotNull ListTag loreList, int count, int nextLvlExp) {
         StringTag countLore;
         if (count >= nextLvlExp) {
             countLore = StringTag.valueOf(
