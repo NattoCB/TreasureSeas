@@ -24,6 +24,7 @@ public class FishWrapper {
 
     private int lowestLootableEnchantmentLevel;
     private int ticksToWin;
+    private float speedModifier;
     private float[] flatSegmentRandomRange;
     private float[] fluxSegmentRandomRange;
     private AllowedTime allowedTime;
@@ -46,7 +47,7 @@ public class FishWrapper {
     private boolean isJunk;
     private boolean isUltimateTreasure;
 
-    public FishWrapper(int lowestLootableEnchantmentLevel, int ticksToWin,
+    public FishWrapper(int lowestLootableEnchantmentLevel, int ticksToWin, float speedModifier,
                        float[] flatSegmentRandomRange, float[] fluxSegmentRandomRange, AllowedTime allowedTime,
                        AllowedWeather allowedWeather, String[] possibleBiomes, String[] possibleWorlds,
                        String modNamespace, String fishItemName, double minLength, double maxLength,
@@ -55,6 +56,7 @@ public class FishWrapper {
                        boolean isUltimateTreasure) {
         this.lowestLootableEnchantmentLevel = lowestLootableEnchantmentLevel;
         this.ticksToWin = ticksToWin;
+        this.speedModifier = speedModifier;
         this.flatSegmentRandomRange = flatSegmentRandomRange;
         this.fluxSegmentRandomRange = fluxSegmentRandomRange;
         this.allowedTime = allowedTime;
@@ -123,6 +125,7 @@ public class FishWrapper {
 
             int lowestLootableEnchantmentLevel = fishConfig.getInt("lowestLootableEnchantmentLevel");
             int ticksToWin = fishConfig.getInt("ticksToWin");
+            float speedModifier = ((Number) fishConfig.get("speedModifier")).floatValue();
             float flatSegmentRandomRangeMin = ((Number) fishConfig.get("flatSegmentRandomRangeMin")).floatValue();
             float flatSegmentRandomRangeMax = ((Number) fishConfig.get("flatSegmentRandomRangeMax")).floatValue();
             float fluxSegmentRandomRangeMin = ((Number) fishConfig.get("fluxSegmentRandomRangeMin")).floatValue();
@@ -144,7 +147,7 @@ public class FishWrapper {
             float[] flatSegmentRandomRange = {flatSegmentRandomRangeMin, flatSegmentRandomRangeMax};
             float[] fluxSegmentRandomRange = {fluxSegmentRandomRangeMin, fluxSegmentRandomRangeMax};
 
-            FishWrapper fishWrapper = new FishWrapper(lowestLootableEnchantmentLevel, ticksToWin,
+            FishWrapper fishWrapper = new FishWrapper(lowestLootableEnchantmentLevel, ticksToWin, speedModifier,
                     flatSegmentRandomRange, fluxSegmentRandomRange, allowedTime, allowedWeather,
                     possibleBiomes.toArray(new String[0]), possibleWorlds.toArray(new String[0]),
                     modNamespace, fishItemName, minLength, maxLength, mostCommonLength, lengthDispersion,
@@ -224,6 +227,10 @@ public class FishWrapper {
 
     public int getTicksToWin() {
         return ticksToWin;
+    }
+
+    public float getSpeedModifier() {
+        return speedModifier;
     }
 
     public float[] getFlatSegmentRandomRange() {
@@ -307,6 +314,7 @@ public class FishWrapper {
     public void writeToBuffer(FriendlyByteBuf buffer) {
         buffer.writeInt(lowestLootableEnchantmentLevel);
         buffer.writeInt(ticksToWin);
+        buffer.writeFloat(speedModifier);
         writeFloatArray(buffer, flatSegmentRandomRange);
         writeFloatArray(buffer, fluxSegmentRandomRange);
         buffer.writeEnum(allowedTime);
@@ -332,6 +340,7 @@ public class FishWrapper {
     public static FishWrapper readFromBuffer(FriendlyByteBuf buffer) {
         int lowestLootableEnchantmentLevel = buffer.readInt();
         int ticksToWin = buffer.readInt();
+        float speedModifier = buffer.readFloat();
         float[] flatSegmentRandomRange = readFloatArray(buffer);
         float[] fluxSegmentRandomRange = readFloatArray(buffer);
         AllowedTime allowedTime = buffer.readEnum(AllowedTime.class);
@@ -354,7 +363,7 @@ public class FishWrapper {
         boolean isUltimateTreasure = buffer.readBoolean();
 
         return new FishWrapper(
-                lowestLootableEnchantmentLevel, ticksToWin,
+                lowestLootableEnchantmentLevel, ticksToWin, speedModifier,
                 flatSegmentRandomRange, fluxSegmentRandomRange, allowedTime,
                 allowedWeather, possibleBiomes, possibleWorlds, modNamespace,
                 fishItemName, minLength, maxLength, mostCommonLength,
@@ -400,6 +409,7 @@ public class FishWrapper {
         return "FishWrapper{" +
                 "lowestLootableEnchantmentLevel=" + lowestLootableEnchantmentLevel +
                 ", ticksToWin=" + ticksToWin +
+                ", speedModifier=" + speedModifier +
                 ", flatSegmentRandomRange=" + java.util.Arrays.toString(flatSegmentRandomRange) +
                 ", fluxSegmentRandomRange=" + java.util.Arrays.toString(fluxSegmentRandomRange) +
                 ", allowedTime=" + allowedTime +

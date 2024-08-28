@@ -156,6 +156,7 @@ public class FishConfigManager {
         return new FishWrapper(
                 1,
                 300,
+                1.75f,
                 new float[]{0.3f, 5.5f},
                 new float[]{5.0f, 7.5f},
                 FishWrapper.AllowedTime.ALL,

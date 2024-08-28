@@ -6,7 +6,6 @@ import io.github.nattocb.treasure_seas.packet.FishFightResultPacket;
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
-import io.github.nattocb.treasure_seas.utils.MathUtils;
 import io.github.nattocb.treasure_seas.utils.WaveGenerator;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -70,6 +69,11 @@ public class FishFightGui extends Screen {
     private float catchBarCurYLocationOffset = 0.0F;
 
     /**
+     * 鱼移动速度的激进程度
+     */
+    private final float fishSpeedMultiplier;
+
+    /**
      * 战胜鱼所需的时间（tick）
      */
     private float winTime;
@@ -98,18 +102,15 @@ public class FishFightGui extends Screen {
         double yDiffLimit = 1.0;
         // todo test big value
         double[] yRange = {-1.155, 1.155};
-         yRange = MathUtils.getRandomSubInterval(yRange, 0.7);
+        // todo remove comment
+        // yRange = MathUtils.getRandomSubInterval(yRange, 0.7);
+        // todo test speed value takes effect of not
         this.winTime = fishWrapper.getTicksToWin();
+        this.fishSpeedMultiplier = fishWrapper.getSpeedModifier() * (1 - (enchantLvl-1) * 0.05F);
         this.initCaughtTime = ((float) 4 / 15) * winTime;
         this.caughtTime = initCaughtTime;
         float[] flatSegmentRange = fishWrapper.getFlatSegmentRandomRange();
         float[] nonFlatSegmentRange = fishWrapper.getFluxSegmentRandomRange();
-        // make fishing easier based on enchant level
-        float enchantModifier = (1 + Math.min(enchantLvl - this.fishWrapper.getLowestLootableEnchantmentLevel(), 0) * 0.05F);
-        flatSegmentRange[0] = flatSegmentRange[0] * enchantModifier;
-        flatSegmentRange[1] = flatSegmentRange[1] * enchantModifier;
-        nonFlatSegmentRange[0] = nonFlatSegmentRange[0] * enchantModifier;
-        nonFlatSegmentRange[1] = nonFlatSegmentRange[1] * enchantModifier;
         this.waveGenerator = new WaveGenerator(yDiffLimit, yRange, flatSegmentRange, nonFlatSegmentRange);
         // 防止一开始时滑条自动往上跑，让 isClicked 在 GUI 初始时为 false，让滑条下沉
         MouseEventHandler.resetStatus();
@@ -372,14 +373,12 @@ public class FishFightGui extends Screen {
             if (dimension == Level.NETHER) {
                 u = 50.0F;
                 v = 15.0F;
-                w = 11;
-                h = 6;
             } else {
                 u = 39.0F;
                 v = 15.0F;
-                w = 11;
-                h = 6;
             }
+            w = 11;
+            h = 6;
         }
         // 绘制鱼
         blit(
@@ -398,7 +397,7 @@ public class FishFightGui extends Screen {
 
     private double getFishY(double centerY, float ticksSinceLastFrame) {
         // 计算上下波动值
-        double x = this.realTimeCounter + ticksSinceLastFrame;
+        double x = this.realTimeCounter + ticksSinceLastFrame * fishSpeedMultiplier;
         // magic value for matching the window height
         double yMultiplier = 35;
         double waveY = waveGenerator.getY(x) * yMultiplier;

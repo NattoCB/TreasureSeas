@@ -3,6 +3,7 @@
 [Fishes.default]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 300
+speedModifier = 1.75
 flatSegmentRandomRangeMin = 0.3
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 5.0
@@ -26,6 +27,7 @@ basePrice = 4
 [Fishes.minecraft_salmon]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 200
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 2.0
@@ -49,6 +51,7 @@ basePrice = 4
 [Fishes.minecraft_cod]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 300
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 2.2
 flatSegmentRandomRangeMax = 4.4
 fluxSegmentRandomRangeMin = 3.3
@@ -72,6 +75,7 @@ basePrice = 4
 [Fishes.unusualfishmod_raw_ripper]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 250
+speedModifier = 1.75
 flatSegmentRandomRangeMin = 2.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -95,6 +99,7 @@ basePrice = 6
 [Fishes.unusualfishmod_raw_aero_mono]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 220
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 1.5
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 2.5
@@ -118,6 +123,7 @@ basePrice = 5
 [Fishes.unusualfishmod_raw_bumpface]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 270
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 2.5
 flatSegmentRandomRangeMax = 5.0
 fluxSegmentRandomRangeMin = 3.5
@@ -141,6 +147,7 @@ basePrice = 5
 [Fishes.unusualfishmod_raw_rhino_tetra]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 210
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 2.8
@@ -164,6 +171,7 @@ basePrice = 4
 [Fishes.unusualfishmod_raw_sailor_barb]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 240
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 3.0
@@ -187,6 +195,7 @@ basePrice = 4
 [Fishes.unusualfishmod_raw_bark_angel]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 260
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 5.0
 fluxSegmentRandomRangeMin = 3.5
@@ -210,6 +219,7 @@ basePrice = 6
 [Fishes.unusualfishmod_raw_spindlefish]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 230
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.8
 fluxSegmentRandomRangeMin = 2.8
@@ -233,6 +243,7 @@ basePrice = 5
 [Fishes.unusualfishmod_raw_blizzard_tuna]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 290
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 4.0
@@ -256,6 +267,7 @@ basePrice = 8
 [Fishes.fishofthieves_wrecker]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 250
+speedModifier = 1.95
 flatSegmentRandomRangeMin = 0.4
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 4.0
@@ -279,6 +291,7 @@ basePrice = 6
 [Fishes.fishofthieves_splashtail]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 210
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 2.8
@@ -302,6 +315,7 @@ basePrice = 4
 [Fishes.fishofthieves_pondie]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 200
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 2.5
@@ -325,6 +339,7 @@ basePrice = 3
 [Fishes.fishofthieves_islehopper]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -348,6 +363,7 @@ basePrice = 5
 [Fishes.fishofthieves_ancientscale]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 270
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 3.5
@@ -371,6 +387,7 @@ basePrice = 7
 [Fishes.fishofthieves_plentifin]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 230
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.8
 fluxSegmentRandomRangeMin = 2.8
@@ -394,6 +411,7 @@ basePrice = 4
 [Fishes.fishofthieves_wildsplash]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 250
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.5
 fluxSegmentRandomRangeMin = 3.2
@@ -417,6 +435,7 @@ basePrice = 5
 [Fishes.fishofthieves_devilfish]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 280
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 1.5
 fluxSegmentRandomRangeMin = 3.0
@@ -440,6 +459,7 @@ basePrice = 8
 [Fishes.fishofthieves_battlegill]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 260
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 5.0
 fluxSegmentRandomRangeMin = 3.5
@@ -463,6 +483,7 @@ basePrice = 6
 [Fishes.fishofthieves_stormfish]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 300
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 4.0
@@ -486,6 +507,7 @@ basePrice = 9
 [Fishes.oceansdelight_guardian]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 290
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.5
 fluxSegmentRandomRangeMin = 3.5
@@ -509,6 +531,7 @@ basePrice = 10
 [Fishes.crabbersdelight_crab]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 220
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 2.8
@@ -532,6 +555,7 @@ basePrice = 4
 [Fishes.crabbersdelight_clawster]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 240
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 3.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 4.5
@@ -555,6 +579,7 @@ basePrice = 5
 [Fishes.crabbersdelight_shrimp]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 200
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 3.5
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 4.5
@@ -578,6 +603,7 @@ basePrice = 3
 [Fishes.crabbersdelight_clam]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 220
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 3.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 4.5
@@ -601,6 +627,7 @@ basePrice = 4
 [Fishes.aquaculture_atlantic_cod]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 250
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.2
 fluxSegmentRandomRangeMin = 3.2
@@ -624,6 +651,7 @@ basePrice = 5
 [Fishes.aquaculture_blackfish]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -647,6 +675,7 @@ basePrice = 6
 [Fishes.aquaculture_pacific_halibut]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 280
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 4.0
@@ -670,6 +699,7 @@ basePrice = 8
 [Fishes.aquaculture_atlantic_halibut]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 290
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 2.2
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 4.5
@@ -693,6 +723,7 @@ basePrice = 9
 [Fishes.aquaculture_atlantic_herring]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 200
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 2.5
@@ -716,6 +747,7 @@ basePrice = 4
 [Fishes.aquaculture_pink_salmon]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 220
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.8
 fluxSegmentRandomRangeMin = 3.0
@@ -739,6 +771,7 @@ basePrice = 5
 [Fishes.aquaculture_pollock]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.2
@@ -762,6 +795,7 @@ basePrice = 6
 [Fishes.aquaculture_rainbow_trout]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.2
 fluxSegmentRandomRangeMin = 3.0
@@ -785,6 +819,7 @@ basePrice = 5
 [Fishes.aquaculture_bayad]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 270
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -808,6 +843,7 @@ basePrice = 8
 [Fishes.aquaculture_boulti]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 3.2
@@ -831,6 +867,7 @@ basePrice = 6
 [Fishes.aquaculture_capitaine]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 280
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -854,6 +891,7 @@ basePrice = 9
 [Fishes.aquaculture_synodontis]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 3.5
@@ -877,6 +915,7 @@ basePrice = 6
 [Fishes.aquaculture_smallmouth_bass]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 2.2
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.2
@@ -900,6 +939,7 @@ basePrice = 5
 [Fishes.aquaculture_bluegill]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 210
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.8
 fluxSegmentRandomRangeMin = 2.8
@@ -923,6 +963,7 @@ basePrice = 4
 [Fishes.aquaculture_brown_trout]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 2.2
 flatSegmentRandomRangeMax = 4.2
 fluxSegmentRandomRangeMin = 3.2
@@ -946,6 +987,7 @@ basePrice = 5
 [Fishes.aquaculture_carp]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 3.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -969,6 +1011,7 @@ basePrice = 5
 [Fishes.aquaculture_catfish]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 260
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 5.2
 fluxSegmentRandomRangeMin = 4.0
@@ -992,6 +1035,7 @@ basePrice = 7
 [Fishes.aquaculture_gar]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 270
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 3.0
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -1015,6 +1059,7 @@ basePrice = 9
 [Fishes.aquaculture_minnow]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 200
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 0.5
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 2.5
@@ -1038,6 +1083,7 @@ basePrice = 3
 [Fishes.aquaculture_muskellunge]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 280
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 2.0
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -1061,6 +1107,7 @@ basePrice = 8
 [Fishes.aquaculture_perch]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 1.2
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -1084,6 +1131,7 @@ basePrice = 5
 [Fishes.aquaculture_arapaima]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 500
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 1.5
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 4.5
@@ -1107,6 +1155,7 @@ basePrice = 10
 [Fishes.aquaculture_piranha]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 250
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 4.0
@@ -1130,6 +1179,7 @@ basePrice = 7
 [Fishes.aquaculture_tambaqui]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 270
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 2.5
 fluxSegmentRandomRangeMin = 4.0
@@ -1153,6 +1203,7 @@ basePrice = 8
 [Fishes.aquaculture_brown_shrooma]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 2.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -1176,6 +1227,7 @@ basePrice = 5
 [Fishes.aquaculture_red_shrooma]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 230
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 2.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -1199,6 +1251,7 @@ basePrice = 5
 [Fishes.aquaculture_jellyfish]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 240
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 2.5
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 4.5
@@ -1223,6 +1276,7 @@ basePrice = 6
 [Fishes.aquaculture_red_grouper]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 260
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -1246,6 +1300,7 @@ basePrice = 7
 [Fishes.aquaculture_tuna]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 590
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 1.5
 flatSegmentRandomRangeMax = 6.5
 fluxSegmentRandomRangeMin = 4.5
@@ -1269,6 +1324,7 @@ basePrice = 9
 [Fishes.aquaculture_frog]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 220
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 3.0
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -1292,6 +1348,7 @@ basePrice = 4
 [Fishes.aquaculture_leech]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 210
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 4.8
@@ -1315,6 +1372,7 @@ basePrice = 3
 [Fishes.aquaculture_box_turtle]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 240
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 2.2
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 3.2
@@ -1338,6 +1396,7 @@ basePrice = 5
 [Fishes.aquaculture_arrau_turtle]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 260
+speedModifier = 1.7
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 1.5
 fluxSegmentRandomRangeMin = 3.0
@@ -1361,6 +1420,7 @@ basePrice = 6
 [Fishes.alexsmobs_blobfish]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 380
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 3.0
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 4.0
@@ -1384,6 +1444,7 @@ basePrice = 7
 [Fishes.netherdepthsupgrade_lava_pufferfish]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 320
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.0
@@ -1407,6 +1468,7 @@ basePrice = 10
 [Fishes.netherdepthsupgrade_obsidianfish]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 340
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 1.5
@@ -1430,6 +1492,7 @@ basePrice = 12
 [Fishes.netherdepthsupgrade_searing_cod]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 330
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -1453,6 +1516,7 @@ basePrice = 8
 [Fishes.netherdepthsupgrade_bonefish]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 310
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -1476,6 +1540,7 @@ basePrice = 7
 [Fishes.netherdepthsupgrade_wither_bonefish]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 350
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -1499,6 +1564,7 @@ basePrice = 14
 [Fishes.netherdepthsupgrade_blazefish]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 340
+speedModifier = 2.0
 flatSegmentRandomRangeMin = 2.3
 flatSegmentRandomRangeMax = 4.8
 fluxSegmentRandomRangeMin = 3.3
@@ -1522,6 +1588,7 @@ basePrice = 11
 [Fishes.netherdepthsupgrade_magmacubefish]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 360
+speedModifier = 2.2
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 5.5
 fluxSegmentRandomRangeMin = 3.8
@@ -1545,6 +1612,7 @@ basePrice = 13
 [Fishes.netherdepthsupgrade_glowdine]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 340
+speedModifier = 2.2
 flatSegmentRandomRangeMin = 2.5
 flatSegmentRandomRangeMax = 5.0
 fluxSegmentRandomRangeMin = 3.5
@@ -1568,6 +1636,7 @@ basePrice = 9
 [Fishes.netherdepthsupgrade_soulsucker]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 450
+speedModifier = 2.4
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -1605,6 +1674,7 @@ basePrice = 15
 [Treasures.minecraft_bow]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 250
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 3.5
@@ -1628,6 +1698,7 @@ basePrice = 0
 [Treasures.minecraft_enchanted_book]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 260
+speedModifier = 1.2
 flatSegmentRandomRangeMin = 0.9
 flatSegmentRandomRangeMax = 2.9
 fluxSegmentRandomRangeMin = 3.5
@@ -1651,6 +1722,7 @@ basePrice = 0
 [Treasures.minecraft_name_tag]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 240
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 0.7
 flatSegmentRandomRangeMax = 2.7
 fluxSegmentRandomRangeMin = 3.5
@@ -1674,6 +1746,7 @@ basePrice = 0
 [Treasures.minecraft_nautilus_shell]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 230
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 3.2
 fluxSegmentRandomRangeMin = 3.5
@@ -1697,6 +1770,7 @@ basePrice = 8
 [Treasures.minecraft_saddle]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 270
+speedModifier = 1.1
 flatSegmentRandomRangeMin = 0.6
 flatSegmentRandomRangeMax = 2.5
 fluxSegmentRandomRangeMin = 3.5
@@ -1720,6 +1794,7 @@ basePrice = 2
 [Treasures.minecraft_fishing_rod]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 220
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.5
 flatSegmentRandomRangeMax = 3.3
 fluxSegmentRandomRangeMin = 3.5
@@ -1743,6 +1818,7 @@ basePrice = 0
 [Treasures.crabbersdelight_pearl]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 150
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 4.5
 flatSegmentRandomRangeMax = 8.0
 fluxSegmentRandomRangeMin = 5.5
@@ -1767,6 +1843,7 @@ basePrice = 30
 [Treasures.minecraft_wither_skeleton_skull]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 300
+speedModifier = 1.8
 flatSegmentRandomRangeMin = 1.0
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 3.5
@@ -1790,6 +1867,7 @@ basePrice = 0
 [Treasures.minecraft_skeleton_skull]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 270
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 0.9
 flatSegmentRandomRangeMax = 3.0
 fluxSegmentRandomRangeMin = 1.8
@@ -1813,6 +1891,7 @@ basePrice = 0
 [Treasures.minecraft_netherite_ingot]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 320
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 1.5
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 3.5
@@ -1836,6 +1915,7 @@ basePrice = 0
 [Treasures.minecraft_netherite_scrap]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 300
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 1.3
 flatSegmentRandomRangeMax = 3.7
 fluxSegmentRandomRangeMin = 3.5
@@ -1859,6 +1939,7 @@ basePrice = 0
 [Treasures.minecraft_amethyst_shard]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 250
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 2.8
 fluxSegmentRandomRangeMin = 3.5
@@ -1882,6 +1963,7 @@ basePrice = 0
 [Treasures.minecraft_quartz]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 220
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 0.6
 flatSegmentRandomRangeMax = 2.5
 fluxSegmentRandomRangeMin = 3.5
@@ -1916,6 +1998,7 @@ basePrice = 0
 [Junks.minecraft_lily_pad]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 150
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -1939,6 +2022,7 @@ basePrice = 0
 [Junks.minecraft_leather_boots]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 160
+speedModifier = 1.1
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -1962,6 +2046,7 @@ basePrice = 0
 [Junks.minecraft_leather]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.2
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -1985,6 +2070,7 @@ basePrice = 0
 [Junks.minecraft_stick]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 140
+speedModifier = 0.9
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2008,6 +2094,7 @@ basePrice = 0
 [Junks.minecraft_bowl]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 155
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2031,6 +2118,7 @@ basePrice = 0
 [Junks.minecraft_string]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 180
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2054,6 +2142,7 @@ basePrice = 0
 [Junks.minecraft_potion]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 190
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2077,6 +2166,7 @@ basePrice = 0
 [Junks.minecraft_rotten_flesh]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 145
+speedModifier = 1.1
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2100,6 +2190,7 @@ basePrice = 0
 [Junks.minecraft_bone]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 165
+speedModifier = 1.2
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2123,6 +2214,7 @@ basePrice = 0
 [Junks.minecraft_ink_sac]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 175
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2146,6 +2238,7 @@ basePrice = 0
 [Junks.minecraft_tripwire_hook]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 160
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2170,6 +2263,7 @@ basePrice = 0
 [Junks.fishofthieves_fish_bone]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 220
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2193,6 +2287,7 @@ basePrice = 2
 [Junks.aquaculture_algae]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 200
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2216,6 +2311,7 @@ basePrice = 1
 [Junks.aquaculture_fish_bones]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 240
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2239,6 +2335,7 @@ basePrice = 2
 [Junks.aquaculture_frog_legs_raw]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 180
+speedModifier = 1.0
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2262,6 +2359,7 @@ basePrice = 2
 [Junks.alexsmobs_serrated_shark_tooth]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 220
+speedModifier = 2.5
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2285,6 +2383,7 @@ basePrice = 15
 [Junks.alexsmobs_shark_tooth]
 lowestLootableEnchantmentLevel = 2
 ticksToWin = 280
+speedModifier = 2.4
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2308,6 +2407,7 @@ basePrice = 10
 [Junks.minecraft_magma_cream]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2331,6 +2431,7 @@ basePrice = 0
 [Junks.minecraft_slime_ball]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2354,6 +2455,7 @@ basePrice = 0
 [Junks.minecraft_infested_stone]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 190
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2377,6 +2479,7 @@ basePrice = 0
 [Junks.minecraft_flint]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 150
+speedModifier = 1.1
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2400,6 +2503,7 @@ basePrice = 0
 [Junks.minecraft_gravel]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2423,6 +2527,7 @@ basePrice = 0
 [Junks.netherdepthsupgrade_lava_fishing_rod]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 180
+speedModifier = 1.5
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2446,6 +2551,7 @@ basePrice = 0
 [Junks.minecraft_nether_wart]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 2.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2469,6 +2575,7 @@ basePrice = 0
 [Junks.minecraft_blaze_powder]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 190
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 4.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2492,6 +2599,7 @@ basePrice = 0
 [Junks.netherdepthsupgrade_warped_kelp]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 170
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2515,6 +2623,7 @@ basePrice = 0
 [Junks.netherdepthsupgrade_warped_seagrass]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 160
+speedModifier = 1.2
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2538,6 +2647,7 @@ basePrice = 0
 [Junks.netherdepthsupgrade_fortress_grouper_plate]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 200
+speedModifier = 1.6
 flatSegmentRandomRangeMin = 1.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2561,6 +2671,7 @@ basePrice = 0
 [Junks.netherdepthsupgrade_eyeball]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 180
+speedModifier = 1.4
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 3.5
 fluxSegmentRandomRangeMin = 5.0
@@ -2591,6 +2702,7 @@ basePrice = 1
 [UltimateTreasures.treasure_seas_pirate_treasure]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 250
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 5.0
 fluxSegmentRandomRangeMin = 1.5
@@ -2614,6 +2726,7 @@ basePrice = 128
 [UltimateTreasures.treasure_seas_power_fruit]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 250
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -2637,6 +2750,7 @@ basePrice = 32
 [UltimateTreasures.treasure_seas_life_fruit]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 250
+speedModifier = 1.3
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 4.0
 fluxSegmentRandomRangeMin = 1.5
@@ -2660,6 +2774,7 @@ basePrice = 32
 [UltimateTreasures.aquaculture_goldfish]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 180
+speedModifier = 1.2
 flatSegmentRandomRangeMin = 0.8
 flatSegmentRandomRangeMax = 1.5
 fluxSegmentRandomRangeMin = 2.0
@@ -2683,6 +2798,7 @@ basePrice = 35
 [UltimateTreasures.aquaculture_starshell_turtle]
 lowestLootableEnchantmentLevel = 4
 ticksToWin = 320
+speedModifier = 1.9
 flatSegmentRandomRangeMin = 1.2
 flatSegmentRandomRangeMax = 7.5
 fluxSegmentRandomRangeMin = 2.2
@@ -2706,6 +2822,7 @@ basePrice = 75
 [UltimateTreasures.alexsmobs_cosmic_cod]
 lowestLootableEnchantmentLevel = 3
 ticksToWin = 750
+speedModifier = 2.1
 flatSegmentRandomRangeMin = 0.5
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 1.5
@@ -2731,6 +2848,7 @@ basePrice = 25
 [UltimateTreasures.minecraft_conduit]
 lowestLootableEnchantmentLevel = 5
 ticksToWin = 310
+speedModifier = 2.3
 flatSegmentRandomRangeMin = 0.5
 flatSegmentRandomRangeMax = 2.0
 fluxSegmentRandomRangeMin = 1.5
