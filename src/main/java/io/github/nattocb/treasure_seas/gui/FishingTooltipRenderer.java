@@ -4,6 +4,7 @@ import io.github.nattocb.treasure_seas.utils.FishUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
+import io.github.nattocb.treasure_seas.utils.FluidAreaCalculator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -184,8 +185,11 @@ public class FishingTooltipRenderer extends GuiComponent {
             );
         } else {
             String biomeName = biomeRes == null ? "unknown" : biomeRes.getPath();
+            TranslatableComponent fluidAreaInfo = FluidAreaCalculator
+                    .getFluidAreaLevel(hook.getLevel(), hook.getOnPos())
+                    .getIi8nComponent();
             textComponents = List.of(
-                    new TranslatableComponent("tooltip.fishing_hook"),
+                    new TranslatableComponent("tooltip.fishing_hook2", fluidAreaInfo),
                     new TranslatableComponent("tooltip.water_depth", waterDepth),
                     new TranslatableComponent("tooltip.depth_capacity", Math.min(depthCapacity, waterDepth)),
                     new TranslatableComponent("tooltip.biome", biomeName)

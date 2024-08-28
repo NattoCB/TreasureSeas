@@ -57,7 +57,7 @@ public class FishingRodHandler {
         BlockPos hookPos = event.getHookEntity().blockPosition();
         boolean isCave = FishUtils.isCave(world, hookPos);
 
-        RewardType rewardType = FishUtils.getRandomRewardType(world, enchantmentLevel);
+        RewardType rewardType = FishUtils.getRandomRewardType(world, hookPos, enchantmentLevel);
         TreasureSeas.getLogger().dev("configs count: " + TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().size());
         TreasureSeas.getLogger().dev("biomeFullName:{}, worldName:{}, currentWeather:{}, currentTime:{}, " +
                         "enchantmentLevel:{}, maxDepthAllowed:{}, isCave:{}",

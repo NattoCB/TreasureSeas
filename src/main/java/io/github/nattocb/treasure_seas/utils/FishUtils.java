@@ -254,12 +254,20 @@ public class FishUtils {
     }
 
     @NotNull
-    public static RewardType getRandomRewardType(@NotNull Level world, int value) {
+    public static RewardType getRandomRewardType(@NotNull Level world, BlockPos hookPos, int value) {
         if (!rewardTypeProbabilitiesForCommonWorlds.containsKey(value)) {
             TreasureSeas.getLogger().error("Fish fighter enchant level could not be lower than 1 or greater than 5");
             return RewardType.FISH;
         }
         double chance = TreasureSeas.RANDOM.nextDouble() * 100;
+
+        // 水域狭窄时，chance 前移 5%；水域广阔时，change 后移 1%
+        FluidAreaCalculator.FluidAreaLevel fluidAreaLevel = FluidAreaCalculator.getFluidAreaLevel(world, hookPos);
+        switch (fluidAreaLevel) {
+            case SMALL -> chance = Math.max(0, chance - 5);
+            case LARGE -> chance = Math.min(100, chance + 1);
+        }
+        
         List<Double> probs;
         if (world.dimension() == Level.NETHER) {
             probs = rewardTypeProbabilitiesForNether.get(value);

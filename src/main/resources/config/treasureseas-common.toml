@@ -24,7 +24,7 @@ sampleWeight = 10
 caveOnly = false
 basePrice = 4
 
-[Fishes.minecraft_salmon]
+[Fishes.minecraft_pufferfish]
 lowestLootableEnchantmentLevel = 1
 ticksToWin = 200
 speedModifier = 1.5
