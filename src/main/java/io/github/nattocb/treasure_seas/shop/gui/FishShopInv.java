@@ -323,26 +323,32 @@ public class FishShopInv extends AbstractContainerMenu {
             itemstack = stackInSlot.copy();
 
             int inputSlotEnd = INPUT_SLOT_ROWS * INPUT_SLOT_COLS;
-            int playerInventoryStart = inputSlotEnd;
+            int outputSlotStart = inputSlotEnd;
+            int outputSlotEnd = outputSlotStart + OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
+            int playerInventoryStart = outputSlotEnd;
             int playerInventoryEnd = playerInventoryStart + PLAYER_INV_ROWS * PLAYER_INV_COLS + HOTBAR_SLOTS;
 
-            if (index < inputSlotEnd) {
+            if (index >= outputSlotStart && index < outputSlotEnd) {
+                // Shift-click from output slots should act like a normal left-click
+                // or else the items from output slot would be moved into the input slots
+                Slot outputSlot = this.slots.get(index);
+                ItemStack takenStack = outputSlot.remove(outputSlot.getMaxStackSize()); // Take the entire stack
+                outputSlot.onTake(player, takenStack);  // Trigger the normal left-click behavior
+                return takenStack;
+            } else if (index < inputSlotEnd) {
                 // Moving from input slots to player inventory
                 if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, playerInventoryEnd, true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
                 // Moving from player inventory to input slots
-                // Calculate the total emerald value if this item stack is added
                 int currentEmeraldCount = calculateTotalEmeralds();
                 int stackEmeraldValue = calculateEmeraldValue(stackInSlot);
                 if (currentEmeraldCount + stackEmeraldValue <= MAX_EMERALDS) {
-                    // Only move if it won't exceed MAX_EMERALDS
                     if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
-                    // If adding would exceed the max emeralds, do not move
                     PlayerMessageManager.sendMessageOnce(player,
                             new TranslatableComponent("message.treasure_seas.exceed_max_emeralds"));
                     return ItemStack.EMPTY;
