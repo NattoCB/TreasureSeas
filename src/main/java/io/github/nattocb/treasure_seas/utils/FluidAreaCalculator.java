@@ -1,159 +1,201 @@
 package io.github.nattocb.treasure_seas.utils;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.*;
 
 /**
- * 液体裸露面积计算器
+ * 矩形区域计算器
  * 基于世界坐标缓存，自动定时清理
  */
 public class FluidAreaCalculator {
 
-    private static final ConcurrentHashMap<BlockPos, CachedFluidArea> FLUID_AREA_CACHE = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<BlockPos, CachedRectangleArea> RECTANGLE_AREA_CACHE = new ConcurrentHashMap<>();
 
-    // 缓存生命周期毫秒
+    // 缓存生命周期（毫秒）
     private static final long CACHE_EXPIRY_TIME = 60 * 1000;
-
-    // 超过阈值及时停止
-    private static final int AREA_THRESHOLD = 20;
 
     // 定时任务，每分钟清理一次缓存
     static {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
             long currentTime = System.currentTimeMillis();
-            FLUID_AREA_CACHE.entrySet().removeIf(entry -> currentTime - entry.getValue().timestamp > CACHE_EXPIRY_TIME);
+            RECTANGLE_AREA_CACHE.entrySet().removeIf(entry -> currentTime - entry.getValue().timestamp > CACHE_EXPIRY_TIME);
         }, 1, 1, TimeUnit.MINUTES);
     }
 
-    private static int calculateExposedFluidArea(Level world, BlockPos startPos) {
+    /**
+     * 计算给定 BlockPos 的合法矩形区域并缓存结果。
+     *
+     * @param world     Level 实例
+     * @param startPos  起始的 BlockPos
+     * @return 长度为 3 的 int[]，包含矩形的长度、宽度和最小距离
+     */
+    public static int[] calculateRectangleArea(@NotNull Level world, @NotNull BlockPos startPos) {
         // 检查缓存
-        CachedFluidArea cachedArea = FLUID_AREA_CACHE.get(startPos);
+        CachedRectangleArea cachedArea = RECTANGLE_AREA_CACHE.get(startPos);
         if (cachedArea != null && (System.currentTimeMillis() - cachedArea.timestamp) <= CACHE_EXPIRY_TIME) {
-            return cachedArea.count;
+            return cachedArea.areaData;
         }
 
-        // 没有缓存或缓存已过期，计算水域大小
-        if (!isExposedFluid(world, startPos)) {
-            return 0;
-        }
-
-        int count = computeFluidArea(world, startPos);
+        // 没有缓存或缓存已过期，重新计算区域
+        int[] rectangleArea = calculateRectangleAroundBlock(world, startPos);
 
         // 更新缓存
-        FLUID_AREA_CACHE.put(startPos, new CachedFluidArea(count, System.currentTimeMillis()));
-        return count;
+        RECTANGLE_AREA_CACHE.put(startPos, new CachedRectangleArea(rectangleArea, System.currentTimeMillis()));
+
+        // todo 根据液体区域裸露面积返回 i18n component enum
+        return rectangleArea;
     }
 
-    private static int computeFluidArea(Level world, BlockPos startPos) {
-        Queue<BlockPos> queue = new ArrayDeque<>();
-        Set<BlockPos> visited = new HashSet<>();
-        int areaCount = 0;
-
-        queue.add(startPos);
-        visited.add(startPos);
-
-        while (!queue.isEmpty()) {
-            BlockPos current = queue.poll();
-
-            if (isExposedFluid(world, current)) {
-
-                areaCount++;
-
-                // 提前终止
-                if (areaCount >= AREA_THRESHOLD) {
-                    return areaCount;
-                }
-
-                // 检查四个方向
-                for (Direction dir : Direction.Plane.HORIZONTAL) {
-                    BlockPos neighbor = current.relative(dir);
-                    if (!visited.contains(neighbor) && isFluid(world, neighbor)) {
-                        visited.add(neighbor);
-                        queue.add(neighbor);
-                    }
-                }
-            }
-        }
-
-        return areaCount;
-    }
-
-    private static boolean isExposedFluid(Level world, BlockPos pos) {
-        return isFluid(world, pos) && world.canSeeSky(pos.above());
-    }
-
-    private static boolean isFluid(Level world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
-        FluidState fluidState = blockState.getFluidState();
-        return !fluidState.isEmpty();
-    }
-
-    private static class CachedFluidArea {
-        int count;
+    /**
+     * CachedRectangleArea 内部类，用于存储矩形区域的缓存数据
+     */
+    private static class CachedRectangleArea {
+        int[] areaData;
         long timestamp;
 
-        CachedFluidArea(int count, long timestamp) {
-            this.count = count;
+        CachedRectangleArea(int[] areaData, long timestamp) {
+            this.areaData = areaData;
             this.timestamp = timestamp;
         }
     }
 
     /**
-     * 根据液体区域裸露面积返回 i18n component
+     * 计算围绕给定 BlockPos 的 XZ 平面上的矩形区域
+     * 矩形从中心 BlockPos 向外沿 X 和 Z 轴扩展，且该矩形只包含合法方块（水方块或冰方块）
+     * 扩展范围限制为中心位置每个方向最多 15 格
+     *
+     * @param world     进行搜索的 Level（世界）实例
+     * @param centerPos 中心 BlockPos（X, Y, Z 坐标），以其为中心形成矩形
+     * @return 一个长度为 3 的 int 数组
+     *         - int[0]: 矩形的长度（沿 X 轴的方块数）
+     *         - int[1]: 矩形的宽度（沿 Z 轴的方块数）
+     *         - int[2]: centerPos 到矩形最近边缘的距离（向下取整的格数）
      */
-    @NotNull
-    public static FluidAreaLevel getFluidAreaLevel(Level world, BlockPos startPos) {
-        int fluidArea = FluidAreaCalculator.calculateExposedFluidArea(world, startPos);
-        return FluidAreaLevel.getLevel(fluidArea);
+    public static int[] calculateRectangleAroundBlock(Level world, BlockPos centerPos) {
+        int length;
+        int width;
+        int nearestDistance;
+
+        // 跟踪矩形边界的变量
+        int minX = centerPos.getX();
+        int maxX = centerPos.getX();
+        int minZ = centerPos.getZ();
+        int maxZ = centerPos.getZ();
+
+        // 使用 MutableBlockPos 避免频繁创建 BlockPos 实例
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+        // 定义最大扩展范围（15格）
+        int maxRange = 15;
+
+        boolean canExpandX = true;
+        boolean canExpandZ = true;
+
+        // 开始扩展，直到两轴都无法再扩展
+        while (canExpandX || canExpandZ) {
+            // 尝试扩展 X 轴
+            if (canExpandX) {
+                minX--;
+                maxX++;
+
+                if ((maxX - centerPos.getX()) > maxRange) {
+                    // 停止扩展 X 轴
+                    canExpandX = false;
+                } else {
+                    // 检查 X 轴边界是否合法
+                    for (int z = minZ; z <= maxZ; z++) {
+                        mutablePos.set(minX, centerPos.getY(), z);
+                        if (!isValidBlock(world, mutablePos)) {
+                            canExpandX = false;
+                            break;
+                        }
+                        mutablePos.set(maxX, centerPos.getY(), z);
+                        if (!isValidBlock(world, mutablePos)) {
+                            canExpandX = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 尝试扩展 Z 轴
+            if (canExpandZ) {
+                minZ--;
+                maxZ++;
+
+                if ((maxZ - centerPos.getZ()) > maxRange) {
+                    // 停止扩展 Z 轴
+                    canExpandZ = false;
+                } else {
+                    // 检查 Z 轴边界是否合法
+                    for (int x = minX; x <= maxX; x++) {
+                        mutablePos.set(x, centerPos.getY(), minZ);
+                        if (!isValidBlock(world, mutablePos)) {
+                            canExpandZ = false;
+                            break;
+                        }
+                        mutablePos.set(x, centerPos.getY(), maxZ);
+                        if (!isValidBlock(world, mutablePos)) {
+                            canExpandZ = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 计算矩形的长度、宽度以及从 centerPos 到最近边缘的距离
+        length = maxX - minX + 1;
+        width = maxZ - minZ + 1;
+        nearestDistance = Math.min(Math.abs(centerPos.getX() - minX), Math.abs(centerPos.getX() - maxX));
+        nearestDistance = Math.min(nearestDistance, Math.min(Math.abs(centerPos.getZ() - minZ), Math.abs(centerPos.getZ() - maxZ)));
+
+        // 返回结果数组
+        return new int[] {length, width, nearestDistance};
     }
 
     /**
-     * 返回液体区域裸露面积
+     * 检查给定 BlockPos 处的方块是否合法。合法方块为液体方块或冰方块
+     *
+     * @param world 进行方块检查的 Level（世界）实例
+     * @param pos   要检查的方块所在的 BlockPos（X, Y, Z 坐标）
+     * @return 如果方块是液体方块或冰方块，返回 true；否则返回 false
      */
-    public static int getFluidArea(Level world, BlockPos startPos) {
-        return FluidAreaCalculator.calculateExposedFluidArea(world, startPos);
+    private static boolean isValidBlock(Level world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        FluidState fluidState = blockState.getFluidState();
+        return !fluidState.isEmpty() || world.getBlockState(pos).getBlock() == Blocks.ICE;
     }
 
     public enum FluidAreaLevel {
-        SMALL("tooltip.area.small", 5),
-        MEDIUM("tooltip.area.medium", 12),
-        LARGE("tooltip.area.large", Integer.MAX_VALUE);
+        // todo i18n
+        NARROW("tooltip.area.narrow"),
+        NEAR_SHORE("tooltip.area.nearshore"),
+        OFF_SHORE("tooltip.area.offshore"),
+        OPEN_WATER("tooltip.area.openwater");
 
         private final TranslatableComponent component;
-        private final int maxArea;
 
-        FluidAreaLevel(String translationKey, int maxArea) {
+        FluidAreaLevel(String translationKey) {
             this.component = new TranslatableComponent(translationKey);
-            this.maxArea = maxArea;
         }
 
         public TranslatableComponent getIi8nComponent() {
             return component;
         }
 
-        public int getMaxArea() {
-            return maxArea;
-        }
-
-        public static FluidAreaLevel getLevel(int fluidArea) {
-            for (FluidAreaLevel level : values()) {
-                if (fluidArea < level.getMaxArea()) {
-                    return level;
-                }
-            }
-            return LARGE;
+        public static FluidAreaLevel getLevel(int[] areaInfo) {
+            // todo
+            return NARROW;
         }
     }
+
 }

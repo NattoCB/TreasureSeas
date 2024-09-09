@@ -261,13 +261,13 @@ public class FishUtils {
         }
         double chance = TreasureSeas.RANDOM.nextDouble() * 100;
 
-        // 水域狭窄时，chance 前移 5%；水域广阔时，change 后移 1%
-        FluidAreaCalculator.FluidAreaLevel fluidAreaLevel = FluidAreaCalculator.getFluidAreaLevel(world, hookPos);
-        switch (fluidAreaLevel) {
-            case SMALL -> chance = Math.max(0, chance - 5);
-            case LARGE -> chance = Math.min(100, chance + 1);
-        }
-        
+//        // 水域狭窄时，chance 前移 5%；水域广阔时，change 后移 1% todo
+//        FluidAreaCalculator.FluidAreaLevel fluidAreaLevel = FluidAreaCalculator.getFluidAreaLevel(world, hookPos);
+//        switch (fluidAreaLevel) {
+//            case SMALL -> chance = Math.max(0, chance - 5);
+//            case LARGE -> chance = Math.min(100, chance + 1);
+//        }
+
         List<Double> probs;
         if (world.dimension() == Level.NETHER) {
             probs = rewardTypeProbabilitiesForNether.get(value);
