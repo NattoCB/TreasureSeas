@@ -1,5 +1,6 @@
 package io.github.nattocb.treasure_seas.utils;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
@@ -32,35 +33,72 @@ public class FluidAreaCalculator {
 
     /**
      * 计算给定 BlockPos 的合法矩形区域并缓存结果。
-     *
      * @param world     Level 实例
-     * @param startPos  起始的 BlockPos
-     * @return 长度为 3 的 int[]，包含矩形的长度、宽度和最小距离
+     * @param startPos  垂钓点位 BlockPos
+     * @return FluidShape 枚举
      */
-    public static int[] calculateRectangleArea(@NotNull Level world, @NotNull BlockPos startPos) {
+    public static FluidShape getFluidShape(@NotNull Level world, @NotNull BlockPos startPos) {
+
+        int[] rectangleAreaInfo;
+
         // 检查缓存
         CachedRectangleArea cachedArea = RECTANGLE_AREA_CACHE.get(startPos);
-        if (cachedArea != null && (System.currentTimeMillis() - cachedArea.timestamp) <= CACHE_EXPIRY_TIME) {
-            return cachedArea.areaData;
+        if (cachedArea != null) {
+            rectangleAreaInfo = cachedArea.areaData;
+            return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1], rectangleAreaInfo[2]);
         }
 
         // 没有缓存或缓存已过期，重新计算区域
-        int[] rectangleArea = calculateRectangleAroundBlock(world, startPos);
+        rectangleAreaInfo = calculateRectangleAroundBlock(world, startPos);
 
         // 更新缓存
-        RECTANGLE_AREA_CACHE.put(startPos, new CachedRectangleArea(rectangleArea, System.currentTimeMillis()));
+        RECTANGLE_AREA_CACHE.put(startPos, new CachedRectangleArea(rectangleAreaInfo, System.currentTimeMillis()));
 
-        // todo 根据液体区域裸露面积返回 i18n component enum
-        return rectangleArea;
+        // 根据液体区域裸露面积返回 i18n component enum
+        return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1], rectangleAreaInfo[2]);
     }
 
-    /**
-     * CachedRectangleArea 内部类，用于存储矩形区域的缓存数据
-     */
+    private static FluidShape getFluidShape(int length, int width, int distanceToNearestEdge) {
+
+        if (width > length) {
+            int temp = length;
+            length = width;
+            width = temp;
+        }
+        if (length < 0 || length > 15) {
+            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Length out of range: {}.", length);
+            return FluidShape.UNKNOWN;
+        }
+        if (width < 0) {
+            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Width out of range: {}.", width);
+            return FluidShape.UNKNOWN;
+        }
+        if (distanceToNearestEdge < 0) {
+            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Distance to nearest edge out of range: {}.", distanceToNearestEdge);
+            return FluidShape.UNKNOWN;
+        }
+
+        // POOL（短且窄）
+        if (length <= 5) {
+            return FluidShape.POOL;
+        }
+        // STREAM (长且窄)
+        if (width <= 5) {
+            return FluidShape.STREAM;
+        }
+        if (distanceToNearestEdge <= 3) {
+            // NEAR_SHORE (长且宽，近岸)
+            return FluidShape.NEAR_SHORE;
+        } else {
+            // OPEN_WATER (长且宽，远岸)
+            return FluidShape.OPEN_WATER;
+        }
+
+    }
+
     private static class CachedRectangleArea {
         int[] areaData;
         long timestamp;
-
         CachedRectangleArea(int[] areaData, long timestamp) {
             this.areaData = areaData;
             this.timestamp = timestamp;
@@ -175,26 +213,21 @@ public class FluidAreaCalculator {
         return !fluidState.isEmpty() || world.getBlockState(pos).getBlock() == Blocks.ICE;
     }
 
-    public enum FluidAreaLevel {
-        // todo i18n
-        NARROW("tooltip.area.narrow"),
+    public enum FluidShape {
+        UNKNOWN("tooltip.area.unknown"),
+        POOL("tooltip.area.pool"),
+        STREAM("tooltip.area.stream"),
         NEAR_SHORE("tooltip.area.nearshore"),
-        OFF_SHORE("tooltip.area.offshore"),
         OPEN_WATER("tooltip.area.openwater");
 
         private final TranslatableComponent component;
 
-        FluidAreaLevel(String translationKey) {
+        FluidShape(String translationKey) {
             this.component = new TranslatableComponent(translationKey);
         }
 
         public TranslatableComponent getIi8nComponent() {
             return component;
-        }
-
-        public static FluidAreaLevel getLevel(int[] areaInfo) {
-            // todo
-            return NARROW;
         }
     }
 

@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -186,11 +185,11 @@ public class FishingTooltipRenderer extends GuiComponent {
             );
         } else {
             String biomeName = biomeRes == null ? "unknown" : biomeRes.getPath();
-//            TranslatableComponent fluidAreaInfo = FluidAreaCalculator
-//                    .getFluidAreaLevel(hook.getLevel(), hook.getOnPos())
-//                    .getIi8nComponent();
+            TranslatableComponent fluidAreaInfo = FluidAreaCalculator
+                    .getFluidShape(hook.getLevel(), hook.getOnPos())
+                    .getIi8nComponent();
             textComponents = List.of(
-                    new TranslatableComponent("tooltip.fishing_hook"),
+                    new TranslatableComponent("tooltip.fishing_hook2", fluidAreaInfo),
                     new TranslatableComponent("tooltip.water_depth", waterDepth),
                     new TranslatableComponent("tooltip.depth_capacity", Math.min(depthCapacity, waterDepth)),
                     new TranslatableComponent("tooltip.biome", biomeName)
