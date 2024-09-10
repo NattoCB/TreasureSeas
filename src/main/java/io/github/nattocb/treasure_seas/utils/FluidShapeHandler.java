@@ -75,10 +75,10 @@ public class FluidShapeHandler {
 
 
         // POOL（短且窄）
-        if (totalValidBlocks <= 10) {
+        if (totalValidBlocks <= 15) {
             return FluidShape.POOL;
         }
-        if (distanceToNearestEdge <= 3) {
+        if (distanceToNearestEdge <= 5) {
             // NEAR_SHORE (长且宽，近岸)
             return FluidShape.NEAR_SHORE;
         } else {
