@@ -9,6 +9,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -45,7 +49,7 @@ public class FluidShapeHandler {
         CachedRectangleArea cachedArea = RECTANGLE_AREA_CACHE.get(startPos);
         if (cachedArea != null) {
             rectangleAreaInfo = cachedArea.areaData;
-            return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1], rectangleAreaInfo[2]);
+            return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1]);
         }
 
         // 没有缓存或缓存已过期，重新计算区域
@@ -55,36 +59,24 @@ public class FluidShapeHandler {
         RECTANGLE_AREA_CACHE.put(startPos, new CachedRectangleArea(rectangleAreaInfo, System.currentTimeMillis()));
 
         // 根据液体区域裸露面积返回 i18n component enum
-        return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1], rectangleAreaInfo[2]);
+        return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1]);
     }
 
-    private static FluidShape getFluidShape(int length, int width, int distanceToNearestEdge) {
+    private static FluidShape getFluidShape(int totalValidBlocks, int distanceToNearestEdge) {
 
-        if (width > length) {
-            int temp = length;
-            length = width;
-            width = temp;
-        }
-        if (length < 0 || length > 15) {
-            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Length out of range: {}.", length);
-            return FluidShape.UNKNOWN;
-        }
-        if (width < 0) {
-            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Width out of range: {}.", width);
+        if (totalValidBlocks < 0) {
+            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: totalValidBlocks out of range: {}.", totalValidBlocks);
             return FluidShape.UNKNOWN;
         }
         if (distanceToNearestEdge < 0) {
-            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: Distance to nearest edge out of range: {}.", distanceToNearestEdge);
+            TreasureSeas.getLogger().warn("FluidAreaCalculator.getFluidAreaType: distanceToNearestEdge out of range: {}.", distanceToNearestEdge);
             return FluidShape.UNKNOWN;
         }
 
+
         // POOL（短且窄）
-        if (length <= 5) {
+        if (totalValidBlocks <= 10) {
             return FluidShape.POOL;
-        }
-        // STREAM (长且窄)
-        if (width <= 5) {
-            return FluidShape.STREAM;
         }
         if (distanceToNearestEdge <= 3) {
             // NEAR_SHORE (长且宽，近岸)
@@ -106,98 +98,66 @@ public class FluidShapeHandler {
     }
 
     /**
-     * 计算围绕给定 BlockPos 的 XZ 平面上的矩形区域
-     * 矩形从中心 BlockPos 向外沿 X 和 Z 轴扩展，且该矩形只包含合法方块（水方块或冰方块）
-     * 扩展范围限制为中心位置每个方向最多 15 格
+     * 洪水填充给定 BlockPos 的水域合法区域，并返回相关信息
+     * 使用 BFS，从中心位置开始向东、南、西、北四个方向扩展，直到遇到非法方块为止
      *
-     * @param world     进行搜索的 Level（世界）实例
-     * @param centerPos 中心 BlockPos（X, Y, Z 坐标），以其为中心形成矩形
-     * @return 一个长度为 3 的 int 数组
-     *         - int[0]: 矩形的长度（沿 X 轴的方块数）
-     *         - int[1]: 矩形的宽度（沿 Z 轴的方块数）
-     *         - int[2]: centerPos 到矩形最近边缘的距离（向下取整的格数）
+     * @param world     Level 实例
+     * @param centerPos 中心位置的 BlockPos，从该位置开始计算区域
+     * @return 一个长度为 2 的 int 数组:
+     *         - int[0]: 洪水填充经过的总合法方块数量（最大阈值 100）
+     *         - int[1]: 从中心点出发，东、南、西、北四个方向到遇到非合法方块的最小距离
      */
     public static int[] calculateRectangleAroundBlock(Level world, BlockPos centerPos) {
-        int length;
-        int width;
-        int nearestDistance;
+        // 使用队列实现广度优先搜索（BFS）
+        Queue<BlockPos> queue = new LinkedList<>();
+        queue.add(centerPos);
 
-        // 跟踪矩形边界的变量
-        int minX = centerPos.getX();
-        int maxX = centerPos.getX();
-        int minZ = centerPos.getZ();
-        int maxZ = centerPos.getZ();
+        // 用于跟踪已经访问过的方块，防止重复计算
+        Set<BlockPos> visited = new HashSet<>();
+        visited.add(centerPos);
 
-        // 使用 MutableBlockPos 避免频繁创建 BlockPos 实例
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        int totalValidBlocks = 0; // 总合法方块数量
+        int minDistance = Integer.MAX_VALUE; // 最小碰壁距离
 
-        // 定义最大扩展范围（15格）
-        int maxRange = 15;
+        // 定义四个扩展方向（东、南、西、北）
+        int[][] directions = {
+                {1, 0},  // 向东
+                {-1, 0}, // 向西
+                {0, 1},  // 向南
+                {0, -1}  // 向北
+        };
 
-        boolean canExpandX = true;
-        boolean canExpandZ = true;
+        // BFS 扩展，定义最大扩展上限
+        int maxBlocks = 100;
+        int expandedBlocks = 0;
 
-        // 开始扩展，直到两轴都无法再扩展
-        while (canExpandX || canExpandZ) {
-            // 尝试扩展 X 轴
-            if (canExpandX) {
-                minX--;
-                maxX++;
+        while (!queue.isEmpty() && expandedBlocks < maxBlocks) {
+            BlockPos current = queue.poll();
+            totalValidBlocks++;
+            expandedBlocks++;
 
-                if ((maxX - centerPos.getX()) > maxRange) {
-                    // 停止扩展 X 轴
-                    canExpandX = false;
-                } else {
-                    // 检查 X 轴边界是否合法
-                    for (int z = minZ; z <= maxZ; z++) {
-                        mutablePos.set(minX, centerPos.getY(), z);
-                        if (!isValidBlock(world, mutablePos)) {
-                            canExpandX = false;
-                            break;
-                        }
-                        mutablePos.set(maxX, centerPos.getY(), z);
-                        if (!isValidBlock(world, mutablePos)) {
-                            canExpandX = false;
-                            break;
-                        }
-                    }
+            for (int[] direction : directions) {
+                BlockPos nextPos = current.offset(direction[0], 0, direction[1]);
+
+                // 跳过已经访问过的方块
+                if (visited.contains(nextPos)) {
+                    continue;
                 }
-            }
 
-            // 尝试扩展 Z 轴
-            if (canExpandZ) {
-                minZ--;
-                maxZ++;
-
-                if ((maxZ - centerPos.getZ()) > maxRange) {
-                    // 停止扩展 Z 轴
-                    canExpandZ = false;
+                // 检查下一个方块是否是合法的水或冰
+                if (isValidBlock(world, nextPos)) {
+                    queue.add(nextPos);
+                    visited.add(nextPos);
                 } else {
-                    // 检查 Z 轴边界是否合法
-                    for (int x = minX; x <= maxX; x++) {
-                        mutablePos.set(x, centerPos.getY(), minZ);
-                        if (!isValidBlock(world, mutablePos)) {
-                            canExpandZ = false;
-                            break;
-                        }
-                        mutablePos.set(x, centerPos.getY(), maxZ);
-                        if (!isValidBlock(world, mutablePos)) {
-                            canExpandZ = false;
-                            break;
-                        }
-                    }
+                    // 计算从中心到非合法方块的距离
+                    int distance = Math.abs(nextPos.getX() - centerPos.getX()) + Math.abs(nextPos.getZ() - centerPos.getZ());
+                    minDistance = Math.min(minDistance, distance);
                 }
             }
         }
 
-        // 计算矩形的长度、宽度以及从 centerPos 到最近边缘的距离
-        length = maxX - minX + 1;
-        width = maxZ - minZ + 1;
-        nearestDistance = Math.min(Math.abs(centerPos.getX() - minX), Math.abs(centerPos.getX() - maxX));
-        nearestDistance = Math.min(nearestDistance, Math.min(Math.abs(centerPos.getZ() - minZ), Math.abs(centerPos.getZ() - maxZ)));
-
-        // 返回结果数组
-        return new int[] {length, width, nearestDistance};
+        // 返回总合法方块数量和最小碰壁距离
+        return new int[] { totalValidBlocks, minDistance };
     }
 
     /**
@@ -210,14 +170,13 @@ public class FluidShapeHandler {
     private static boolean isValidBlock(Level world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         boolean isFluid = !blockState.getFluidState().isEmpty();
-        boolean isIcyBlock = blockState.getFriction(world, pos, null) < 1.0f;
-        return isFluid || isIcyBlock;
+        boolean isIce = blockState.is(Blocks.ICE) || blockState.is(Blocks.PACKED_ICE) || blockState.is(Blocks.BLUE_ICE);
+        return isFluid || isIce;
     }
 
     public enum FluidShape {
         UNKNOWN("tooltip.area.unknown"),
         POOL("tooltip.area.pool"),
-        STREAM("tooltip.area.stream"),
         NEAR_SHORE("tooltip.area.nearshore"),
         OPEN_WATER("tooltip.area.openwater");
 

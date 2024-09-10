@@ -18,7 +18,6 @@
   "tooltip.biome": "§8Biome: %s",
   "tooltip.area.unknown": "§8Unknown",
   "tooltip.area.pool": "§8Pool",
-  "tooltip.area.stream": "§8Stream",
   "tooltip.area.nearshore": "§8Nearshore",
   "tooltip.area.openwater": "§8Open water",
   "tooltip.depth_capacity": "§8RodMaxDepth: %s m",
