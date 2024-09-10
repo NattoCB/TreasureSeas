@@ -4,7 +4,7 @@ import io.github.nattocb.treasure_seas.utils.FishUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
-import io.github.nattocb.treasure_seas.utils.FluidAreaCalculator;
+import io.github.nattocb.treasure_seas.utils.FluidShapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -185,7 +185,7 @@ public class FishingTooltipRenderer extends GuiComponent {
             );
         } else {
             String biomeName = biomeRes == null ? "unknown" : biomeRes.getPath();
-            TranslatableComponent fluidAreaInfo = FluidAreaCalculator
+            TranslatableComponent fluidAreaInfo = FluidShapeHandler
                     .getFluidShape(hook.getLevel(), hook.getOnPos())
                     .getIi8nComponent();
             textComponents = List.of(

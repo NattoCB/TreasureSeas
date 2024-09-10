@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.*;
 
 /**
- * 矩形区域计算器
+ * 矩形区域判断
  * 基于世界坐标缓存，自动定时清理
  */
-public class FluidAreaCalculator {
+public class FluidShapeHandler {
 
     private static final ConcurrentHashMap<BlockPos, CachedRectangleArea> RECTANGLE_AREA_CACHE = new ConcurrentHashMap<>();
 
@@ -209,8 +209,9 @@ public class FluidAreaCalculator {
      */
     private static boolean isValidBlock(Level world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
-        FluidState fluidState = blockState.getFluidState();
-        return !fluidState.isEmpty() || world.getBlockState(pos).getBlock() == Blocks.ICE;
+        boolean isFluid = !blockState.getFluidState().isEmpty();
+        boolean isIcyBlock = blockState.getFriction(world, pos, null) < 1.0f;
+        return isFluid || isIcyBlock;
     }
 
     public enum FluidShape {

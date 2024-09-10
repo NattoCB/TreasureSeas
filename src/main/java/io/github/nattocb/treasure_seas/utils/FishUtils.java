@@ -267,7 +267,7 @@ public class FishUtils {
         // 近岸时，chance 前移 3%
         // 广阔时，chance 后移 1%
         // 未知时，chance 不变
-        FluidAreaCalculator.FluidShape fluidShape = FluidAreaCalculator.getFluidShape(world, hookPos);
+        FluidShapeHandler.FluidShape fluidShape = FluidShapeHandler.getFluidShape(world, hookPos);
         switch (fluidShape) {
             case POOL -> chance = Math.max(0, chance - 10);
             case STREAM -> chance = Math.max(0, chance - 5);
