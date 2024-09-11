@@ -109,10 +109,10 @@ public class FluidShapeHandler {
         if (totalValidBlocks <= 12) {
             return FluidShape.NARROW;
         }
-        else if (totalValidBlocks <= 25) {
+        else if (totalValidBlocks <= 45) {
             return FluidShape.PONDLET;
         }
-        else if (totalValidBlocks <= 40) {
+        else if (totalValidBlocks <= 85) {
             return FluidShape.POND;
         }
 
