@@ -26,6 +26,12 @@ public class FluidShapeHandler {
     // 缓存生命周期（毫秒）
     private static final long CACHE_EXPIRY_TIME = 60 * 1000;
 
+    // 判断液体区域类型的格数阈值
+    private static final int POOL_THRESHOLD = 12;
+    private static final int PONDLET_THRESHOLD = 45;
+    private static final int POND_THRESHOLD = 200;
+
+
     // 定时任务，每分钟清理一次缓存
     static {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -106,13 +112,13 @@ public class FluidShapeHandler {
 
 
         // 池塘级别判断
-        if (totalValidBlocks <= 12) {
+        if (totalValidBlocks < POOL_THRESHOLD) {
             return FluidShape.NARROW;
         }
-        else if (totalValidBlocks <= 45) {
+        else if (totalValidBlocks < PONDLET_THRESHOLD) {
             return FluidShape.PONDLET;
         }
-        else if (totalValidBlocks <= 85) {
+        else if (totalValidBlocks < POND_THRESHOLD) {
             return FluidShape.POND;
         }
 
@@ -167,7 +173,7 @@ public class FluidShapeHandler {
         };
 
         // BFS 最大扩展上限
-        int maxBlocks = 100;
+        int maxBlocks = POND_THRESHOLD;
         int expandedBlocks = 0;
 
         while (!queue.isEmpty() && expandedBlocks < maxBlocks) {

@@ -264,9 +264,9 @@ public class FishUtils {
         // 根据水域形状类型决定 chance 前后移比例
         FluidShapeHandler.FluidShape fluidShape = FluidShapeHandler.getFluidShape(world, hookPos);
         switch (fluidShape) {
-            case NARROW -> chance = Math.max(0, chance - 10);
+            case NARROW -> chance = Math.max(0, chance - 12);
             case PONDLET -> chance = Math.max(0, chance - 5);
-            case POND -> chance = Math.max(0, chance - 3);
+            case POND -> chance = Math.max(0, chance - 1);
             case NEAR_SHORE -> chance = Math.max(0, chance - 3);
             case OPEN_WATER -> chance = Math.min(100, chance + 1);
             case HOLE -> chance = Math.min(100, chance + 1.5);
