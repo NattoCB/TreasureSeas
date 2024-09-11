@@ -342,13 +342,16 @@ public class FishShopInv extends AbstractContainerMenu {
                 }
             } else {
                 // Moving from player inventory to input slots
+                // Calculate the total emerald value if this item stack is added
                 int currentEmeraldCount = calculateTotalEmeralds();
                 int stackEmeraldValue = calculateEmeraldValue(stackInSlot);
                 if (currentEmeraldCount + stackEmeraldValue <= MAX_EMERALDS) {
+                    // Only move if it won't exceed MAX_EMERALDS
                     if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
+                    // If adding would exceed the max emeralds, do not move
                     PlayerMessageManager.sendMessageOnce(player,
                             new TranslatableComponent("message.treasure_seas.exceed_max_emeralds"));
                     return ItemStack.EMPTY;
