@@ -74,10 +74,17 @@ public class FluidShapeHandler {
         }
 
 
-        // POOL（短且窄）
-        if (totalValidBlocks <= 15) {
-            return FluidShape.POOL;
+        // 池塘级别判断
+        if (totalValidBlocks <= 12) {
+            return FluidShape.NARROW;
         }
+        else if (totalValidBlocks <= 25) {
+            return FluidShape.PONDLET;
+        }
+        else if (totalValidBlocks <= 40) {
+            return FluidShape.POND;
+        }
+
         if (distanceToNearestEdge <= 5) {
             // NEAR_SHORE (长且宽，近岸)
             return FluidShape.NEAR_SHORE;
@@ -176,7 +183,9 @@ public class FluidShapeHandler {
 
     public enum FluidShape {
         UNKNOWN("tooltip.area.unknown"),
-        POOL("tooltip.area.pool"),
+        NARROW("tooltip.area.narrow"),
+        PONDLET("tooltip.area.pondlet"),
+        POND("tooltip.area.pond"),
         NEAR_SHORE("tooltip.area.nearshore"),
         OPEN_WATER("tooltip.area.openwater");
 
