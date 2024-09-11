@@ -22,6 +22,7 @@
   "tooltip.area.pond": "§8Pond",
   "tooltip.area.nearshore": "§8Nearshore",
   "tooltip.area.openwater": "§8Open water",
+  "tooltip.area.hole": "§8Hole",
   "tooltip.depth_capacity": "§8RodMaxDepth: %s m",
   "item.treasure_seas.pirate_treasure": "§6§lPirate's Fortune",
   "item.treasure_seas.pirate_treasure.lore1": "§9A chest brimming with the riches and secrets of the high seas",
