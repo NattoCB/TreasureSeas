@@ -21,7 +21,7 @@ import java.util.concurrent.*;
  */
 public class FluidShapeHandler {
 
-    private static final ConcurrentHashMap<BlockPos, CachedRectangleArea> RECTANGLE_AREA_CACHE = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<BlockPos, CachedFluidShape> RECTANGLE_AREA_CACHE = new ConcurrentHashMap<>();
 
     // 缓存生命周期（毫秒）
     private static final long CACHE_EXPIRY_TIME = 60 * 1000;
@@ -43,24 +43,55 @@ public class FluidShapeHandler {
      */
     public static FluidShape getFluidShape(@NotNull Level world, @NotNull BlockPos startPos) {
 
-        int[] rectangleAreaInfo;
-
         // 检查缓存
-        CachedRectangleArea cachedArea = RECTANGLE_AREA_CACHE.get(startPos);
-        if (cachedArea != null) {
-            rectangleAreaInfo = cachedArea.areaData;
-            return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1]);
+        CachedFluidShape cachedShape = RECTANGLE_AREA_CACHE.get(startPos);
+        if (cachedShape != null) {
+            // 洞顶是 NARROW 类型才继续检查洞内是否有广阔水域
+            if (cachedShape.fluidShape != FluidShape.NARROW) {
+                return cachedShape.fluidShape;
+            } else {
+                return checkForHole(world, startPos, cachedShape.fluidShape);
+            }
         }
 
-        // 没有缓存或缓存已过期，重新计算区域
-        rectangleAreaInfo = calculateRectangleAroundBlock(world, startPos);
+        // 没有缓存，重新计算 startPos 的形状并缓存
+        FluidShape newShape = calculateFluidShape(world, startPos);
+        RECTANGLE_AREA_CACHE.put(startPos, new CachedFluidShape(newShape, System.currentTimeMillis()));
 
-        // 更新缓存
-        RECTANGLE_AREA_CACHE.put(startPos, new CachedRectangleArea(rectangleAreaInfo, System.currentTimeMillis()));
+        // 检查 HOLE
+        if (newShape != FluidShape.NARROW) {
+            return newShape;
+        } else {
+            return checkForHole(world, startPos, newShape);
+        }
 
-        // 根据液体区域裸露面积返回 i18n component enum
-        return getFluidShape(rectangleAreaInfo[0], rectangleAreaInfo[1]);
     }
+
+    private static FluidShape checkForHole(Level world, BlockPos startPos, FluidShape currentShape) {
+
+        // 检查 Y - 1 位置的 FluidShape
+        BlockPos belowPos = startPos.below();
+
+        // 检查 Y - 1 位置的缓存
+        CachedFluidShape cachedBelowShape = RECTANGLE_AREA_CACHE.get(belowPos);
+        FluidShape belowShape;
+        if (cachedBelowShape != null) {
+            belowShape = cachedBelowShape.fluidShape;
+        } else {
+            // 没有缓存，重新计算 Y - 1 位置的形状并缓存
+            belowShape = calculateFluidShape(world, belowPos);
+            RECTANGLE_AREA_CACHE.put(belowPos, new CachedFluidShape(belowShape, System.currentTimeMillis()));
+        }
+
+        // 如果 Y - 1 位置为 OPEN_WATER 或 NEAR_SHORE，返回 HOLE
+        if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
+            return FluidShape.HOLE;
+        }
+
+        // 否则返回当前形状
+        return currentShape;
+    }
+
 
     private static FluidShape getFluidShape(int totalValidBlocks, int distanceToNearestEdge) {
 
@@ -95,11 +126,12 @@ public class FluidShapeHandler {
 
     }
 
-    private static class CachedRectangleArea {
-        int[] areaData;
+    private static class CachedFluidShape {
+        FluidShape fluidShape;
         long timestamp;
-        CachedRectangleArea(int[] areaData, long timestamp) {
-            this.areaData = areaData;
+
+        CachedFluidShape(FluidShape fluidShape, long timestamp) {
+            this.fluidShape = fluidShape;
             this.timestamp = timestamp;
         }
     }
@@ -114,19 +146,19 @@ public class FluidShapeHandler {
      *         - int[0]: 洪水填充经过的总合法方块数量（最大阈值 100）
      *         - int[1]: 从中心点出发，东、南、西、北四个方向到遇到非合法方块的最小距离
      */
-    public static int[] calculateRectangleAroundBlock(Level world, BlockPos centerPos) {
-        // 使用队列实现广度优先搜索（BFS）
+    public static FluidShape calculateFluidShape(Level world, BlockPos centerPos) {
+        // BFS
         Queue<BlockPos> queue = new LinkedList<>();
         queue.add(centerPos);
 
-        // 用于跟踪已经访问过的方块，防止重复计算
+        // 已经访问过的方块
         Set<BlockPos> visited = new HashSet<>();
         visited.add(centerPos);
 
         int totalValidBlocks = 0; // 总合法方块数量
         int minDistance = Integer.MAX_VALUE; // 最小碰壁距离
 
-        // 定义四个扩展方向（东、南、西、北）
+        // 四个扩展方向（东、南、西、北）
         int[][] directions = {
                 {1, 0},  // 向东
                 {-1, 0}, // 向西
@@ -134,7 +166,7 @@ public class FluidShapeHandler {
                 {0, -1}  // 向北
         };
 
-        // BFS 扩展，定义最大扩展上限
+        // BFS 最大扩展上限
         int maxBlocks = 100;
         int expandedBlocks = 0;
 
@@ -163,8 +195,8 @@ public class FluidShapeHandler {
             }
         }
 
-        // 返回总合法方块数量和最小碰壁距离
-        return new int[] { totalValidBlocks, minDistance };
+        // 根据计算结果返回相应的 FluidShape
+        return getFluidShape(totalValidBlocks, minDistance);
     }
 
     /**
@@ -187,7 +219,8 @@ public class FluidShapeHandler {
         PONDLET("tooltip.area.pondlet"),
         POND("tooltip.area.pond"),
         NEAR_SHORE("tooltip.area.nearshore"),
-        OPEN_WATER("tooltip.area.openwater");
+        OPEN_WATER("tooltip.area.openwater"),
+        HOLE("tooltip.area.hole");
 
         private final TranslatableComponent component;
 
