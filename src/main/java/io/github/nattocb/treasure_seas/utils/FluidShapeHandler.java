@@ -116,10 +116,10 @@ public class FluidShapeHandler {
         if (FishUtils.calculateFluidDepth(startPos, world) >= 10) {
             // 判断为：井口，通体狭窄，下方很深
             return FluidShape.WELL;
-        } else {
-            // 否则返回默认 rawShape
-            return rawShape;
         }
+
+        // HOLE / WELL 判断失败，返回原 shape (NARROW)
+        return rawShape;
     }
 
 
