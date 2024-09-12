@@ -86,6 +86,7 @@ public class FluidShapeHandler {
             belowShape = cachedBelowShape.fluidShape;
         } else {
             // 没有缓存，重新计算 Y - 1 位置的形状并缓存
+            // 水下 shape 无需再考虑 advanceShape，直接缓存 rawShape
             belowShape = calculateRawFluidShape(world, belowPos);
             RECTANGLE_AREA_CACHE.put(belowPos, new CachedFluidShape(belowShape, System.currentTimeMillis()));
         }
