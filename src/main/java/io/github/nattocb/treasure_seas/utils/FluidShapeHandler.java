@@ -80,16 +80,8 @@ public class FluidShapeHandler {
         BlockPos belowPos = startPos.below();
 
         // 检查 Y - 1 位置的缓存
-        CachedFluidShape cachedBelowShape = RECTANGLE_AREA_CACHE.get(belowPos);
-        FluidShape belowShape;
-        if (cachedBelowShape != null) {
-            belowShape = cachedBelowShape.fluidShape;
-        } else {
-            // 没有缓存，重新计算 Y - 1 位置的形状并缓存
-            // 水下 shape 无需再考虑 advanceShape，直接缓存 rawShape
-            belowShape = calculateRawFluidShape(world, belowPos);
-            RECTANGLE_AREA_CACHE.put(belowPos, new CachedFluidShape(belowShape, System.currentTimeMillis()));
-        }
+        // 水下 shape 无需再考虑 advanceShape，直接缓存 rawShape
+        FluidShape belowShape = getFluidShapeFromCacheOrCalculate(world, belowPos);
 
         // 如果 Y - 1 位置为 OPEN_WATER 或 NEAR_SHORE
         if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
@@ -120,13 +112,36 @@ public class FluidShapeHandler {
         }
 
         // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
-        if (FishUtils.calculateFluidDepth(startPos, world) >= 10) {
-            // 判断为：井口，通体狭窄，下方很深
-            return FluidShape.WELL;
+        if (belowShape == FluidShape.NARROW && FishUtils.calculateFluidDepth(startPos, world) >= 10) {
+            // 判断 10 格深度下的每一层 blockPos 的 shape，均为 NARROW 则为井口类型（通体狭窄，下方深）
+            boolean isWell = true;
+            BlockPos currentCheckingPos = belowPos;
+            for (int i = 0; i < 10; i++) {
+                currentCheckingPos = currentCheckingPos.below(); // 指针下移
+                FluidShape depthShape = getFluidShapeFromCacheOrCalculate(world, currentCheckingPos);
+                if (depthShape != FluidShape.NARROW) {
+                    isWell = false;
+                    break;
+                }
+            }
+            if (isWell) {
+                return FluidShape.WELL;
+            }
         }
 
         // HOLE, WELL 均不满足
         return FluidShape.NARROW;
+    }
+
+    private static FluidShape getFluidShapeFromCacheOrCalculate(Level world, BlockPos pos) {
+        CachedFluidShape cachedShape = RECTANGLE_AREA_CACHE.get(pos);
+        if (cachedShape != null) {
+            return cachedShape.fluidShape;
+        } else {
+            FluidShape calculatedShape = calculateRawFluidShape(world, pos);
+            RECTANGLE_AREA_CACHE.put(pos, new CachedFluidShape(calculatedShape, System.currentTimeMillis()));
+            return calculatedShape;
+        }
     }
 
 
