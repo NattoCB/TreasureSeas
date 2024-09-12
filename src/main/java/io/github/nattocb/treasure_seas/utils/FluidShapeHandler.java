@@ -70,6 +70,12 @@ public class FluidShapeHandler {
      */
     private static FluidShape checkForHole(Level world, BlockPos startPos, FluidShape rawShape) {
 
+        // 入参检查
+        if (rawShape != FluidShape.NARROW) {
+            TreasureSeas.getLogger().warn("FluidShapeHandler.checkForHole: this method only supports to process NARROW shape");
+            return rawShape;
+        }
+
         // 检查 Y - 1 位置的 FluidShape
         BlockPos belowPos = startPos.below();
 
@@ -112,14 +118,14 @@ public class FluidShapeHandler {
             }
         }
 
-        // belowShape 也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
+        // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
         if (FishUtils.calculateFluidDepth(startPos, world) >= 10) {
             // 判断为：井口，通体狭窄，下方很深
             return FluidShape.WELL;
         }
 
-        // HOLE / WELL 判断失败，返回原 shape (NARROW)
-        return rawShape;
+        // HOLE, WELL 均不满足
+        return FluidShape.NARROW;
     }
 
 
