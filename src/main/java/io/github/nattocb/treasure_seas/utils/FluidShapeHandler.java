@@ -200,6 +200,11 @@ public class FluidShapeHandler {
      *         - int[1]: 从中心点出发，东、南、西、北四个方向到遇到非合法方块的最小距离
      */
     public static FluidShape calculateRawFluidShape(Level world, BlockPos centerPos) {
+
+        if (!isValidBlock(world, centerPos)) {
+            return FluidShape.UNKNOWN;
+        }
+
         // BFS
         Queue<BlockPos> queue = new LinkedList<>();
         queue.add(centerPos);
