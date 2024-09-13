@@ -390,7 +390,21 @@ Of course, you can use this mod natively, or remove some incompatible or unneces
 Alternatively, you can get hands-on and write your own configuration (see tutorial below) to further enhance the adventure fun!
 
 ## Config Example
+### Client-side config
+`treasureseas-client.properties`
+```properties
+# Whether to enable the Fishing HUD window (default is slightly to the right of the center of the screen)
+hud.fishing_info.enable=true
+# Whether to enable custom position for the Fishing HUD window (true means the HUD will be displayed according to the x and y values below)
+hud.fishing_info.custom_position.enable=false
+hud.fishing_info.custom_position.x=0
+hud.fishing_info.custom_position.y=20
+# Whether to enable debug mode (detailed logs can be found in /.minecraft/logs/latest.log and debug.log, which you can use to check if your custom fish configuration is correctly routed)
+log.debug_mode.enable=false
+```
 
+### Common config 
+`treasureseas-common.tmol`
 ```toml
 [Fishes] # There are four categories: Fishes, Junks, Treasures, UltimateTreasures
 
