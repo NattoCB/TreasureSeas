@@ -113,20 +113,7 @@ public class FluidShapeHandler {
 
         // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
         if (belowShape == FluidShape.NARROW && FishUtils.calculateFluidDepth(startPos, world) >= 10) {
-            // 判断 10 格深度下的每一层 blockPos 的 shape，均为 NARROW 则为井口类型（通体狭窄，下方深）
-            boolean isWell = true;
-            BlockPos currentCheckingPos = belowPos;
-            for (int i = 0; i < 10; i++) {
-                currentCheckingPos = currentCheckingPos.below(); // 指针下移
-                FluidShape depthShape = getFluidShapeFromCacheOrCalculate(world, currentCheckingPos);
-                if (depthShape != FluidShape.NARROW) {
-                    isWell = false;
-                    break;
-                }
-            }
-            if (isWell) {
-                return FluidShape.WELL;
-            }
+            return FluidShape.WELL;
         }
 
         // HOLE, WELL 均不满足
