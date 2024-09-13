@@ -268,6 +268,7 @@ public class FishUtils {
             case PONDLET -> chance = Math.max(0, chance - 5);
             case WELL -> chance = Math.max(0, chance - 2.5);
             case POND -> chance = Math.max(0, chance - 1);
+            case SURFACE -> chance = Math.max(0, chance - 0.5);
             case NEAR_SHORE -> chance = Math.max(0, chance - 2);
             case OPEN_WATER -> chance = Math.min(100, chance + 1);
             case HOLE -> chance = Math.min(100, chance + 1.5);

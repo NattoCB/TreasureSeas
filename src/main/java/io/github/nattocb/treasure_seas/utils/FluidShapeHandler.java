@@ -4,6 +4,7 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +12,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.concurrent.*;
 
 /**
  * 矩形区域判断
- * 基于世界坐标缓存，自动定时清理
+ * 基于世界坐标缓存（因Tooltip每帧调用一次计算）自动定时清理
  */
 public class FluidShapeHandler {
 
@@ -29,7 +31,6 @@ public class FluidShapeHandler {
     private static final int PONDLET_THRESHOLD = 45;
     private static final int POND_THRESHOLD = 200;
 
-
     // 定时任务，每分钟清理一次缓存
     static {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -40,26 +41,34 @@ public class FluidShapeHandler {
     }
 
     /**
-     * 计算给定 BlockPos 的合法矩形区域并缓存结果。
+     * 计算给定 BlockPos 的合法矩形区域并缓存结果
      * @param world     Level 实例
      * @param startPos  垂钓点位 BlockPos
      * @return FluidShape 枚举
      */
     public static FluidShape getFluidShape(@NotNull Level world, @NotNull BlockPos startPos) {
 
+        // 确保 startPos 是该 Y 轴下的水体顶层液面位置
+        BlockPos adjustedPos;
+        if (!isFluid(world, startPos)) {
+            return FluidShape.UNKNOWN;
+        } else {
+            adjustedPos = startPos;
+            while (adjustedPos.getY() < world.getMaxBuildHeight() && isFluid(world, adjustedPos.above())) {
+                adjustedPos = adjustedPos.above();
+            }
+        }
+
         // 检查缓存
-        CachedFluidShape cachedShape = RECTANGLE_AREA_CACHE.get(startPos);
+        CachedFluidShape cachedShape = RECTANGLE_AREA_CACHE.get(adjustedPos);
         if (cachedShape != null) {
             return cachedShape.fluidShape;
         }
 
         // 没有缓存，重新计算 startPos 的形状并缓存
-        FluidShape newShape = calculateRawFluidShape(world, startPos);
-        if (newShape == FluidShape.NARROW) {
-            // 洞顶是 NARROW 类型才继续检查洞内是否有广阔水域
-            newShape = checkForHole(world, startPos, newShape);
-        }
-        RECTANGLE_AREA_CACHE.put(startPos, new CachedFluidShape(newShape, System.currentTimeMillis()));
+        FluidShape newShape = calculateRawFluidShape(world, adjustedPos);
+        newShape = checkForHole(world, adjustedPos, newShape);
+        RECTANGLE_AREA_CACHE.put(adjustedPos, new CachedFluidShape(newShape, System.currentTimeMillis()));
 
         return newShape;
     }
@@ -69,68 +78,63 @@ public class FluidShapeHandler {
      * 如基于 NARROW 判断是否为 HOLE、WELL shapes
      */
     private static FluidShape checkForHole(Level world, BlockPos startPos, FluidShape rawShape) {
-
-        // 入参检查
-        if (rawShape != FluidShape.NARROW) {
-            TreasureSeas.getLogger().warn("FluidShapeHandler.checkForHole: this method only supports to process NARROW shape");
-            return rawShape;
-        }
-
-        // 检查 Y - 1 位置的 FluidShape
-        BlockPos belowPos = startPos.below();
-
-        // 检查 Y - 1 位置的缓存
-        // 水下 shape 无需再考虑 advanceShape，直接缓存 rawShape
-        FluidShape belowShape = getFluidShapeFromCacheOrCalculate(world, belowPos);
-
-        // 如果 Y - 1 位置为 OPEN_WATER 或 NEAR_SHORE
-        if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
-            // 下方深度大于 2，且上层 15 * 15 范围内液体占比小于等于 20% 才算 HOLE
-            if (FishUtils.calculateFluidDepth(startPos, world) > 2) {
-                int fluidCount = 0;
-                int totalBlocks = 15 * 15;
-                int radius = 7;
-                BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-                // 遍历上层 15 * 15 区域
-                for (int dx = -radius; dx <= radius; dx++) {
-                    for (int dz = -radius; dz <= radius; dz++) {
-                        // 获取当前坐标
-                        mutablePos.set(startPos.getX() + dx, startPos.getY(), startPos.getZ() + dz);
-                        // 判断是否为液体
-                        if (isValidBlock(world, mutablePos)) {
-                            fluidCount++;
+        switch (rawShape) {
+            case NARROW:
+                // 检查 Y - 1 位置的 FluidShape
+                BlockPos belowPos = startPos.below();
+                // 检查 Y - 1 位置的 FluidShape
+                FluidShape belowShape = calculateRawFluidShape(world, belowPos);
+                // 如果 Y - 1 位置为 OPEN_WATER 或 NEAR_SHORE
+                if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
+                    // 下方深度大于 2，且上层 15 * 15 范围内液体占比小于等于 10% 才算 HOLE
+                    if (FishUtils.calculateFluidDepth(startPos, world) > 2) {
+                        double fluidPercentage = getAreaValidPercentage(world, startPos, FluidShapeHandler::isFluid);
+                        if (fluidPercentage <= 10.0) {
+                            return FluidShape.HOLE;
+                        } else {
+                            return FluidShape.SURFACE;
                         }
                     }
                 }
-                // 计算液体占比
-                double fluidPercentage = (fluidCount / (double) totalBlocks) * 100.0;
-                // 如果液体占比小于等于 20%，返回 HOLE
-                if (fluidPercentage <= 20.0) {
+                // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
+                if (belowShape == FluidShape.NARROW && FishUtils.calculateFluidDepth(startPos, world) >= 10) {
+                    return FluidShape.WELL;
+                }
+            case NEAR_SHORE:
+            case OPEN_WATER:
+                // 检查 Y + 1 位置非空气方块占比，大于 90% 则为 HOLE
+                double validPercentage = getAreaValidPercentage(world, startPos.above(), FluidShapeHandler::isAir);
+                if (validPercentage <= 10.0) {
                     return FluidShape.HOLE;
+                } else {
+                    return rawShape;
+                }
+        }
+        // HOLE, WELL 均不满足
+        return rawShape;
+    }
+
+    private static double getAreaValidPercentage(Level world, BlockPos startPos, BiPredicate<Level, BlockPos> condition) {
+        int cnt = 0;
+        int totalBlocks = 15 * 15;
+        int radius = 7;
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+        // 遍历上层 15 * 15 区域
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dz = -radius; dz <= radius; dz++) {
+                // 获取当前坐标
+                mutablePos.set(startPos.getX() + dx, startPos.getY(), startPos.getZ() + dz);
+                // 使用传入的 BiPredicate 来判断是否满足条件
+                if (condition.test(world, mutablePos)) {
+                    cnt++;
                 }
             }
         }
 
-        // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
-        if (belowShape == FluidShape.NARROW && FishUtils.calculateFluidDepth(startPos, world) >= 10) {
-            return FluidShape.WELL;
-        }
-
-        // HOLE, WELL 均不满足
-        return FluidShape.NARROW;
+        // 计算满足条件的区域占比
+        return (cnt / (double) totalBlocks) * 100.0;
     }
-
-    private static FluidShape getFluidShapeFromCacheOrCalculate(Level world, BlockPos pos) {
-        CachedFluidShape cachedShape = RECTANGLE_AREA_CACHE.get(pos);
-        if (cachedShape != null) {
-            return cachedShape.fluidShape;
-        } else {
-            FluidShape calculatedShape = calculateRawFluidShape(world, pos);
-            RECTANGLE_AREA_CACHE.put(pos, new CachedFluidShape(calculatedShape, System.currentTimeMillis()));
-            return calculatedShape;
-        }
-    }
-
 
     private static FluidShape getRawFluidShape(int totalValidBlocks, int distanceToNearestEdge) {
 
@@ -188,7 +192,7 @@ public class FluidShapeHandler {
      */
     public static FluidShape calculateRawFluidShape(Level world, BlockPos centerPos) {
 
-        if (!isValidBlock(world, centerPos)) {
+        if (!isFluid(world, centerPos)) {
             return FluidShape.UNKNOWN;
         }
 
@@ -229,7 +233,7 @@ public class FluidShapeHandler {
                 }
 
                 // 检查下一个方块是否是合法的水或冰
-                if (isValidBlock(world, nextPos)) {
+                if (isFluid(world, nextPos)) {
                     queue.add(nextPos);
                     visited.add(nextPos);
                 } else {
@@ -251,21 +255,50 @@ public class FluidShapeHandler {
      * @param pos   要检查的方块所在的 BlockPos（X, Y, Z 坐标）
      * @return 如果方块是液体方块，返回 true；否则返回 false
      */
-    private static boolean isValidBlock(Level world, BlockPos pos) {
+    private static boolean isFluid(Level world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
-        boolean isFluid = !blockState.getFluidState().isEmpty();
-        return isFluid;
+        return !blockState.getFluidState().isEmpty();
+    }
+
+    private static boolean isAir(Level world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        return blockState.getBlock() == Blocks.AIR;
     }
 
     public enum FluidShape {
         UNKNOWN("tooltip.area.unknown"),
+        /**
+         * 极小水域
+         */
         NARROW("tooltip.area.narrow"),
+        /**
+         * 小池塘
+         */
         PONDLET("tooltip.area.pondlet"),
+        /**
+         * 大池塘
+         */
         POND("tooltip.area.pond"),
+        /**
+         * 靠岸广阔水域
+         */
         NEAR_SHORE("tooltip.area.nearshore"),
+        /**
+         * 离岸广阔水域
+         */
         OPEN_WATER("tooltip.area.openwater"),
+        /**
+         * 洞口
+         */
         HOLE("tooltip.area.hole"),
-        WELL("tooltip.area.well");
+        /**
+         * 井口
+         */
+        WELL("tooltip.area.well"),
+        /**
+         * 多坑洼地
+         */
+        SURFACE("tooltip.area.surface");
 
         private final TranslatableComponent component;
 
