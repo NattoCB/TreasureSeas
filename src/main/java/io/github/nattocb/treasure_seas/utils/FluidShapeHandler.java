@@ -105,9 +105,9 @@ public class FluidShapeHandler {
                 BlockPos belowPos1 = startPos.below();
                 FluidShape belowShape1 = calculateRawFluidShape(world, belowPos1);
                 if (belowShape1 == FluidShape.OPEN_WATER || belowShape1 == FluidShape.NEAR_SHORE) {
-                    // 下方深度大于 2，按下方 shape 返回
+                    // 下方深度大于 2，按 SURFACE 返回
                     if (FishUtils.calculateFluidDepth(startPos, world) > 2) {
-                        return belowShape1;
+                        return FluidShape.SURFACE;
                     }
                 }
             case NEAR_SHORE:
