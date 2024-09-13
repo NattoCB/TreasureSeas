@@ -82,7 +82,6 @@ public class FluidShapeHandler {
             case NARROW:
                 // 检查 Y - 1 位置的 FluidShape
                 BlockPos belowPos = startPos.below();
-                // 检查 Y - 1 位置的 FluidShape
                 FluidShape belowShape = calculateRawFluidShape(world, belowPos);
                 // 如果 Y - 1 位置为 OPEN_WATER 或 NEAR_SHORE
                 if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
@@ -99,6 +98,17 @@ public class FluidShapeHandler {
                 // 如果 Y - 1 位置也很窄（非 OPEN_WATER 或 NEAR_SHORE）那么判断是否为 WELL shape
                 if (belowShape == FluidShape.NARROW && FishUtils.calculateFluidDepth(startPos, world) >= 10) {
                     return FluidShape.WELL;
+                }
+            case PONDLET:
+            case POND:
+                // 检查 Y - 1 位置的 FluidShape
+                BlockPos belowPos1 = startPos.below();
+                FluidShape belowShape1 = calculateRawFluidShape(world, belowPos1);
+                if (belowShape1 == FluidShape.OPEN_WATER || belowShape1 == FluidShape.NEAR_SHORE) {
+                    // 下方深度大于 2，按下方 shape 返回
+                    if (FishUtils.calculateFluidDepth(startPos, world) > 2) {
+                        return belowShape1;
+                    }
                 }
             case NEAR_SHORE:
             case OPEN_WATER:
