@@ -9,6 +9,7 @@ version = "${mod_version}"
 displayName = "${mod_name}"
 authors = "${mod_authors}"
 logoFile = "treasure_seas.png"
+displayURL = "https://modrinth.com/mod/treasure-seas"
 description = '''
 Embark on an adventurous journey where fishing is more than just casting a line.
 In Treasure Seas‘ enchantment, every catch is a battle as you engage in thrilling duels

@@ -46,6 +46,10 @@ processResources {
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta', 'update.json']) {
         expand replaceProperties + [project: project]
     }
+    inputs.property "mod_homepage", mod_homepage
+    filesMatching("META-INF/mods.toml") {
+        expand 'mod_homepage': mod_homepage
+    }
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
