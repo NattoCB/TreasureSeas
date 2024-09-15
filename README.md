@@ -70,7 +70,7 @@
 
 在极小的几率（1/1800）下，你可能遇到【闪光】鱼，它是普通同品质鱼类的 5 倍价格。
 
-鱼类出售的方式也变得更加方便：你仅需要8个任意木板（围城箱子形状），1个任意原版鱼，即可得到【商用鱼篓】方块。你可以在这里对鱼和宝藏进行交易，来赚取绿宝石。
+鱼类出售的方式也变得更加方便：你仅需要8个任意木板（围成箱子形状），1个任意原版鱼，即可得到【商用鱼篓】方块。你可以在这里对鱼和宝藏进行交易，来赚取绿宝石。
 
 ## 成就
 包含一系列成就可获取：
@@ -86,7 +86,7 @@
 
 在附魔【鱼之战斗】后，钓竿会开始记录 钓鱼次数，并会自动补全耐久
 
-对应钓鱼次数满足后，你可以用下一本【鱼之战斗】附魔书来对钓竿在【铁砧】进行升级，生机：
+对应钓鱼次数满足后，你可以用下一本【鱼之战斗】附魔书来对钓竿在【铁砧】进行升级：
 
 * 等级1需求:  **0** 只
 * 等级2需求:  **25** 只
@@ -102,7 +102,6 @@
 * 水产业2 Aquaculture 2 https://www.mcmod.cn/class/281.html
 * 盗贼之海 Fish of Thieves https://www.mcmod.cn/class/11434.html
 * 独特鱼类 Unusual Fish Mod https://www.mcmod.cn/class/8753.html
-* 海灵物语 Aquamirae https://www.mcmod.cn/class/5011.html
 * 蟹农乐事 Crabber's Delight https://www.mcmod.cn/class/11415.html
 * 旅行背包 Traveler's Backpack https://www.mcmod.cn/class/1732.html
 
@@ -379,7 +378,6 @@ If the enchantment book level is higher than the current fishing rod level (e.g.
 - **Aquaculture 2**: [https://modrinth.com/mod/aquaculture](https://modrinth.com/mod/aquaculture)
 - **Fish of Thieves**: [https://modrinth.com/mod/fish-of-thieves](https://modrinth.com/mod/fish-of-thieves)
 - **Unusual Fish Mod**: [https://modrinth.com/mod/unusual-fish-mod](https://modrinth.com/mod/unusual-fish-mod)
-- **Aquamirae**: [https://modrinth.com/mod/aquamirae](https://modrinth.com/mod/aquamirae)
 - **Crabber's Delight**: [https://modrinth.com/mod/crabbers-delight](https://modrinth.com/mod/crabbers-delight)
 - **Traveler's Backpack**: [https://modrinth.com/mod/travelersbackpack](https://modrinth.com/mod/travelersbackpack)
 
