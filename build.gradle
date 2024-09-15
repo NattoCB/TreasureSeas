@@ -17,7 +17,7 @@ def gitHash = 'unknown'
 try {
     def stdout = new ByteArrayOutputStream()
     exec {
-        commandLine 'git', 'rev-parse', '--short=8', 'HEAD'
+        commandLine 'git', 'rev-parse', '--short=7', 'HEAD'
         standardOutput = stdout
     }
     gitHash = stdout.toString().trim()
