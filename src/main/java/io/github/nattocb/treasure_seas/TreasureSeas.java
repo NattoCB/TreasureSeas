@@ -2,14 +2,18 @@ package io.github.nattocb.treasure_seas;
 
 import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.enchantment.FishFighterEnchantment;
+import io.github.nattocb.treasure_seas.gui.ModConfigScreen;
 import io.github.nattocb.treasure_seas.registry.*;
 import io.github.nattocb.treasure_seas.proxy.ClientProxy;
 import io.github.nattocb.treasure_seas.proxy.CommonProxy;
 import io.github.nattocb.treasure_seas.utils.LogManager;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -69,6 +73,16 @@ public class TreasureSeas {
         fishConfigManager = new FishConfigManager();
         fishConfigManager.loadCommonConfig();
         fishConfigManager.loadClientConfig();
+    }
+
+    /**
+     * 注册主菜单内的配置编辑页面
+     */
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
+                () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, parentScreen) ->
+                        new ModConfigScreen(parentScreen)));
     }
 
     public static TreasureSeas getInstance() {

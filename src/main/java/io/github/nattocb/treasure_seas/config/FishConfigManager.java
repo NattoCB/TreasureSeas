@@ -5,6 +5,7 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -48,6 +49,26 @@ public class FishConfigManager {
         return hudFishingInfoEnable;
     }
 
+    public void setHudFishingInfoEnable(boolean flag) {
+        hudFishingInfoEnable = flag;
+    }
+
+
+    public void setHudFishingInfoEnableCustomPosition(boolean flag) {
+        hudFishingInfoEnableCustomPosition = flag;
+    }
+
+
+    public void setLogDebugModeEnable(boolean flag) {
+        logDebugModeEnable = flag;
+    }
+
+    public void setHudFishingInfoCustomX(int value) {
+        hudFishingInfoCustomX = value;
+    }
+    public void setHudFishingInfoCustomY(int value) {
+        hudFishingInfoCustomY = value;
+    }
     public boolean isHudFishingInfoEnableCustomPosition() {
         return hudFishingInfoEnableCustomPosition;
     }
@@ -119,6 +140,23 @@ public class FishConfigManager {
             TreasureSeas.getLogger().info("Client configuration loaded successfully.");
         } catch (Exception e) {
             TreasureSeas.getLogger().error("Failed to load client configuration: " + e.getMessage());
+        }
+    }
+
+    public void saveClientConfig() {
+        String clientConfigFilePath = "config/treasureseas-client.properties";
+        Path clientConfigPath = new File(clientConfigFilePath).toPath();
+        Properties clientProperties = new Properties();
+        clientProperties.setProperty("hud.fishing_info.enable", Boolean.toString(hudFishingInfoEnable));
+        clientProperties.setProperty("hud.fishing_info.custom_position.enable", Boolean.toString(hudFishingInfoEnableCustomPosition));
+        clientProperties.setProperty("hud.fishing_info.custom_position.x", Integer.toString(hudFishingInfoCustomX));
+        clientProperties.setProperty("hud.fishing_info.custom_position.y", Integer.toString(hudFishingInfoCustomY));
+        clientProperties.setProperty("log.debug_mode.enable", Boolean.toString(logDebugModeEnable));
+        try (OutputStream outputStream = Files.newOutputStream(clientConfigPath)) {
+            clientProperties.store(outputStream, "TreasureSeas Client Configuration");
+            TreasureSeas.getLogger().info("Client configuration saved successfully.");
+        } catch (Exception e) {
+            TreasureSeas.getLogger().error("Failed to save client configuration: " + e.getMessage());
         }
     }
 
