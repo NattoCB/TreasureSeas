@@ -1,0 +1,11 @@
+{
+  "type": "treasure_seas:add_loot_table_modifier",
+  "conditions":
+  [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/village/village_taiga_house"
+    }
+  ],
+  "loot_table": "treasure_seas:chest_additions_level_1_2_3"
+}

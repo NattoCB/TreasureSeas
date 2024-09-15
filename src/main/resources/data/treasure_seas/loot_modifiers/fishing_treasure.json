@@ -1,0 +1,10 @@
+{
+  "type": "treasure_seas:add_loot_table_modifier",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:gameplay/fishing/treasure"
+    }
+  ],
+  "loot_table": "treasure_seas:extra_fishing_loot"
+}

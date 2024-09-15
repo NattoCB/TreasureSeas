@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "entries": [
+    "treasure_seas:chest_abandoned_mineshaft",
+    "treasure_seas:chest_bastion_hoglin_stable",
+    "treasure_seas:chest_bastion_treasure",
+    "treasure_seas:chest_end_city_treasure",
+    "treasure_seas:chest_pillager_outpost",
+    "treasure_seas:chest_ruined_portal",
+    "treasure_seas:chest_shipwreck_supply",
+    "treasure_seas:chest_simple_dungeon_modifier",
+    "treasure_seas:chest_village_butcher",
+    "treasure_seas:chest_village_desert_house",
+    "treasure_seas:chest_village_plains_house",
+    "treasure_seas:chest_village_savanna_house",
+    "treasure_seas:chest_village_snowy_house",
+    "treasure_seas:chest_village_taiga_house",
+    "treasure_seas:fishing_treasure",
+    "treasure_seas:kill_zombie_modifier",
+    "treasure_seas:kill_guardian_modifier",
+    "treasure_seas:kill_elder_guardian_modifier",
+    "treasure_seas:kill_drowned_modifier"
+  ]
+}

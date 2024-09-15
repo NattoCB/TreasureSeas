@@ -2,6 +2,7 @@ package io.github.nattocb.treasure_seas;
 
 import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.enchantment.FishFighterEnchantment;
+import io.github.nattocb.treasure_seas.loot.ModLootModifiers;
 import io.github.nattocb.treasure_seas.proxy.ClientProxy;
 import io.github.nattocb.treasure_seas.proxy.CommonProxy;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -57,6 +58,8 @@ public class TreasureSeas {
         ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModBlocks.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        // 注册LootModifier
+        ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent

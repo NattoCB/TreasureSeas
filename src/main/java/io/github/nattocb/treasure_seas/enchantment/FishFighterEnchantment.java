@@ -24,7 +24,12 @@ public class FishFighterEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return 1; // 附魔台只能附魔1级
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        return stack.getItem() instanceof FishingRodItem && getMaxLevel() == 1;
     }
 
     @Override
