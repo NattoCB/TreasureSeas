@@ -136,7 +136,7 @@ log.debug_mode.enable=false
 [Fishes.minecraft_salmon] # 自定义名称
 lowestLootableEnchantmentLevel = 1 # 最低【鱼之战斗附魔等级可遇到】
 ticksToWin = 200 # 战斗胜利的最短时长 ticks
-speedModifier = 1.5 # 调试中的参数，暂留 1.0~2.0 之间
+speedModifier = 1.5 # 鱼移动激进程度，建议 0.0~2.0 之间，否则可能出现残影移动或难度过大的情况
 flatSegmentRandomRangeMin = 1.0 # 战斗途中鱼类维持平稳状态的最小可能时间（秒）
 flatSegmentRandomRangeMax = 3.5 # 战斗途中鱼类维持平稳状态的最大可能时间（秒）
 fluxSegmentRandomRangeMin = 2.0 # 战斗途中鱼类维持波动状态的最小可能时间（秒）
@@ -409,7 +409,7 @@ log.debug_mode.enable=false
 [Fishes.minecraft_salmon] # Custom name
 lowestLootableEnchantmentLevel = 1 # Minimum 'Fish Fighter' enchantment level required to encounter
 ticksToWin = 200 # Minimum duration in ticks to win the battle
-speedModifier = 1.5 # currently under debugging&dev, keep between 1.0 and 2.0
+speedModifier = 1.5 # Fish movement aggressiveness, recommended range is between 0.0~2.0, otherwise there may be hard to catch the fish / poor gameplay experience
 flatSegmentRandomRangeMin = 1.0 # Minimum possible time (in seconds) for fish to maintain a stable state during the battle
 flatSegmentRandomRangeMax = 3.5 # Maximum possible time (in seconds) for fish to maintain a stable state during the battle
 fluxSegmentRandomRangeMin = 2.0 # Minimum possible time (in seconds) for fish to maintain a fluctuating state during the battle
