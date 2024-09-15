@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas;
+package io.github.nattocb.treasure_seas.registry;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.shop.block.FishShopBlock;
 import io.github.nattocb.treasure_seas.item.CustomBlockItem;
 import net.minecraft.network.chat.TranslatableComponent;

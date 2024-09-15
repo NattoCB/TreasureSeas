@@ -1,10 +1,10 @@
 package io.github.nattocb.treasure_seas.shop.gui;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.ModContainerTypes;
+import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.config.FishRarity;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
-import io.github.nattocb.treasure_seas.PlayerMessageManager;
+import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -19,7 +19,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 /**

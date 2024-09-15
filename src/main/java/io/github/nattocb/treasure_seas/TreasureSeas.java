@@ -2,9 +2,10 @@ package io.github.nattocb.treasure_seas;
 
 import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.enchantment.FishFighterEnchantment;
-import io.github.nattocb.treasure_seas.loot.ModLootModifiers;
+import io.github.nattocb.treasure_seas.registry.*;
 import io.github.nattocb.treasure_seas.proxy.ClientProxy;
 import io.github.nattocb.treasure_seas.proxy.CommonProxy;
+import io.github.nattocb.treasure_seas.utils.LogManager;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;

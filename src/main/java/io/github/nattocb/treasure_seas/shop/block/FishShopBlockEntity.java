@@ -1,6 +1,6 @@
 package io.github.nattocb.treasure_seas.shop.block;
 
-import io.github.nattocb.treasure_seas.ModBlockEntities;
+import io.github.nattocb.treasure_seas.registry.ModBlockEntities;
 import io.github.nattocb.treasure_seas.shop.gui.FishShopInv;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

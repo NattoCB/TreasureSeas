@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.eventsubscriber;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.ModContainerTypes;
+import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.shop.gui.FishShopScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas;
+package io.github.nattocb.treasure_seas.registry;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.item.CustomLoreItem;
 import io.github.nattocb.treasure_seas.item.EdibleFruitItem;
 import net.minecraft.network.chat.TranslatableComponent;

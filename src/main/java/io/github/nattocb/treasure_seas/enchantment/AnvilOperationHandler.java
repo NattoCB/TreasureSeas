@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.enchantment;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
-import io.github.nattocb.treasure_seas.PlayerMessageManager;
+import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TranslatableComponent;

@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas;
+package io.github.nattocb.treasure_seas.registry;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.shop.block.FishShopBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

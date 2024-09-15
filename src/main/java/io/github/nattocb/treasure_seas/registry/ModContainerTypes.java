@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas;
+package io.github.nattocb.treasure_seas.registry;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.shop.gui.FishShopInv;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;

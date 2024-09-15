@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas;
+package io.github.nattocb.treasure_seas.utils;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;

@@ -1,6 +1,7 @@
-package io.github.nattocb.treasure_seas.loot;
+package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.loot.AddLootTableModifier;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
