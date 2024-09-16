@@ -49,10 +49,10 @@ public class FishShopInv extends AbstractContainerMenu {
     private final Container inputSlots = new SimpleContainer(INPUT_SLOT_ROWS * INPUT_SLOT_COLS);
     private final Container outputSlots = new SimpleContainer(OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS);
 
-    // Maximum emeralds equivalent to 64 blocks per slot
+    // Maximum output count
     private static int MAX_OUTPUT = 64 * OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
     private boolean isNineStackItem;
-    private Item outputItem;
+    private final Item outputItem;
 
     public FishShopInv(int id, Inventory playerInventory) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
@@ -75,7 +75,7 @@ public class FishShopInv extends AbstractContainerMenu {
                         boolean canAddToInputSlots = canAddToInputSlots(stack);
                         if (!canAddToInputSlots) {
                             PlayerMessageManager.sendMessageOnce(Minecraft.getInstance().player,
-                                    new TranslatableComponent("message.treasure_seas.exceed_max_emeralds"));
+                                    new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
                         }
                         return canAddToInputSlots;
                     }
@@ -133,25 +133,62 @@ public class FishShopInv extends AbstractContainerMenu {
     }
 
     private boolean canAddToInputSlots(ItemStack stack) {
-        int currentEmeraldCount = calculateTotalEmeralds();
-        int stackEmeraldValue = calculateEmeraldValue(stack);
-        return (currentEmeraldCount + stackEmeraldValue) <= MAX_OUTPUT;
+        // Calculate the current total outputs value in the input slots.
+        int currentOutputCount = calculateTotalOutputs();
+
+        // Calculate how much value the new stack will add.
+        int stackOutputValue = calculateOutputValue(stack);
+
+        // Combine current value with the new stack value.
+        int totalOutputCount = currentOutputCount + stackOutputValue;
+
+        // Check the required number of slots for the total value including non-9-stackable items.
+        int requiredOutputSlots = calculateRequiredSlotsForOutput(totalOutputCount, stack);
+
+        // If required slots exceed the available output slots, return false and display a warning.
+        if (requiredOutputSlots > outputSlots.getContainerSize()) {
+            PlayerMessageManager.sendMessageOnce(Minecraft.getInstance().player,
+                    new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
+            return false;
+        }
+
+        return true;
+    }
+    private int calculateRequiredSlotsForOutput(int outputCount, ItemStack stack) {
+        int totalSlotsNeeded = 0;
+
+        // Handle the case for 9-stackable items like emeralds and emerald blocks.
+        int outputBlockCount = outputCount / 9;
+        int remainingOutputs = outputCount % 9;
+
+        // Each slot can hold up to 64 output blocks.
+        totalSlotsNeeded += (int) Math.ceil((double) outputBlockCount / 64);
+
+        // Handle the case for non-9-stackable items (normal 64-stack items like carrots).
+        if (!this.isNineStackItem) {
+            totalSlotsNeeded += (int) Math.ceil((double) stack.getCount() / 64);
+        } else {
+            // Handle any remaining outputs that couldn't be stacked into blocks.
+            totalSlotsNeeded += (int) Math.ceil((double) remainingOutputs / 64);
+        }
+
+        return totalSlotsNeeded;
     }
 
-    private int calculateTotalEmeralds() {
-        int totalEmeralds = 0;
+    private int calculateTotalOutputs() {
+        int totalOutputs = 0;
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             ItemStack itemStack = inputSlots.getItem(i);
-            totalEmeralds += calculateEmeraldValue(itemStack);
+            totalOutputs += calculateOutputValue(itemStack);
         }
-        return totalEmeralds;
+        return totalOutputs;
     }
 
-    private int calculateEmeraldValue(ItemStack stack) {
-        return calculateEmeraldValueForSingleItem(stack) * stack.getCount();
+    private int calculateOutputValue(ItemStack stack) {
+        return calculateOutputValueForSingleItem(stack) * stack.getCount();
     }
 
-    private int calculateEmeraldValueForSingleItem(ItemStack stack) {
+    private int calculateOutputValueForSingleItem(ItemStack stack) {
         ResourceLocation registryName = stack.getItem().getRegistryName();
         if (registryName != null) {
             String namespace = registryName.getNamespace();
@@ -182,21 +219,21 @@ public class FishShopInv extends AbstractContainerMenu {
     }
 
     private void updateOutputSlots() {
-        int itemCount = calculateTotalEmeralds();
-        // Fill output slots with emerald blocks first, then emeralds
+        int itemCount = calculateTotalOutputs();
+        // Fill output slots with output 9-stack blocks first, then output items
         if (this.isNineStackItem) {
-            int emeraldBlockCount = itemCount / 9;
-            int emeraldCount = itemCount % 9;
+            int outputBlockCount = itemCount / 9;
+            int outputCount = itemCount % 9;
             for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
-                if (emeraldBlockCount > 0) {
+                if (outputBlockCount > 0) {
                     // Up to 64 blocks per slot
-                    int countToPlace = Math.min(emeraldBlockCount, 64);
+                    int countToPlace = Math.min(outputBlockCount, 64);
                     outputSlots.setItem(i, new ItemStack(NINE_STACK_ITEMS.get(this.outputItem), countToPlace));
-                    emeraldBlockCount -= countToPlace;
-                } else if (emeraldCount > 0) {
-                    outputSlots.setItem(i, new ItemStack(this.outputItem, emeraldCount));
-                    // All remaining emeralds placed
-                    emeraldCount = 0;
+                    outputBlockCount -= countToPlace;
+                } else if (outputCount > 0) {
+                    outputSlots.setItem(i, new ItemStack(this.outputItem, outputCount));
+                    // All remaining output items placed
+                    outputCount = 0;
                 } else {
                     // Clear remaining slots
                     outputSlots.setItem(i, ItemStack.EMPTY);
@@ -378,18 +415,18 @@ public class FishShopInv extends AbstractContainerMenu {
                 }
             } else {
                 // Moving from player inventory to input slots
-                // Calculate the total emerald value if this item stack is added
-                int currentEmeraldCount = calculateTotalEmeralds();
-                int stackEmeraldValue = calculateEmeraldValue(stackInSlot);
-                if (currentEmeraldCount + stackEmeraldValue <= MAX_OUTPUT) {
-                    // Only move if it won't exceed MAX_EMERALDS
+                // Calculate the total outputs value if this item stack is added
+                int currentOutputCount = calculateTotalOutputs();
+                int stackOutputValue = calculateOutputValue(stackInSlot);
+                if (currentOutputCount + stackOutputValue <= MAX_OUTPUT) {
+                    // Only move if it won't exceed MAX_OUTPUTS
                     if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
-                    // If adding would exceed the max emeralds, do not move
+                    // If adding would exceed the max outputs, do not move
                     PlayerMessageManager.sendMessageOnce(player,
-                            new TranslatableComponent("message.treasure_seas.exceed_max_emeralds"));
+                            new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
                     return ItemStack.EMPTY;
                 }
             }

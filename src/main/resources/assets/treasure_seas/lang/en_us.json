@@ -88,5 +88,5 @@
   "advancement.treasure_seas.co_fishing.title": "Fishing together!",
   "advancement.treasure_seas.co_fishing.description": "sitting together with your friends, and fishing!",
   "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment",
-  "message.treasure_seas.exceed_max_emeralds": "The item you are moving exceeds the max allowed emeralds under the current shop's output"
+  "message.treasure_seas.exceed_max_outputs": "The item you are moving exceeds the max allowed emeralds under the current shop's output"
 }
