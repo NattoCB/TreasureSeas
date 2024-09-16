@@ -2,6 +2,11 @@ package io.github.nattocb.treasure_seas.config;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
 import java.io.InputStream;
@@ -11,6 +16,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
+/**
+ * todo 测试 client side config 是从服务端加载还是从客户端加载
+ * todo client config 在 server 不创建和检查，从 server 运行 reload 命令也不要生效
+ */
 public class FishConfigManager {
 
     /**
@@ -40,9 +49,13 @@ public class FishConfigManager {
      */
 
     private boolean hudFishingInfoEnable;
+
     private boolean hudFishingInfoEnableCustomPosition;
+
     private int hudFishingInfoCustomX;
+
     private int hudFishingInfoCustomY;
+
     private boolean logDebugModeEnable;
 
     public boolean isHudFishingInfoEnable() {
@@ -66,9 +79,11 @@ public class FishConfigManager {
     public void setHudFishingInfoCustomX(int value) {
         hudFishingInfoCustomX = value;
     }
+
     public void setHudFishingInfoCustomY(int value) {
         hudFishingInfoCustomY = value;
     }
+
     public boolean isHudFishingInfoEnableCustomPosition() {
         return hudFishingInfoEnableCustomPosition;
     }
@@ -84,6 +99,21 @@ public class FishConfigManager {
     public boolean isLogDebugModeEnable() {
         return logDebugModeEnable;
     }
+
+
+    /**
+     * server-config
+     */
+    private Item shopOutputItem;
+
+    public Item getShopOutputItem() {
+        return shopOutputItem;
+    }
+
+    public void setShopOutputItem(Item shopOutputItem) {
+        this.shopOutputItem = shopOutputItem;
+    }
+
 
     /**
      * config-init
@@ -140,6 +170,37 @@ public class FishConfigManager {
             TreasureSeas.getLogger().info("Client configuration loaded successfully.");
         } catch (Exception e) {
             TreasureSeas.getLogger().error("Failed to load client configuration: " + e.getMessage());
+        }
+    }
+
+    public void loadServerConfig() {
+        String clientConfigFilePath = "config/treasureseas-server.properties";
+        Path clientConfigPath = new File(clientConfigFilePath).toPath();
+        preCheckConfigExistence(clientConfigPath, clientConfigFilePath);
+        // Load properties file
+        Properties clientProperties = new Properties();
+        try (InputStream inputStream = Files.newInputStream(clientConfigPath)) {
+            clientProperties.load(inputStream);
+            // Parse, check, and assign the property #1 shop.output_item
+            String temp = clientProperties.getProperty("shop.output_item",  "minecraft:emerald");
+            String[] split = temp.split(":");
+            if (split.length < 2) {
+                throw new RuntimeException("fail to load custom shop output, invalid itemName: " + temp + ", correct format: {modId}:{itemName} e.g. minecraft:emerald");
+            }
+            String modNamespace = split[0];
+            String itemName = split[1];
+            if (!ModList.get().isLoaded(modNamespace)) {
+                throw new RuntimeException("fail to load custom shop output, target mod " + modNamespace + " was not loaded into FML");
+            }
+            ResourceLocation itemLocation = new ResourceLocation(modNamespace, itemName);
+            if (!ForgeRegistries.ITEMS.containsKey(itemLocation)) {
+                throw new RuntimeException("fail to load custom shop output, target item " + itemName + " was not loaded into FML");
+            }
+            this.shopOutputItem = ForgeRegistries.ITEMS.getValue(itemLocation);
+            TreasureSeas.getLogger().info("Server configuration loaded successfully.");
+        } catch (Exception e) {
+            this.shopOutputItem = Items.EMERALD;
+            TreasureSeas.getLogger().error("Failed to load server configuration: " + e.getMessage());
         }
     }
 

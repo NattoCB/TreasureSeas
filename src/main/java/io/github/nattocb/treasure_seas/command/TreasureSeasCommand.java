@@ -45,6 +45,7 @@ public class TreasureSeasCommand {
         long startTs = System.currentTimeMillis();
         FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
         configManager.loadCommonConfig();
+        configManager.loadServerConfig();
         source.sendSuccess(new TextComponent("TreasureSeas common configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
         return 1;
     }
