@@ -2,7 +2,6 @@ package io.github.nattocb.treasure_seas.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
