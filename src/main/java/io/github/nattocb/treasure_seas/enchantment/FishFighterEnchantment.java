@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.entity.EquipmentSlot;
+import org.jetbrains.annotations.NotNull;
 
 public class FishFighterEnchantment extends Enchantment {
 
@@ -14,7 +15,7 @@ public class FishFighterEnchantment extends Enchantment {
 
     @Override
     public int getMinCost(int enchantmentLevel) {
-        return 15;
+        return 1;
     }
 
     @Override
@@ -28,8 +29,8 @@ public class FishFighterEnchantment extends Enchantment {
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return stack.getItem() instanceof FishingRodItem && getMaxLevel() == 1;
+    public boolean canApplyAtEnchantingTable(@NotNull ItemStack stack) {
+        return super.canApplyAtEnchantingTable(stack) && stack.getItem() instanceof FishingRodItem;
     }
 
     @Override
