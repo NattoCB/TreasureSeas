@@ -1,12 +1,13 @@
 package io.github.nattocb.treasure_seas.eventsubscriber;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.config.RewardType;
+import io.github.nattocb.treasure_seas.RewardType;
 import io.github.nattocb.treasure_seas.packet.FishFightPacket;
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -51,9 +52,21 @@ public class FishingRodHandler {
         FishWrapper.AllowedWeather currentWeather = FishUtils.getCurrentWeatherEnum(world);
         String biomeFullName = FishUtils.getBiomeFullName(event, world);
         FishWrapper.AllowedTime currentTime = FishUtils.getCurrentTimeEnum(world);
+
         int waterDepth = FishUtils.calculateFluidDepth(event.getHookEntity().getOnPos(), event.getHookEntity().getLevel());
         int depthCapacity = FishUtils.getRodDepthCapacity(FishUtils.getFishRodFighterEnchantLevel(player));
-        int maxDepthAllowed = Math.min(waterDepth, depthCapacity);
+        depthCapacity = Math.min(waterDepth, depthCapacity);
+        // if fetched userPreferred depth successfully, use the one user preferred
+        ItemStack fishingRod = FishUtils.getFishRodItemFromInv(player);
+        int userPreferredDepth = 0;
+        if (fishingRod != null) {
+            CompoundTag nbtData = fishingRod.getOrCreateTag();
+            userPreferredDepth = nbtData.getInt("preferredDepth");
+            userPreferredDepth = Math.min(waterDepth, userPreferredDepth);
+        }
+        depthCapacity = userPreferredDepth == 0 ? depthCapacity : userPreferredDepth;
+        int finalDepth = depthCapacity;
+
         BlockPos hookPos = event.getHookEntity().blockPosition();
         boolean isCave = FishUtils.isCave(world, hookPos);
 
@@ -61,19 +74,19 @@ public class FishingRodHandler {
         TreasureSeas.getLogger().dev("configs count: " + TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().size());
         TreasureSeas.getLogger().dev("biomeFullName:{}, worldName:{}, currentWeather:{}, currentTime:{}, " +
                         "enchantmentLevel:{}, maxDepthAllowed:{}, isCave:{}",
-                biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel, maxDepthAllowed, isCave);
+                biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel, finalDepth, isCave);
         List<FishWrapper> matchingFishes = switch (rewardType) {
             case JUNK -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
-                            maxDepthAllowed, isCave, true, false, false))
+                            finalDepth, isCave, true, false, false))
                     .toList();
             case TREASURE -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
-                            maxDepthAllowed, isCave, false, true, false))
+                            finalDepth, isCave, false, true, false))
                     .toList();
             case ULTIMATE_TREASURE -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
-                            maxDepthAllowed, isCave, false, false, true))
+                            finalDepth, isCave, false, false, true))
                     .toList();
             // FISH
             default -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
@@ -81,7 +94,7 @@ public class FishingRodHandler {
                             {
                                 TreasureSeas.getLogger().dev("try matching fish: " + fish.getModNamespace() + ":" + fish.getFishItemName());
                                 return fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
-                                        maxDepthAllowed, isCave, false, false, false);
+                                        finalDepth, isCave, false, false, false);
                             }
                     )
                     .toList();

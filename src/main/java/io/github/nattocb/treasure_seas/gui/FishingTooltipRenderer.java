@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -73,6 +74,8 @@ public class FishingTooltipRenderer extends GuiComponent {
 
         // 如果找到最近的鱼钩，则渲染工具提示
         closestHook.ifPresent(hook -> {
+            // 即便找到附近有鱼钩，也强制渲染自己的鱼钩，避免渲染其他玩家在自己身边的鱼钩
+            hook = player.fishing == null ? hook : player.fishing;
             List<ClientTooltipComponent> components = generateTooltipComponents(player, hook);
             renderTooltipInternal(poseStack, posX, posY, components);
         });
@@ -169,10 +172,14 @@ public class FishingTooltipRenderer extends GuiComponent {
 
 
     private static List<ClientTooltipComponent> generateTooltipComponents(Player player, FishingHook hook) {
-
+        ItemStack fishingRod = FishUtils.getFishRodItemFromInv(player);
         int fishRodEnchantLevel = FishUtils.getFishRodFighterEnchantLevel(player);
         int waterDepth = FishUtils.calculateFluidDepth(hook.getOnPos(), hook.getLevel());
-        int depthCapacity = FishUtils.getRodDepthCapacity(fishRodEnchantLevel);
+        int rodDepth = FishUtils.getRodDepthCapacity(fishRodEnchantLevel);
+        if (fishingRod != null) {
+            CompoundTag nbtData = fishingRod.getOrCreateTag();
+            rodDepth = nbtData.getInt("preferredDepth");
+        }
         Biome biome = hook.getLevel().getBiome(hook.getOnPos()).value();
         ResourceLocation biomeRes = hook.getLevel().registryAccess().registryOrThrow(ForgeRegistries.Keys.BIOMES).getKey(biome);
 
@@ -181,7 +188,7 @@ public class FishingTooltipRenderer extends GuiComponent {
             textComponents = List.of(
                     new TranslatableComponent("tooltip.fishing_hook"),
                     new TranslatableComponent("tooltip.water_depth", waterDepth),
-                    new TranslatableComponent("tooltip.depth_capacity", Math.min(depthCapacity, waterDepth))
+                    new TranslatableComponent("tooltip.depth_capacity", Math.min(rodDepth, waterDepth))
             );
         } else {
             String biomeName = biomeRes == null ? "unknown" : biomeRes.getPath();
@@ -191,7 +198,7 @@ public class FishingTooltipRenderer extends GuiComponent {
             textComponents = List.of(
                     new TranslatableComponent("tooltip.fishing_hook2", fluidAreaInfo),
                     new TranslatableComponent("tooltip.water_depth", waterDepth),
-                    new TranslatableComponent("tooltip.depth_capacity", Math.min(depthCapacity, waterDepth)),
+                    new TranslatableComponent("tooltip.depth_capacity", Math.min(rodDepth, waterDepth)),
                     new TranslatableComponent("tooltip.biome", biomeName)
             );
         }

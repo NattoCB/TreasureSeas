@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas;
 
 import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.enchantment.FishFighterEnchantment;
-import io.github.nattocb.treasure_seas.gui.ModConfigScreen;
+import io.github.nattocb.treasure_seas.config.ModConfigScreen;
 import io.github.nattocb.treasure_seas.registry.*;
 import io.github.nattocb.treasure_seas.proxy.ClientProxy;
 import io.github.nattocb.treasure_seas.proxy.CommonProxy;

@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.config;
+package io.github.nattocb.treasure_seas;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;

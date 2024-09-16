@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.utils;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
-import io.github.nattocb.treasure_seas.config.RewardType;
+import io.github.nattocb.treasure_seas.RewardType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -292,7 +293,6 @@ public class FishUtils {
         return RewardType.FISH;
     }
 
-
     @NotNull
     public static ListTag addFishCountLoreIntoItem(@NotNull ListTag loreList, int count, int nextLvlExp) {
         StringTag countLore;
@@ -321,6 +321,20 @@ public class FishUtils {
             loreList.set(0, countLore);
         }
         return loreList;
+    }
+
+    public static boolean isPlayerFishing(@NotNull Player player) {
+        return player.fishing != null && player.fishing.isAlive();
+    }
+
+    /**
+     * 获取玩家正在使用的鱼钩实体（钓鱼漂）。
+     *
+     * @param player 玩家实例
+     * @return 如果玩家正在钓鱼，返回钓鱼漂实体；否则返回 null。
+     */
+    public static FishingHook getPlayerFishingHook(Player player) {
+        return player.fishing;
     }
 
 }

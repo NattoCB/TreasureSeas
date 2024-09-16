@@ -5,7 +5,7 @@ import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.enchantment.FishingRodUpgradeRequirement;
 import io.github.nattocb.treasure_seas.item.FireproofItemEntity;
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
-import io.github.nattocb.treasure_seas.config.FishRarity;
+import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
 import io.github.nattocb.treasure_seas.utils.ItemUtils;
 import io.github.nattocb.treasure_seas.utils.MathUtils;

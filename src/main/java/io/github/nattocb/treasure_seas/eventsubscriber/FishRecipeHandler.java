@@ -1,6 +1,6 @@
 package io.github.nattocb.treasure_seas.eventsubscriber;
 
-import io.github.nattocb.treasure_seas.config.FishRarity;
+import io.github.nattocb.treasure_seas.FishRarity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;

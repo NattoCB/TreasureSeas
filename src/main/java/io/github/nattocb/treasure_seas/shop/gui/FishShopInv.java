@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.shop.gui;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
-import io.github.nattocb.treasure_seas.config.FishRarity;
+import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
 import net.minecraft.client.Minecraft;

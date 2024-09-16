@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.gui;
+package io.github.nattocb.treasure_seas.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
