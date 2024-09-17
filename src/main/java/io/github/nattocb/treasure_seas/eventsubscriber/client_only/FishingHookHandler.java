@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.eventsubscriber;
+package io.github.nattocb.treasure_seas.eventsubscriber.client_only;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
@@ -7,7 +7,6 @@ import io.github.nattocb.treasure_seas.gui.FishingTooltipRenderer;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
 import io.github.nattocb.treasure_seas.utils.HudDisplayManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;

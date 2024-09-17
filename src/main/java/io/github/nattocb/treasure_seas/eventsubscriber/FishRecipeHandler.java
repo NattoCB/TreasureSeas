@@ -1,6 +1,7 @@
 package io.github.nattocb.treasure_seas.eventsubscriber;
 
 import io.github.nattocb.treasure_seas.FishRarity;
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -13,24 +14,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.ItemSmeltedEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
  * 如果用模组鱼烹饪、合成，则携带 nbt 到输出物品
+ * todo 为什么出来都是普通？
  */
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class FishRecipeHandler {
+
     @SubscribeEvent
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         handleItemTransfer(event.getCrafting(), event.getInventory());
-    }
-
-    @SubscribeEvent
-    public static void onItemSmelted(ItemSmeltedEvent event) {
-        ItemStack smeltedItem = event.getSmelting();
-        handleItemTransfer(smeltedItem, null);
     }
 
     private static void handleItemTransfer(ItemStack output, Container craftMatrix) {
@@ -56,17 +52,6 @@ public class FishRecipeHandler {
                     if (tag.getBoolean("isShiny")) {
                         isShiny = true;
                     }
-                }
-            }
-        } else {
-            // Handle smelting event; assume the output was directly influenced by a single input
-            CompoundTag tag = output.getTag();
-            if (tag != null) {
-                if (tag.contains("rarity")) {
-                    highestRarity = FishRarity.valueOf(tag.getString("rarity"));
-                }
-                if (tag.getBoolean("isShiny")) {
-                    isShiny = true;
                 }
             }
         }

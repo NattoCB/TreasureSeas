@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.eventsubscriber;
+package io.github.nattocb.treasure_seas.eventsubscriber.client_only;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, value = Dist.CLIENT)
 public class MouseEventHandler {
+
     private static boolean isMouseClicked = false;
 
     @SubscribeEvent

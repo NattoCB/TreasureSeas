@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.gui;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.eventsubscriber.MouseEventHandler;
+import io.github.nattocb.treasure_seas.eventsubscriber.client_only.MouseEventHandler;
 import io.github.nattocb.treasure_seas.packet.FishFightResultPacket;
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
 import io.github.nattocb.treasure_seas.config.FishWrapper;

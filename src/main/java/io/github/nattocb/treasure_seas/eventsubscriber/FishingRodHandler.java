@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Main event handler for fish fighter
  */
-@Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID)
+@Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class FishingRodHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
