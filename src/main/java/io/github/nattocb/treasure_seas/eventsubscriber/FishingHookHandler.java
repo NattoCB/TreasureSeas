@@ -5,9 +5,11 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.gui.FishingTooltipRenderer;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
+import io.github.nattocb.treasure_seas.utils.HudDisplayManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
@@ -63,11 +65,6 @@ public class FishingHookHandler {
      */
 
     private static boolean wasFishing = false;
-    private static String hudMessage = null;
-    private static int hudTickCounter = 0;
-    private static final int HUD_DISPLAY_DURATION_TICKS = 65;
-    private static final int HUD_FADE_OUT_START_TICK = 42;
-    private static float hudAlpha = 1.0f;
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
@@ -75,54 +72,20 @@ public class FishingHookHandler {
         if (mc.player == null) return;
         boolean isFishingNow = FishUtils.isPlayerFishing(mc.player);
         if (!isFishingNow) {
-            // 停止钓鱼时清除信息
+            // Player has stopped fishing
             wasFishing = false;
-            clearHudMessage();
             return;
         }
         int enchantmentLevel = FishUtils.getFishRodFighterEnchantLevel(mc.player);
         if (enchantmentLevel == 0) return;
         if (!wasFishing) {
-            // 玩家刚刚开始垂钓，设置 HUD
-            hudMessage = new TranslatableComponent("message.use.scroll").getString();
-            hudTickCounter = 0;
-            hudAlpha = 1.0f;
-        }
-        hudTickCounter++;
-        // 从 FADE_OUT_START 之后开始逐渐减少透明度
-        if (hudTickCounter >= HUD_FADE_OUT_START_TICK && hudTickCounter <= HUD_DISPLAY_DURATION_TICKS) {
-            float fadeProgress = (float)(hudTickCounter - HUD_FADE_OUT_START_TICK) / (HUD_DISPLAY_DURATION_TICKS - HUD_FADE_OUT_START_TICK);
-            hudAlpha = 1.0f - fadeProgress;
-        }
-        // 清除 HUD 信息
-        if (hudTickCounter > HUD_DISPLAY_DURATION_TICKS) {
-            clearHudMessage();
+            // Player just started fishing, display the HUD message
+            Component message = new TranslatableComponent("message.use.scroll");
+            int totalDuration = 65;
+            int fadeOutStartTick = 42;
+            HudDisplayManager.showHudMessage(message, totalDuration, fadeOutStartTick);
         }
         wasFishing = true;
-    }
-    @SubscribeEvent
-    public static void onRenderGameOverlay(RenderGameOverlayEvent.Text event) {
-        Minecraft mc = Minecraft.getInstance();
-        PoseStack poseStack = event.getMatrixStack();
-        String message = FishingHookHandler.getHudMessage();
-        if (message != null && mc.player != null) {
-            int screenWidth = mc.getWindow().getGuiScaledWidth();
-            int screenHeight = mc.getWindow().getGuiScaledHeight();
-            int textWidth = mc.font.width(message);
-            int yPosition = screenHeight - 55;
-            int alphaValue = (int)(hudAlpha * 255.0f) << 24;
-            int color = 0xFFFFFF | alphaValue;
-            GuiComponent.drawString(poseStack, mc.font, message, (screenWidth - textWidth) / 2, yPosition, color);
-        }
-    }
-    public static String getHudMessage() {
-        return hudMessage;
-    }
-    public static void clearHudMessage() {
-        // 先清空内容
-        hudMessage = null;
-        // 再重置透明度
-        hudAlpha = 1.0f;
     }
 
 
