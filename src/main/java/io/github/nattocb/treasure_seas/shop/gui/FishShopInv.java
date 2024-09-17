@@ -5,7 +5,6 @@ import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -72,9 +71,9 @@ public class FishShopInv extends AbstractContainerMenu {
                 this.addSlot(new Slot(inputSlots, j + i * INPUT_SLOT_COLS, 8 + j * 18, 18 + i * 18) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
-                        boolean canAddToInputSlots = canAddToInputSlots(stack);
+                        boolean canAddToInputSlots = canAddToInputSlots(stack, playerInventory.player);
                         if (!canAddToInputSlots) {
-                            PlayerMessageManager.sendMessageOnce(Minecraft.getInstance().player,
+                            PlayerMessageManager.sendMessageOnce(playerInventory.player,
                                     new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
                         }
                         return canAddToInputSlots;
@@ -132,7 +131,7 @@ public class FishShopInv extends AbstractContainerMenu {
         updateOutputSlots();
     }
 
-    private boolean canAddToInputSlots(ItemStack stack) {
+    private boolean canAddToInputSlots(ItemStack stack, Player player) {
         // Calculate the current total outputs value in the input slots.
         int currentOutputCount = calculateTotalOutputs();
 
@@ -147,7 +146,7 @@ public class FishShopInv extends AbstractContainerMenu {
 
         // If required slots exceed the available output slots, return false and display a warning.
         if (requiredOutputSlots > outputSlots.getContainerSize()) {
-            PlayerMessageManager.sendMessageOnce(Minecraft.getInstance().player,
+            PlayerMessageManager.sendMessageOnce(player,
                     new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
             return false;
         }
