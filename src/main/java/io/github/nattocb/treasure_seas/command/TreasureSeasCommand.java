@@ -11,8 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -25,9 +27,6 @@ public class TreasureSeasCommand {
 
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treasureseas")
                 .then(Commands.literal("reload")
-                        .then(Commands.literal("client")
-                                .requires(source -> source.hasPermission(0))
-                                .executes(context -> reloadClient(context.getSource())))
                         .then(Commands.literal("common")
                                 .requires(source -> source.hasPermission(2))
                                 .executes(context -> reloadCommon(context.getSource()))))
@@ -49,15 +48,7 @@ public class TreasureSeasCommand {
         source.sendSuccess(new TextComponent("TreasureSeas common configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
         return 1;
     }
-
-    private static int reloadClient(CommandSourceStack source) {
-        long startTs = System.currentTimeMillis();
-        FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
-        configManager.loadClientConfig();
-        source.sendSuccess(new TextComponent("TreasureSeas client configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);
-        return 1;
-    }
-
+    
     private static int logBiomes(CommandSourceStack source) {
         TreasureSeas.getLogger().info("Logging all registered biomes:");
         for (Biome biome : ForgeRegistries.BIOMES) {

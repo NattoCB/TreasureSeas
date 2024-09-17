@@ -18,9 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 
 /**
  * 如果用模组鱼烹饪、合成，则携带 nbt 到输出物品
- * todo 为什么出来都是普通？
  */
-
 @Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class FishRecipeHandler {
 

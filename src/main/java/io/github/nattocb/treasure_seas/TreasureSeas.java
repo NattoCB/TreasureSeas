@@ -10,6 +10,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -69,6 +70,11 @@ public class TreasureSeas {
         fishConfigManager = new FishConfigManager();
         fishConfigManager.loadCommonConfig();
         fishConfigManager.loadServerConfig();
+    }
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        // 只在客户端加载 client 配置
         fishConfigManager.loadClientConfig();
     }
 
