@@ -15,6 +15,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -47,7 +48,7 @@ public class FishShopInventory extends AbstractContainerMenu {
 
     private final Container inputSlots = new SimpleContainer(INPUT_SLOT_ROWS * INPUT_SLOT_COLS);
     private final Container outputSlots = new SimpleContainer(OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS);
-    private static int MAX_OUTPUT = 64 * OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
+    private int MAX_OUTPUT;
     private boolean isNineStackableOutput;
     private final Item outputItem;
 
@@ -56,8 +57,9 @@ public class FishShopInventory extends AbstractContainerMenu {
 
         // check config
         Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
+        this.MAX_OUTPUT = 64 * OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
         if (NINE_STACK_ITEMS.containsKey(shopOutputItem)) {
-            MAX_OUTPUT *= 9;
+            this.MAX_OUTPUT *= 9;
             this.isNineStackableOutput = true;
         }
         this.outputItem = shopOutputItem;
@@ -69,19 +71,21 @@ public class FishShopInventory extends AbstractContainerMenu {
                 this.addSlot(new Slot(inputSlots, j + i * INPUT_SLOT_COLS, 8 + j * 18, 18 + i * 18) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack itemStack) {
-                        int totalInputValuesBeforeAdd = calculateTotalInputValues();
+                        int totalValuesBeforeAdd = calculateTotalInputValues();
                         int totalValuesToAdd = calculateItemStackValues(itemStack);
-                        int totalInputValueAfterAdd = totalInputValuesBeforeAdd + totalValuesToAdd;
-                        int requiredOutputSlots = calculateRequiredSlotsForOutput(totalInputValueAfterAdd, itemStack);
-                        boolean canAddToInputSlots = requiredOutputSlots <= outputSlots.getContainerSize();
-                        if (!canAddToInputSlots) {
+                        boolean canAdd = totalValuesBeforeAdd + totalValuesToAdd <= MAX_OUTPUT;
+                        if (!canAdd) {
                             PlayerMessageManager.sendMessageOnce(playerInventory.player, new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
                         }
-                        return canAddToInputSlots;
+                        return canAdd;
                     }
-                    // todo 如果正在往 input slot 同 itemStack 放入 new itemStack 时超限，onTake 是否会触发？
                     @Override
                     public void setChanged() {
+                        if (calculateTotalInputValues() >= MAX_OUTPUT) {
+                            TreasureSeas.getLogger().dev("setChanged： cur value: {}/{} setChanged interrupted", calculateTotalInputValues(), MAX_OUTPUT);
+                            return;
+                        }
+                        TreasureSeas.getLogger().dev("setChanged: cur value: {}/{}", calculateTotalInputValues(), MAX_OUTPUT);
                         super.setChanged();
                         updateOutputSlots();
                     }
@@ -107,7 +111,6 @@ public class FishShopInventory extends AbstractContainerMenu {
                         // 批量转移绿宝石结果
                         handleOutputTaken(player);
                         // 确保鼠标指针上的物品也执行一次背包转移判断，而不是直接被玩家拿到
-                        // todo 如果鼠标指针上已经有物品，再点击会发生什么
                         handleCursorItem(player, stack);
                         player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.VILLAGER_YES, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
@@ -130,27 +133,6 @@ public class FishShopInventory extends AbstractContainerMenu {
 
         // Initialize the output slots
         updateOutputSlots();
-    }
-
-    private int calculateRequiredSlotsForOutput(int outputCount, ItemStack stack) {
-        int totalSlotsNeeded = 0;
-
-        // Handle the case for 9-stackable items like emeralds and emerald blocks.
-        int outputBlockCount = outputCount / 9;
-        int remainingOutputs = outputCount % 9;
-
-        // Each slot can hold up to 64 output blocks.
-        totalSlotsNeeded += (int) Math.ceil((double) outputBlockCount / 64);
-
-        // Handle the case for non-9-stackable items (normal 64-stack items like carrots).
-        if (!this.isNineStackableOutput) {
-            totalSlotsNeeded += (int) Math.ceil((double) stack.getCount() / 64);
-        } else {
-            // Handle any remaining outputs that couldn't be stacked into blocks.
-            totalSlotsNeeded += (int) Math.ceil((double) remainingOutputs / 64);
-        }
-
-        return totalSlotsNeeded;
     }
 
     private int calculateTotalInputValues() {
@@ -361,12 +343,10 @@ public class FishShopInventory extends AbstractContainerMenu {
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
         if (slot.hasItem()) {
             ItemStack stackInSlot = slot.getItem();
-            itemstack = stackInSlot.copy();
 
             int inputSlotEnd = INPUT_SLOT_ROWS * INPUT_SLOT_COLS;
             int outputSlotStart = inputSlotEnd;
@@ -377,30 +357,22 @@ public class FishShopInventory extends AbstractContainerMenu {
             if (index >= outputSlotStart && index < outputSlotEnd) {
                 // Shift-click from output slots should act like a normal left-click
                 // or else the items from output slot would be moved into the input slots
+                TreasureSeas.getLogger().dev("ShopMove: oupS->pInv");
                 Slot outputSlot = this.slots.get(index);
                 ItemStack takenStack = outputSlot.remove(outputSlot.getMaxStackSize()); // Take the entire stack
                 outputSlot.onTake(player, takenStack);  // Trigger the normal left-click behavior
                 return takenStack;
             } else if (index < inputSlotEnd) {
-                // Moving from input slots to player inventory
+                // inputSlot -> pInv
+                TreasureSeas.getLogger().dev("ShopMove: InpS->pInv");
                 if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, playerInventoryEnd, true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                // Moving from player inventory to input slots
-                // Calculate the total outputs value if this item stack is added
-                int currentOutputCount = calculateTotalInputValues();
-                int stackOutputValue = calculateItemStackValues(stackInSlot);
-                if (currentOutputCount + stackOutputValue <= MAX_OUTPUT) {
-                    // Only move if it won't exceed MAX_OUTPUTS
-                    if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {
+                // pInv -> inputSlot
+                TreasureSeas.getLogger().dev("ShopMove: pInv->InpS");
+                if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {
                         return ItemStack.EMPTY;
-                    }
-                } else {
-                    // If adding would exceed the max outputs, do not move
-                    PlayerMessageManager.sendMessageOnce(player,
-                            new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
-                    return ItemStack.EMPTY;
                 }
             }
 
@@ -410,7 +382,87 @@ public class FishShopInventory extends AbstractContainerMenu {
                 slot.setChanged();
             }
         }
-        return itemstack;
+        return ItemStack.EMPTY;
     }
+    @Override
+    public @NotNull void clicked(int slotId, int dragType, @NotNull ClickType clickType, @NotNull Player player) {
+        // 获取当前点击的 Slot
+        Slot slot = slotId >= 0 && slotId < this.slots.size() ? this.slots.get(slotId) : null;
+
+        // 输入槽位的范围
+        int inputSlotStart = 0;
+        int inputSlotEnd = INPUT_SLOT_ROWS * INPUT_SLOT_COLS;
+        int playerInventoryStart = inputSlotEnd + OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
+        int hotbarSlotStart = playerInventoryStart + PLAYER_INV_ROWS * PLAYER_INV_COLS;
+        int hotbarSlotEnd = hotbarSlotStart + HOTBAR_SLOTS;
+
+        ItemStack carriedStack = this.getCarried();
+
+        // 检查是否点击了有效的槽位
+        if (slot != null && slotId >= 0) {
+            // （1）鼠标左键点击 input slots
+            if (clickType == ClickType.PICKUP && dragType == 0 && slotId >= inputSlotStart && slotId < inputSlotEnd) {
+                TreasureSeas.getLogger().dev("Left-click on input slot: carriedStack: {}, clickedStack: {}", carriedStack, slot.getItem());
+                if (carriedStack.getItem() != Items.AIR) {
+                    int totalValuesBeforeAdd = calculateTotalInputValues();
+                    int totalValuesToAdd = calculateItemStackValues(carriedStack);
+                    TreasureSeas.getLogger().dev("Left-click on input slot: totalValuesBeforeAdd: {}, totalValuesToAdd: {}, MAX_OUTPUT: {}", totalValuesBeforeAdd, totalValuesToAdd, MAX_OUTPUT);
+                    if (totalValuesBeforeAdd + totalValuesToAdd > MAX_OUTPUT) {
+                        PlayerMessageManager.sendMessageOnce(player, new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
+                        return;
+                    }
+                }
+            }
+
+            // （2）鼠标右键点击 input slots
+            else if (clickType == ClickType.PICKUP && dragType == 1 && slotId >= inputSlotStart && slotId < inputSlotEnd) {
+                TreasureSeas.getLogger().dev("Right-click on input slot: carriedStack: {}, clickedStack: {}", carriedStack, slot.getItem());
+                if (carriedStack.getItem() != Items.AIR) {
+                    int totalValuesBeforeAdd = calculateTotalInputValues();
+                    int totalValuesToAdd = calculateSingleItemValue(carriedStack);
+                    TreasureSeas.getLogger().dev("Right-click on input slot: totalValuesBeforeAdd: {}, totalValuesToAdd: {}, MAX_OUTPUT: {}", totalValuesBeforeAdd, totalValuesToAdd, MAX_OUTPUT);
+                    if (totalValuesBeforeAdd + totalValuesToAdd > MAX_OUTPUT) {
+                        PlayerMessageManager.sendMessageOnce(player, new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
+                        return;
+                    }
+                }
+            }
+
+            // （3）鼠标 shift + 左键点击 player inv 或 hotbar slots
+            else if (clickType == ClickType.QUICK_MOVE && dragType == 0) {
+                if (slotId >= playerInventoryStart && slotId < hotbarSlotEnd) {
+                    String slotType = (slotId >= hotbarSlotStart) ? "Hotbar" : "Player inventory";
+                    TreasureSeas.getLogger().dev("Shift + left-click on " + slotType + " slot: carriedStack: {}, clickedStack: {}", carriedStack, slot.getItem());
+                    int totalValuesBeforeAdd = calculateTotalInputValues();
+                    ItemStack clickedItemStack = slot.getItem();
+                    int totalValuesToAdd = calculateItemStackValues(clickedItemStack);
+                    TreasureSeas.getLogger().dev("Shift + left-click on " + slotType + " slot: totalValuesBeforeAdd {}, totalValuesToAdd: {}, MAX_OUTPUT: {}", totalValuesBeforeAdd, totalValuesToAdd, MAX_OUTPUT);
+                    if (totalValuesBeforeAdd + totalValuesToAdd > MAX_OUTPUT) {
+                        int availableValueToAdd = MAX_OUTPUT - totalValuesBeforeAdd;
+                        int singleItemValue = calculateSingleItemValue(clickedItemStack);
+                        if (singleItemValue > 0) {
+                            int availableCntToAdd = availableValueToAdd / singleItemValue;
+                            TreasureSeas.getLogger().dev("Shift + left-click on " + slotType + " slot: availableValueToAdd: {}, availableCntToAdd: {}", availableValueToAdd, availableCntToAdd);
+                            if (availableValueToAdd > 0) {
+                                ItemStack itemStackToAdd = clickedItemStack.split(availableCntToAdd);
+                                TreasureSeas.getLogger().dev("Shift + left-click on " + slotType + " slot: itemStackToAddCnt: {}, clickedItemStackCnt: {}", itemStackToAdd.getCount(), clickedItemStack.getCount());
+                                if (!this.moveItemStackTo(itemStackToAdd, 0, inputSlotEnd, false)) {
+                                    clickedItemStack.grow(availableCntToAdd);
+                                }
+                            } else {
+                                PlayerMessageManager.sendMessageOnce(player, new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 调用父类的 clicked 以保持正常功能
+        super.clicked(slotId, dragType, clickType, player);
+    }
+
+
 
 }
