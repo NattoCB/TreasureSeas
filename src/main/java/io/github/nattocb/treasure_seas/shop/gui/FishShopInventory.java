@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * todo 兼容 quark quick inv change and sort？
  */
-public class FishShopInv extends AbstractContainerMenu {
+public class FishShopInventory extends AbstractContainerMenu {
 
     private static final Map<Item, Item> NINE_STACK_ITEMS = new HashMap<>();
     static {
@@ -47,20 +47,18 @@ public class FishShopInv extends AbstractContainerMenu {
 
     private final Container inputSlots = new SimpleContainer(INPUT_SLOT_ROWS * INPUT_SLOT_COLS);
     private final Container outputSlots = new SimpleContainer(OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS);
-
-    // Maximum output count
     private static int MAX_OUTPUT = 64 * OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS;
-    private boolean isNineStackItem;
+    private boolean isNineStackableOutput;
     private final Item outputItem;
 
-    public FishShopInv(int id, Inventory playerInventory) {
+    public FishShopInventory(int id, Inventory playerInventory) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
 
         // check config
         Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
         if (NINE_STACK_ITEMS.containsKey(shopOutputItem)) {
             MAX_OUTPUT *= 9;
-            this.isNineStackItem = true;
+            this.isNineStackableOutput = true;
         }
         this.outputItem = shopOutputItem;
         TreasureSeas.getLogger().dev("OutputItem: " + shopOutputItem.toString());
@@ -70,15 +68,18 @@ public class FishShopInv extends AbstractContainerMenu {
             for (int j = 0; j < INPUT_SLOT_COLS; ++j) {
                 this.addSlot(new Slot(inputSlots, j + i * INPUT_SLOT_COLS, 8 + j * 18, 18 + i * 18) {
                     @Override
-                    public boolean mayPlace(@NotNull ItemStack stack) {
-                        boolean canAddToInputSlots = canAddToInputSlots(stack, playerInventory.player);
+                    public boolean mayPlace(@NotNull ItemStack itemStack) {
+                        int totalInputValuesBeforeAdd = calculateTotalInputValues();
+                        int totalValuesToAdd = calculateItemStackValues(itemStack);
+                        int totalInputValueAfterAdd = totalInputValuesBeforeAdd + totalValuesToAdd;
+                        int requiredOutputSlots = calculateRequiredSlotsForOutput(totalInputValueAfterAdd, itemStack);
+                        boolean canAddToInputSlots = requiredOutputSlots <= outputSlots.getContainerSize();
                         if (!canAddToInputSlots) {
-                            PlayerMessageManager.sendMessageOnce(playerInventory.player,
-                                    new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
+                            PlayerMessageManager.sendMessageOnce(playerInventory.player, new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
                         }
                         return canAddToInputSlots;
                     }
-
+                    // todo 如果正在往 input slot 同 itemStack 放入 new itemStack 时超限，onTake 是否会触发？
                     @Override
                     public void setChanged() {
                         super.setChanged();
@@ -106,9 +107,9 @@ public class FishShopInv extends AbstractContainerMenu {
                         // 批量转移绿宝石结果
                         handleOutputTaken(player);
                         // 确保鼠标指针上的物品也执行一次背包转移判断，而不是直接被玩家拿到
+                        // todo 如果鼠标指针上已经有物品，再点击会发生什么
                         handleCursorItem(player, stack);
-                        player.level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                                SoundEvents.VILLAGER_YES, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.VILLAGER_YES, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 });
             }
@@ -131,28 +132,6 @@ public class FishShopInv extends AbstractContainerMenu {
         updateOutputSlots();
     }
 
-    private boolean canAddToInputSlots(ItemStack stack, Player player) {
-        // Calculate the current total outputs value in the input slots.
-        int currentOutputCount = calculateTotalOutputs();
-
-        // Calculate how much value the new stack will add.
-        int stackOutputValue = calculateOutputValue(stack);
-
-        // Combine current value with the new stack value.
-        int totalOutputCount = currentOutputCount + stackOutputValue;
-
-        // Check the required number of slots for the total value including non-9-stackable items.
-        int requiredOutputSlots = calculateRequiredSlotsForOutput(totalOutputCount, stack);
-
-        // If required slots exceed the available output slots, return false and display a warning.
-        if (requiredOutputSlots > outputSlots.getContainerSize()) {
-            PlayerMessageManager.sendMessageOnce(player,
-                    new TranslatableComponent("message.treasure_seas.exceed_max_outputs"));
-            return false;
-        }
-
-        return true;
-    }
     private int calculateRequiredSlotsForOutput(int outputCount, ItemStack stack) {
         int totalSlotsNeeded = 0;
 
@@ -164,7 +143,7 @@ public class FishShopInv extends AbstractContainerMenu {
         totalSlotsNeeded += (int) Math.ceil((double) outputBlockCount / 64);
 
         // Handle the case for non-9-stackable items (normal 64-stack items like carrots).
-        if (!this.isNineStackItem) {
+        if (!this.isNineStackableOutput) {
             totalSlotsNeeded += (int) Math.ceil((double) stack.getCount() / 64);
         } else {
             // Handle any remaining outputs that couldn't be stacked into blocks.
@@ -174,20 +153,20 @@ public class FishShopInv extends AbstractContainerMenu {
         return totalSlotsNeeded;
     }
 
-    private int calculateTotalOutputs() {
-        int totalOutputs = 0;
+    private int calculateTotalInputValues() {
+        int totalValues = 0;
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             ItemStack itemStack = inputSlots.getItem(i);
-            totalOutputs += calculateOutputValue(itemStack);
+            totalValues += calculateItemStackValues(itemStack);
         }
-        return totalOutputs;
+        return totalValues;
     }
 
-    private int calculateOutputValue(ItemStack stack) {
-        return calculateOutputValueForSingleItem(stack) * stack.getCount();
+    private int calculateItemStackValues(ItemStack stack) {
+        return calculateSingleItemValue(stack) * stack.getCount();
     }
 
-    private int calculateOutputValueForSingleItem(ItemStack stack) {
+    private int calculateSingleItemValue(ItemStack stack) {
         ResourceLocation registryName = stack.getItem().getRegistryName();
         if (registryName != null) {
             String namespace = registryName.getNamespace();
@@ -218,9 +197,9 @@ public class FishShopInv extends AbstractContainerMenu {
     }
 
     private void updateOutputSlots() {
-        int itemCount = calculateTotalOutputs();
+        int itemCount = calculateTotalInputValues();
         // Fill output slots with output 9-stack blocks first, then output items
-        if (this.isNineStackItem) {
+        if (this.isNineStackableOutput) {
             int outputBlockCount = itemCount / 9;
             int outputCount = itemCount % 9;
             for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
@@ -243,7 +222,6 @@ public class FishShopInv extends AbstractContainerMenu {
             for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
                 if (itemCount > 0) {
                     // Up to 64 blocks per slot
-                    // todo test for max stackable size, shall update the max counter as well
                     int countToPlace = Math.min(itemCount, 64);
                     outputSlots.setItem(i, new ItemStack(this.outputItem, countToPlace));
                     itemCount -= countToPlace;
@@ -257,7 +235,19 @@ public class FishShopInv extends AbstractContainerMenu {
         outputSlots.setChanged();
     }
 
-    private void clearInputSlots() {
+    private void handleOutputTaken(Player player) {
+        int requiredSlots = countOccupiedOutputSlots();
+        int availableSlots = countAvailablePlayerInventorySlots(player);
+        if (availableSlots >= requiredSlots) {
+            transferOutputItemsToPlayer(player);
+        } else {
+            dropOutputItemsToWorld(player);
+        }
+        clearSaleableItemsFromInputSlots();
+        updateOutputSlots();
+    }
+
+    private void clearSaleableItemsFromInputSlots() {
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             // 仅删除配置过的 fish，且不删除 basePrice = 0 的 fish
             ItemStack itemStack = inputSlots.getItem(i);
@@ -276,34 +266,19 @@ public class FishShopInv extends AbstractContainerMenu {
         }
     }
 
-    private void handleOutputTaken(Player player) {
-        int requiredSlots = calculateRequiredSlots();
-        int availableSlots = countAvailableSlots(player);
-
-        if (availableSlots >= requiredSlots) {
-            transferItemsToPlayer(player);
-        } else {
-            dropItemsToWorld(player);
-        }
-        clearInputSlots();
-        // Reset output slots after taking
-        updateOutputSlots();
-    }
-
-
     private void handleCursorItem(Player player, ItemStack cursorItem) {
-        int availableSlots = countAvailableSlots(player);
+        int availableSlots = countAvailablePlayerInventorySlots(player);
         if (!cursorItem.isEmpty()) {
             int requiredSlots = (int) Math.ceil((double) cursorItem.getCount() / cursorItem.getMaxStackSize());
             if (availableSlots >= requiredSlots) {
-                transferItemToPlayerInventory(player, cursorItem);
+                transferOutputItemToPlayer(player, cursorItem);
             } else {
-                dropItemInWorld(player, cursorItem);
+                dropOutputItemToWorld(player, cursorItem);
             }
         }
     }
 
-    private int calculateRequiredSlots() {
+    private int countOccupiedOutputSlots() {
         int requiredSlots = 0;
         for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
             ItemStack stack = outputSlots.getItem(i);
@@ -314,7 +289,7 @@ public class FishShopInv extends AbstractContainerMenu {
         return requiredSlots;
     }
 
-    private int countAvailableSlots(Player player) {
+    private int countAvailablePlayerInventorySlots(Player player) {
         int availableSlots = 0;
         for (int i = 0; i < player.getInventory().items.size(); ++i) {
             if (player.getInventory().items.get(i).isEmpty()) {
@@ -324,7 +299,7 @@ public class FishShopInv extends AbstractContainerMenu {
         return availableSlots;
     }
 
-    private void transferItemsToPlayer(Player player) {
+    private void transferOutputItemsToPlayer(Player player) {
         for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
             ItemStack stack = outputSlots.getItem(i);
             if (!stack.isEmpty()) {
@@ -335,42 +310,19 @@ public class FishShopInv extends AbstractContainerMenu {
         }
     }
 
-    private void dropItemsToWorld(Player player) {
-        for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
-            ItemStack stack = outputSlots.getItem(i);
-            if (!stack.isEmpty()) {
-                // Drop item at player's location
-                player.drop(stack, false);
-                outputSlots.setItem(i, ItemStack.EMPTY);
-            }
-        }
-    }
-
-    private void transferItemToPlayerInventory(Player player, ItemStack stack) {
+    private void transferOutputItemToPlayer(Player player, ItemStack stack) {
         while (!stack.isEmpty()) {
             player.getInventory().add(stack.split(stack.getMaxStackSize()));
         }
     }
 
-    private void dropItemInWorld(Player player, ItemStack stack) {
-        while (!stack.isEmpty()) {
-            ItemStack dropStack = stack.split(stack.getMaxStackSize());
-            player.drop(dropStack, false);
-        }
-    }
-
-    @Override
-    public boolean stillValid(@NotNull Player player) {
-        return true;
-    }
-
     @Override
     public void removed(@NotNull Player player) {
         super.removed(player);
-        dropItemsOnClose(player);
+        dropInputItemsOnClose(player);
     }
 
-    private void dropItemsOnClose(Player player) {
+    private void dropInputItemsOnClose(Player player) {
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             ItemStack itemStack = inputSlots.getItem(i);
             if (!itemStack.isEmpty()) {
@@ -379,10 +331,32 @@ public class FishShopInv extends AbstractContainerMenu {
         }
     }
 
+    private void dropOutputItemsToWorld(Player player) {
+        for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
+            ItemStack stack = outputSlots.getItem(i);
+            if (!stack.isEmpty()) {
+                player.drop(stack, false);
+                outputSlots.setItem(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    private void dropOutputItemToWorld(Player player, ItemStack stack) {
+        while (!stack.isEmpty()) {
+            ItemStack dropStack = stack.split(stack.getMaxStackSize());
+            player.drop(dropStack, false);
+        }
+    }
+
     @Override
     public void slotsChanged(@NotNull Container container) {
         super.slotsChanged(container);
         updateOutputSlots();
+    }
+
+    @Override
+    public boolean stillValid(@NotNull Player player) {
+        return true;
     }
 
     @Override
@@ -415,8 +389,8 @@ public class FishShopInv extends AbstractContainerMenu {
             } else {
                 // Moving from player inventory to input slots
                 // Calculate the total outputs value if this item stack is added
-                int currentOutputCount = calculateTotalOutputs();
-                int stackOutputValue = calculateOutputValue(stackInSlot);
+                int currentOutputCount = calculateTotalInputValues();
+                int stackOutputValue = calculateItemStackValues(stackInSlot);
                 if (currentOutputCount + stackOutputValue <= MAX_OUTPUT) {
                     // Only move if it won't exceed MAX_OUTPUTS
                     if (!this.moveItemStackTo(stackInSlot, 0, inputSlotEnd, false)) {

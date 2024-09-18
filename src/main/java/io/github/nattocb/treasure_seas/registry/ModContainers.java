@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.shop.gui.FishShopScreen;
+import io.github.nattocb.treasure_seas.shop.gui.FishShopContainerScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +13,7 @@ public class ModContainers {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        MenuScreens.register(ModContainerTypes.FISH_SHOP_CONTAINER.get(), FishShopScreen::new);
+        MenuScreens.register(ModContainerTypes.FISH_SHOP_CONTAINER.get(), FishShopContainerScreen::new);
     }
 
 }

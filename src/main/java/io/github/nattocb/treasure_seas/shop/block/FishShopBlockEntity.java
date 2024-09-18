@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.shop.block;
 
 import io.github.nattocb.treasure_seas.registry.ModBlockEntities;
-import io.github.nattocb.treasure_seas.shop.gui.FishShopInv;
+import io.github.nattocb.treasure_seas.shop.gui.FishShopInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -21,7 +21,7 @@ public class FishShopBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
-        return new FishShopInv(id, playerInventory);
+        return new FishShopInventory(id, playerInventory);
     }
 
     @Override
