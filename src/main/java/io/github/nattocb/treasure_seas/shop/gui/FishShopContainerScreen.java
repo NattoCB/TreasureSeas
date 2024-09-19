@@ -50,5 +50,13 @@ public class FishShopContainerScreen extends AbstractContainerScreen<FishShopInv
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         this.font.draw(poseStack, this.title, 8.0F, 6.0F, 4210752);
         this.font.draw(poseStack, this.playerInventoryTitle, 8.0F, this.imageHeight - 94.0F, 4210752);
+
+        // total values info
+        int totalInputValues = this.menu.getTotalValues();
+        String displayText = "Values: " + totalInputValues;
+        int textWidth = this.font.width(displayText);
+        float rightAlignedX = 166.0F;
+        float dynamicX = rightAlignedX - textWidth;
+        this.font.draw(poseStack, displayText, dynamicX, this.imageHeight - 94.0F, 4210752);
     }
 }

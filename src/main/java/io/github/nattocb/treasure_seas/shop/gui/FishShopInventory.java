@@ -5,6 +5,7 @@ import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -51,6 +52,16 @@ public class FishShopInventory extends AbstractContainerMenu {
     private boolean isNineStackableOutput;
     private final Item outputItem;
 
+    private int totalValues = 0;
+
+    private void updateTotalInputValues() {
+        this.totalValues = calculateTotalInputValues();
+    }
+
+    public int getTotalValues() {
+        return totalValues;
+    }
+
     public FishShopInventory(int id, Inventory playerInventory) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
 
@@ -60,6 +71,7 @@ public class FishShopInventory extends AbstractContainerMenu {
             this.isNineStackableOutput = true;
         }
         this.outputItem = shopOutputItem;
+
         TreasureSeas.getLogger().dev("OutputItem: " + shopOutputItem.toString());
 
         // Input slots
@@ -72,9 +84,9 @@ public class FishShopInventory extends AbstractContainerMenu {
                     }
                     @Override
                     public void setChanged() {
-                        TreasureSeas.getLogger().dev("setChanged: cur value: {}", calculateTotalInputValues());
                         super.setChanged();
                         updateOutputSlots();
+                        updateTotalInputValues();
                     }
                 });
             }
@@ -94,19 +106,30 @@ public class FishShopInventory extends AbstractContainerMenu {
                     }
 
                     @Override
-                    public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
-                        // transfer output slot into player inv
-                        handleOutputTaken(player);
-                        // prevent from player takes item from output slots to cursor
-                        handleCursorItem(player, stack);
-                        // clear related input slots
-                        clearSaleableItemsFromInputSlots();
-                        // clear all output slots
-                        for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
-                            outputSlots.setItem(i, ItemStack.EMPTY);
+                    public boolean mayPickup(Player player) {
+                        ItemStack carriedStack = player.containerMenu.getCarried();
+                        if (!carriedStack.isEmpty()) {
+                            return false;
                         }
-                        // sync with client
-                        outputSlots.setChanged();
+                        return super.mayPickup(player);
+                    }
+
+                    @Override
+                    public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
+                        if (!player.level.isClientSide) {
+                            // transfer output slot into player inv
+                            handleOutputTaken(player);
+                            // prevent player from taking item from output slots to cursor
+                            player.containerMenu.getCarried().setCount(0);
+                            // clear related input slots
+                            clearSaleableItemsFromInputSlots();
+                            // clear all output slots
+                            for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
+                                outputSlots.setItem(i, ItemStack.EMPTY);
+                            }
+                            // sync with client
+                            outputSlots.setChanged();
+                        }
                         player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.VILLAGER_YES, SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 });
@@ -212,71 +235,37 @@ public class FishShopInventory extends AbstractContainerMenu {
     }
 
     private void handleOutputTaken(Player player) {
-        int requiredSlots = 0;
         int totalInputValues = this.calculateTotalInputValues();
         if (this.isNineStackableOutput) {
             // nine-stackable output
             int cntNineStackedItems = totalInputValues / 9;
-            int cntNineStackedSlots = cntNineStackedItems / 64;
+            TreasureSeas.getLogger().dev("cntNineStackedItems " + cntNineStackedItems);
+            for (int i = 0; i < cntNineStackedItems / 64; ++i) {
+                ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), 64);
+                moveOrDropItem(itemStack, player);
+            }
             int cntNineStackedRemainingCnt = cntNineStackedItems % 64;
-            cntNineStackedSlots = cntNineStackedRemainingCnt > 0 ? cntNineStackedSlots + 1 : cntNineStackedSlots;
-            requiredSlots += cntNineStackedSlots;
+            TreasureSeas.getLogger().dev("cntNineStackedRemainingCnt " + cntNineStackedRemainingCnt);
+            if (cntNineStackedRemainingCnt > 0) {
+                ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), cntNineStackedRemainingCnt);
+                moveOrDropItem(itemStack, player);
+            }
             int cntRemainingItems = totalInputValues - cntNineStackedItems * 9;
-            requiredSlots = cntRemainingItems > 0 ? requiredSlots + 1 : requiredSlots;
-            int availableSlots = countAvailablePlayerInventorySlots(player);
-            if (availableSlots >= requiredSlots) {
-                // transferOutputItemsToPlayer
-                for (int i = 0; i < cntNineStackedItems / 64; ++i) {
-                    ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), 64);
-                    player.getInventory().add(itemStack);
-                }
-                if (cntNineStackedRemainingCnt > 0) {
-                    ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), cntNineStackedRemainingCnt);
-                    player.getInventory().add(itemStack);
-                }
-                if (cntRemainingItems > 0) {
-                    ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                    player.getInventory().add(itemStack);
-                }
-            } else {
-                // dropAllOutputItemsToWorld
-                for (int i = 0; i < cntNineStackedItems / 64; ++i) {
-                    ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), 64);
-                    player.drop(itemStack, false);
-                }
-                if (cntNineStackedRemainingCnt > 0) {
-                    ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), cntNineStackedRemainingCnt);
-                    player.drop(itemStack, false);
-                }
-                if (cntRemainingItems > 0) {
-                    ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                    player.drop(itemStack, false);
-                }
+            TreasureSeas.getLogger().dev("cntRemainingItems " + cntRemainingItems);
+            if (cntRemainingItems > 0) {
+                ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
+                moveOrDropItem(itemStack, player);
             }
         } else {
             // non-nine-stackable output
-            requiredSlots = totalInputValues / 64;
-            int cntRemainingItems = requiredSlots % 64;
-            requiredSlots = cntRemainingItems > 0 ? requiredSlots + 1 : requiredSlots;
-            int availableSlots = countAvailablePlayerInventorySlots(player);
-            if (availableSlots >= requiredSlots) {
-                for (int i = 0; i < totalInputValues / 64; ++i) {
-                    ItemStack itemStack = new ItemStack(outputItem, 64);
-                    player.getInventory().add(itemStack);
-                }
-                if (cntRemainingItems > 0) {
-                    ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                    player.getInventory().add(itemStack);
-                }
-            } else {
-                for (int i = 0; i < totalInputValues / 64; ++i) {
-                    ItemStack itemStack = new ItemStack(outputItem, 64);
-                    player.drop(itemStack, false);
-                }
-                if (cntRemainingItems > 0) {
-                    ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                    player.drop(itemStack, false);
-                }
+            int cntRemainingItems = totalInputValues % 64;
+            for (int i = 0; i < totalInputValues / 64; ++i) {
+                ItemStack itemStack = new ItemStack(outputItem, 64);
+                moveOrDropItem(itemStack, player);
+            }
+            if (cntRemainingItems > 0) {
+                ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
+                moveOrDropItem(itemStack, player);
             }
         }
     }
@@ -300,25 +289,6 @@ public class FishShopInventory extends AbstractContainerMenu {
         }
     }
 
-    private void handleCursorItem(Player player, ItemStack cursorItem) {
-        int availableSlots = countAvailablePlayerInventorySlots(player);
-        if (!cursorItem.isEmpty()) {
-            int requiredSlots = (int) Math.ceil((double) cursorItem.getCount() / cursorItem.getMaxStackSize());
-            if (availableSlots >= requiredSlots) {
-                // transferOutputItemToPlayer
-                while (!cursorItem.isEmpty()) {
-                    player.getInventory().add(cursorItem.split(cursorItem.getMaxStackSize()));
-                }
-            } else {
-                // dropOutputItemToWorld
-                while (!cursorItem.isEmpty()) {
-                    ItemStack dropStack = cursorItem.split(cursorItem.getMaxStackSize());
-                    player.drop(dropStack, false);
-                }
-            }
-        }
-    }
-
     private int countAvailablePlayerInventorySlots(Player player) {
         int availableSlots = 0;
         for (int i = 0; i < player.getInventory().items.size(); ++i) {
@@ -327,6 +297,14 @@ public class FishShopInventory extends AbstractContainerMenu {
             }
         }
         return availableSlots;
+    }
+
+    private void moveOrDropItem(ItemStack itemStack, Player player) {
+        if (countAvailablePlayerInventorySlots(player) > 0) {
+            player.getInventory().add(itemStack);
+        } else {
+            player.drop(itemStack, false);
+        }
     }
 
     @Override
