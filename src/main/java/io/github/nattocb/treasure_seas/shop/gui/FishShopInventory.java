@@ -79,10 +79,6 @@ public class FishShopInventory extends AbstractContainerMenu {
             for (int j = 0; j < INPUT_SLOT_COLS; ++j) {
                 this.addSlot(new Slot(inputSlots, j + i * INPUT_SLOT_COLS, 8 + j * 18, 18 + i * 18) {
                     @Override
-                    public boolean mayPlace(@NotNull ItemStack itemStack) {
-                        return true;
-                    }
-                    @Override
                     public void setChanged() {
                         super.setChanged();
                         updateOutputSlots();
@@ -106,7 +102,8 @@ public class FishShopInventory extends AbstractContainerMenu {
                     }
 
                     @Override
-                    public boolean mayPickup(Player player) {
+                    public boolean mayPickup(@NotNull Player player) {
+                        // cannot click output slot with item carried on cursor
                         ItemStack carriedStack = player.containerMenu.getCarried();
                         if (!carriedStack.isEmpty()) {
                             return false;
@@ -127,7 +124,7 @@ public class FishShopInventory extends AbstractContainerMenu {
                             for (int i = 0; i < outputSlots.getContainerSize(); ++i) {
                                 outputSlots.setItem(i, ItemStack.EMPTY);
                             }
-                            // sync with client
+                            // sync to client
                             outputSlots.setChanged();
                         }
                         player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.VILLAGER_YES, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -157,13 +154,9 @@ public class FishShopInventory extends AbstractContainerMenu {
         int totalValues = 0;
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             ItemStack itemStack = inputSlots.getItem(i);
-            totalValues += calculateItemStackValues(itemStack);
+            totalValues += (calculateSingleItemValue(itemStack) * itemStack.getCount());
         }
         return totalValues;
-    }
-
-    private int calculateItemStackValues(ItemStack stack) {
-        return calculateSingleItemValue(stack) * stack.getCount();
     }
 
     private int calculateSingleItemValue(ItemStack stack) {
@@ -239,19 +232,16 @@ public class FishShopInventory extends AbstractContainerMenu {
         if (this.isNineStackableOutput) {
             // nine-stackable output
             int cntNineStackedItems = totalInputValues / 9;
-            TreasureSeas.getLogger().dev("cntNineStackedItems " + cntNineStackedItems);
             for (int i = 0; i < cntNineStackedItems / 64; ++i) {
                 ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), 64);
                 moveOrDropItem(itemStack, player);
             }
             int cntNineStackedRemainingCnt = cntNineStackedItems % 64;
-            TreasureSeas.getLogger().dev("cntNineStackedRemainingCnt " + cntNineStackedRemainingCnt);
             if (cntNineStackedRemainingCnt > 0) {
                 ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), cntNineStackedRemainingCnt);
                 moveOrDropItem(itemStack, player);
             }
             int cntRemainingItems = totalInputValues - cntNineStackedItems * 9;
-            TreasureSeas.getLogger().dev("cntRemainingItems " + cntRemainingItems);
             if (cntRemainingItems > 0) {
                 ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
                 moveOrDropItem(itemStack, player);
@@ -310,10 +300,7 @@ public class FishShopInventory extends AbstractContainerMenu {
     @Override
     public void removed(@NotNull Player player) {
         super.removed(player);
-        dropInputItemsOnClose(player);
-    }
-
-    private void dropInputItemsOnClose(Player player) {
+        // drop items from input slots
         for (int i = 0; i < inputSlots.getContainerSize(); ++i) {
             ItemStack itemStack = inputSlots.getItem(i);
             if (!itemStack.isEmpty()) {
