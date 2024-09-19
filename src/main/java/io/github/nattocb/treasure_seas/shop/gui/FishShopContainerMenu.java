@@ -4,10 +4,7 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
-import io.github.nattocb.treasure_seas.utils.PlayerMessageManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +13,6 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +25,7 @@ import java.util.Map;
 /**
  * todo 兼容 quark quick inv change and sort？
  */
-public class FishShopInventory extends AbstractContainerMenu {
+public class FishShopContainerMenu extends AbstractContainerMenu {
 
     private static final Map<Item, Item> NINE_STACK_ITEMS = new HashMap<>();
     static {
@@ -62,7 +58,7 @@ public class FishShopInventory extends AbstractContainerMenu {
         return totalValues;
     }
 
-    public FishShopInventory(int id, Inventory playerInventory) {
+    public FishShopContainerMenu(int id, Inventory playerInventory) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
 
         // check config

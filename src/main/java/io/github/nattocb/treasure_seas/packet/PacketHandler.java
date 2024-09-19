@@ -1,6 +1,7 @@
 package io.github.nattocb.treasure_seas.packet;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.statisticsbook.OpenStatisticMenuPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -19,7 +20,10 @@ public class PacketHandler {
 
     public static void init() {
 
-        CHANNEL.registerMessage(ID++, FishFightPacket.class,
+        // Fish fight start - let client open fighting GUI
+        CHANNEL.registerMessage(
+                ID++,
+                FishFightPacket.class,
                 FishFightPacket::encode,
                 FishFightPacket::decode,
                 (msg, ctx) -> {
@@ -31,7 +35,10 @@ public class PacketHandler {
                     ctx.get().setPacketHandled(true);
                 });
 
-        CHANNEL.registerMessage(ID++, FishFightResultPacket.class,
+        // Fish fight result - todo 改为单纯在服务端判断
+        CHANNEL.registerMessage(
+                ID++,
+                FishFightResultPacket.class,
                 FishFightResultPacket::encode,
                 FishFightResultPacket::decode,
                 (msg, ctx) -> {
@@ -46,6 +53,15 @@ public class PacketHandler {
                     ));
                     ctx.get().setPacketHandled(true);
                 });
+
+        // Open statistics book
+        CHANNEL.registerMessage(
+                ID++,
+                OpenStatisticMenuPacket.class,
+                OpenStatisticMenuPacket::encode,
+                OpenStatisticMenuPacket::decode,
+                OpenStatisticMenuPacket::handle
+        );
 
     }
 

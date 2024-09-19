@@ -12,10 +12,10 @@ import net.minecraft.world.entity.player.Inventory;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-public class FishShopContainerScreen extends AbstractContainerScreen<FishShopInventory> {
+public class FishShopContainerScreen extends AbstractContainerScreen<FishShopContainerMenu> {
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(TreasureSeas.MOD_ID, "textures/gui/fish_shop.png");
 
-    public FishShopContainerScreen(FishShopInventory container, Inventory inv, Component title) {
+    public FishShopContainerScreen(FishShopContainerMenu container, Inventory inv, Component title) {
         super(container, inv, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
