@@ -4,6 +4,7 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -53,7 +54,7 @@ public class FishShopContainerScreen extends AbstractContainerScreen<FishShopInv
 
         // total values info
         int totalInputValues = this.menu.getTotalValues();
-        String displayText = "Values: " + totalInputValues;
+        String displayText = I18n.get("gui.treasure_seas.values") + totalInputValues;
         int textWidth = this.font.width(displayText);
         float rightAlignedX = 166.0F;
         float dynamicX = rightAlignedX - textWidth;

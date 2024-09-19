@@ -10,6 +10,7 @@
   "option.hudFishingInfoCustomPositionY": "Custom HUD position: Y-axis",
   "option.logDebugModeEnable": "Enable debugging mode (extra logs)",
   "message.use.scroll": "§eUse the mouse wheel to adjust your fishing depth",
+  "gui.treasure_seas.values": "Values: ",
   "fish.length": "§8Length: %s §7cm",
   "fish.quality": "§8Quality: %s",
   "fish.shiny": "§d§lSHINY",

@@ -10,6 +10,7 @@
   "option.hudFishingInfoCustomPositionY": "自定义 HUD Y 坐标",
   "option.logDebugModeEnable": "启用调试模式 (额外日志记录)",
   "message.use.scroll": "§e使用鼠标滚轮可调整鱼钩深度",
+  "gui.treasure_seas.values": "总价: ",
   "fish.length": "§8长度: %s §7cm",
   "fish.quality": "§8品质: %s",
   "fish.shiny": "§d§l变异",
