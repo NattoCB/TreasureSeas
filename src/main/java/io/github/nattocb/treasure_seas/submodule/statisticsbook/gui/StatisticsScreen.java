@@ -8,15 +8,16 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
 
-    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(TreasureSeas.MOD_ID, "textures/gui/fish_shop.png");
+    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(TreasureSeas.MOD_ID, "textures/gui/info_book.png");
 
     private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
-    private static final int SCROLLBAR_Y = 8;
+    private static final int SCROLLBAR_Y = 18;
     private static final int SCROLLBAR_WIDTH = 7;
-    private static final int SCROLLBAR_HEIGHT = 77;
+    private static final int SCROLLBAR_HEIGHT = 128;
     private int scrollBarScaledHeight;
     private int scrollBarXPos;
     private int scrollBarYPos;
@@ -26,12 +27,18 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
 
     public StatisticsScreen(StatisticsMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageHeight = 114; // Adjust for 4 rows of slots
+        this.imageHeight = 180;
         recalculateScrollBar();
     }
 
     @Override
-    protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
+    public void init() {
+        super.init();
+        recalculateScrollBar();
+    }
+
+    @Override
+    protected void renderBg(@NotNull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
         blit(poseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
@@ -87,7 +94,7 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(poseStack, mouseX, mouseY);
@@ -98,7 +105,13 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         int visibleRows = 4;
         int scrollBarTotalHeight = SCROLLBAR_HEIGHT - 1;
         this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * Math.min(1f, ((float) visibleRows / totalRows)));
-        this.scrollBarXPos = leftPos + imageWidth - SCROLLBAR_WIDTH - 9;
+        this.scrollBarXPos = leftPos + 9 + 18 + 18 + 18 - 1;
         this.scrollBarYPos = topPos + SCROLLBAR_Y + ((scrollBarTotalHeight - scrollBarScaledHeight) * menu.scrollOffset / Math.max(1, totalRows - visibleRows));
     }
+
+    @Override
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+        this.font.draw(poseStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 4210752);
+    }
+
 }

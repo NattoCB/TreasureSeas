@@ -47,7 +47,7 @@ public class OpenStatisticMenuPacket {
                     Minecraft.getInstance().setScreen(new StatisticsScreen(
                             new StatisticsMenu(ModContainerTypes.STATISTICS_CONTAINER.get(), 0, msg.itemList),
                             player.getInventory(),
-                            new TextComponent("test")));
+                            new TextComponent("Info Book")));
                 }
             }
         });

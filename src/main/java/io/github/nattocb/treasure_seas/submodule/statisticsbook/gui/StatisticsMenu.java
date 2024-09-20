@@ -13,12 +13,15 @@ import java.util.List;
 
 public class StatisticsMenu extends AbstractContainerMenu {
 
-    private final int width = 5; // Fixed width of 5 slots
-    public final int visibleRows = 4; // Visible row count for scrolling
-    public final int totalRows;
-    public int scrollOffset = 0; // Keeps track of the scroll offset
+    // todo transfer FishWrapper map via packet
+    // todo add sort function for: recommended level, name&mod, price
+    // todo change required level to recommended level
 
-    private final List<ItemStack> itemList; // The list of items to showcase
+    private final int width = 3;
+    public final int visibleRows = 6;
+    public final int totalRows;
+    public int scrollOffset = 0;
+    private final List<ItemStack> itemList;
     private final Container showcaseContainer;
 
     public StatisticsMenu(MenuType<?> type, int id, List<ItemStack> itemList) {
@@ -64,15 +67,15 @@ public class StatisticsMenu extends AbstractContainerMenu {
         public ShowcaseSlot(Container container, int index, int xPosition, int yPosition) {
             super(container, index, xPosition, yPosition);
         }
-
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
-            return false; // Prevent placing items
+            return false;
         }
-
         @Override
         public boolean mayPickup(@NotNull Player player) {
-            return false; // Prevent picking up items
+            // todo show fish info on the right side
+            return false;
         }
     }
+
 }
