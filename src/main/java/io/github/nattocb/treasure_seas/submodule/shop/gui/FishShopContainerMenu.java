@@ -277,10 +277,20 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
         }
     }
 
+    private int countAvailablePlayerInventorySlots(Player player) {
+        int availableSlots = 0;
+        for (int i = 0; i < player.getInventory().items.size(); ++i) {
+            if (player.getInventory().items.get(i).isEmpty()) {
+                availableSlots++;
+            }
+        }
+        return availableSlots;
+    }
+
     private void moveOrDropItem(ItemStack itemStack, Player player) {
-        Inventory playerInventory = player.getInventory();
-        boolean addedSuccessfully = playerInventory.add(itemStack);
-        if (!addedSuccessfully) {
+        if (countAvailablePlayerInventorySlots(player) > 0) {
+            player.getInventory().add(itemStack);
+        } else {
             player.drop(itemStack, false);
         }
     }
