@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.packet;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.statisticsbook.OpenStatisticMenuPacket;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.OpenStatisticMenuPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;

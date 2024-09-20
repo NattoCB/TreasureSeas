@@ -1,8 +1,8 @@
 package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.shop.gui.FishShopContainerMenu;
-import io.github.nattocb.treasure_seas.statisticsbook.StatisticsMenu;
+import io.github.nattocb.treasure_seas.submodule.shop.gui.FishShopContainerMenu;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;

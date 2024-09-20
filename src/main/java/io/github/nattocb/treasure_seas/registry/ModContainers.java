@@ -1,8 +1,8 @@
 package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.shop.gui.FishShopContainerScreen;
-import io.github.nattocb.treasure_seas.statisticsbook.StatisticsScreen;
+import io.github.nattocb.treasure_seas.submodule.shop.gui.FishShopContainerScreen;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

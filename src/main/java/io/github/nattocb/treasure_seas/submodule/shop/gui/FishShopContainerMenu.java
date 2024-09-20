@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.shop.gui;
+package io.github.nattocb.treasure_seas.submodule.shop.gui;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
@@ -45,7 +45,9 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
 
     private final Container inputSlots = new SimpleContainer(INPUT_SLOT_ROWS * INPUT_SLOT_COLS);
     private final Container outputSlots = new SimpleContainer(OUTPUT_SLOT_ROWS * OUTPUT_SLOT_COLS);
+
     private boolean isNineStackableOutput;
+
     private final Item outputItem;
 
     private int totalValues = 0;

@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.shop.block;
+package io.github.nattocb.treasure_seas.submodule.shop;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

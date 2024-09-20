@@ -1,6 +1,8 @@
-package io.github.nattocb.treasure_seas.statisticsbook;
+package io.github.nattocb.treasure_seas.submodule.statisticsbook;
 
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsMenu;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;

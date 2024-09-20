@@ -1,7 +1,7 @@
-package io.github.nattocb.treasure_seas.shop.block;
+package io.github.nattocb.treasure_seas.submodule.shop;
 
 import io.github.nattocb.treasure_seas.registry.ModBlockEntities;
-import io.github.nattocb.treasure_seas.shop.gui.FishShopContainerMenu;
+import io.github.nattocb.treasure_seas.submodule.shop.gui.FishShopContainerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;

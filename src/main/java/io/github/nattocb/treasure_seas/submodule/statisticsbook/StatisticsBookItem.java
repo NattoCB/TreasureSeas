@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.statisticsbook;
+package io.github.nattocb.treasure_seas.submodule.statisticsbook;
 
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
 import net.minecraft.server.level.ServerPlayer;

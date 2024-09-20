@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.statisticsbook;
+package io.github.nattocb.treasure_seas.submodule.statisticsbook.gui;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -14,9 +14,9 @@ import java.util.List;
 public class StatisticsMenu extends AbstractContainerMenu {
 
     private final int width = 5; // Fixed width of 5 slots
-    private final int visibleRows = 4; // Visible row count for scrolling
-    private final int totalRows;
-    private int scrollOffset = 0; // Keeps track of the scroll offset
+    public final int visibleRows = 4; // Visible row count for scrolling
+    public final int totalRows;
+    public int scrollOffset = 0; // Keeps track of the scroll offset
 
     private final List<ItemStack> itemList; // The list of items to showcase
     private final Container showcaseContainer;

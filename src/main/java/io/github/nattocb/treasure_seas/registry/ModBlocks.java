@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.shop.block.FishShopBlock;
+import io.github.nattocb.treasure_seas.submodule.shop.FishShopBlock;
 import io.github.nattocb.treasure_seas.item.CustomBlockItem;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;

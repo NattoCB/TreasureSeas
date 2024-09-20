@@ -3,7 +3,7 @@ package io.github.nattocb.treasure_seas.registry;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.item.CustomLoreItem;
 import io.github.nattocb.treasure_seas.item.EdibleFruitItem;
-import io.github.nattocb.treasure_seas.statisticsbook.StatisticsBookItem;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.StatisticsBookItem;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;

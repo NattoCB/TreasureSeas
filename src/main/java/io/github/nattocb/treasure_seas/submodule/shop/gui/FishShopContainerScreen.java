@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.shop.gui;
+package io.github.nattocb.treasure_seas.submodule.shop.gui;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import net.minecraft.client.Minecraft;
