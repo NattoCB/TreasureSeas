@@ -92,14 +92,9 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        Slot hoveredSlot = this.getSlotUnderMouse(); // 获取鼠标下的 Slot
-        if (hoveredSlot != null) {
-            // 如果鼠标指针在某个 Slot 上，则允许滚动
-            menu.scroll(delta > 0 ? -1 : 1); // Scroll up or down
-            recalculateScrollBar();
-            return true;
-        }
-        return false; // 鼠标不在 Slot 上时，不允许滚动
+        menu.scroll(delta > 0 ? -1 : 1); // Scroll up or down
+        recalculateScrollBar();
+        return true;
     }
 
     @Override
