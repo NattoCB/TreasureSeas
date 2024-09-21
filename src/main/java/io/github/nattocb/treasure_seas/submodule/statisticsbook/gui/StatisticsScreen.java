@@ -49,13 +49,15 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     public void init() {
         super.init();
 
-        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 130, this.topPos + 160, 20, 20, new TextComponent(">"), button -> {
+        this.textPage = new TextPage(10, 88); // 每页最多显示10行，每行宽度最多88像素
+
+        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 155, this.topPos + 127, 12, 12, new TextComponent(">"), button -> {
             if (currentPage < totalPages - 1) {
                 currentPage++;
             }
         }));
 
-        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 100, this.topPos + 160, 20, 20, new TextComponent("<"), button -> {
+        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 135, this.topPos + 127, 12, 12, new TextComponent("<"), button -> {
             if (currentPage > 0) {
                 currentPage--;
             }
@@ -117,7 +119,7 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
                 if (clickedSlot != previousClickedSlot) {
                     previousClickedSlot = clickedSlot; // 更新上次点击的 Slot
                     this.menu.setSelectedFishWrapper(clickedSlot.getItem()); // 设置被点击的 FishWrapper
-                    textPage = null; // 重置 TextPage 以触发新的渲染
+                    textPage.clear(); // 重置 TextPage 以触发新的渲染
                     currentPage = 0; // 重置页码为第一页
                 }
             }
@@ -147,7 +149,6 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         // 控制翻页按钮的显示
         prevPageButton.active = currentPage > 0;
         nextPageButton.active = currentPage < totalPages - 1;
-
     }
 
     private void recalculateScrollBar() {
@@ -168,34 +169,32 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         // 获取点击的 FishWrapper
         FishWrapper selectedFish = menu.getSelectedFishWrapper();
         if (selectedFish != null) {
-            // 创建 TextPage 来处理分页和换行
-            textPage = new TextPage(10, 90); // 每页最多显示10行，每行宽度最多65像素
-
             // 添加 FishWrapper 信息
-            textPage.addText("Mod: " + selectedFish.getModNamespace(), font);
-            textPage.addText("Item: " + selectedFish.getFishItemName(), font);
-            textPage.addText("Min Length: " + selectedFish.getMinLength(), font);
-            textPage.addText("Max Length: " + selectedFish.getMaxLength(), font);
-            textPage.addText("Most Common Length: " + selectedFish.getMostCommonLength(), font);
-            textPage.addText("Length Dispersion: " + selectedFish.getLengthDispersion(), font);
-            textPage.addText("Min Appear Depth: " + selectedFish.getMinAppearDepth(), font);
-            textPage.addText("Max Appear Depth: " + selectedFish.getMaxAppearDepth(), font);
-            textPage.addText("Sample Weight: " + selectedFish.getSampleWeight(), font);
-            textPage.addText("Cave Only: " + selectedFish.isCaveOnly(), font);
-            textPage.addText("Base Price: " + selectedFish.getBasePrice(), font);
-            textPage.addText("Is Treasure: " + selectedFish.isTreasure(), font);
-            textPage.addText("Is Junk: " + selectedFish.isJunk(), font);
-            textPage.addText("Is Ultimate Treasure: " + selectedFish.isUltimateTreasure(), font);
-            textPage.addText("Allowed Time: " + selectedFish.getAllowedTime(), font);
-            textPage.addText("Allowed Weather: " + selectedFish.getAllowedWeather(), font);
-            textPage.addText("Possible Biomes: " + String.join(", ", selectedFish.getPossibleBiomes()), font);
-            textPage.addText("Possible Worlds: " + String.join(", ", selectedFish.getPossibleWorlds()), font);
-            textPage.addText("Lowest Lootable Enchantment Level: " + selectedFish.getLowestLootableEnchantmentLevel(), font);
-            textPage.addText("Ticks to Win: " + selectedFish.getTicksToWin(), font);
-            textPage.addText("Speed Modifier: " + selectedFish.getSpeedModifier(), font);
-            textPage.addText("Flat Segment Random Range: " + selectedFish.getFlatSegmentRandomRange()[0] + " - " + selectedFish.getFlatSegmentRandomRange()[1], font);
-            textPage.addText("Flux Segment Random Range: " + selectedFish.getFluxSegmentRandomRange()[0] + " - " + selectedFish.getFluxSegmentRandomRange()[1], font);
-
+            if (textPage.isEmpty()) {
+                textPage.addText("Mod: " + selectedFish.getModNamespace(), font);
+                textPage.addText("Item: " + selectedFish.getFishItemName(), font);
+                textPage.addText("Min Length: " + selectedFish.getMinLength(), font);
+                textPage.addText("Max Length: " + selectedFish.getMaxLength(), font);
+                textPage.addText("Most Common Length: " + selectedFish.getMostCommonLength(), font);
+                textPage.addText("Length Dispersion: " + selectedFish.getLengthDispersion(), font);
+                textPage.addText("Min Appear Depth: " + selectedFish.getMinAppearDepth(), font);
+                textPage.addText("Max Appear Depth: " + selectedFish.getMaxAppearDepth(), font);
+                textPage.addText("Sample Weight: " + selectedFish.getSampleWeight(), font);
+                textPage.addText("Cave Only: " + selectedFish.isCaveOnly(), font);
+                textPage.addText("Base Price: " + selectedFish.getBasePrice(), font);
+                textPage.addText("Is Treasure: " + selectedFish.isTreasure(), font);
+                textPage.addText("Is Junk: " + selectedFish.isJunk(), font);
+                textPage.addText("Is Ultimate Treasure: " + selectedFish.isUltimateTreasure(), font);
+                textPage.addText("Allowed Time: " + selectedFish.getAllowedTime(), font);
+                textPage.addText("Allowed Weather: " + selectedFish.getAllowedWeather(), font);
+                textPage.addText("Possible Biomes: " + String.join(", ", selectedFish.getPossibleBiomes()), font);
+                textPage.addText("Possible Worlds: " + String.join(", ", selectedFish.getPossibleWorlds()), font);
+                textPage.addText("Lowest Lootable Enchantment Level: " + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                textPage.addText("Ticks to Win: " + selectedFish.getTicksToWin(), font);
+                textPage.addText("Speed Modifier: " + selectedFish.getSpeedModifier(), font);
+                textPage.addText("Flat Segment Random Range: " + selectedFish.getFlatSegmentRandomRange()[0] + " - " + selectedFish.getFlatSegmentRandomRange()[1], font);
+                textPage.addText("Flux Segment Random Range: " + selectedFish.getFluxSegmentRandomRange()[0] + " - " + selectedFish.getFluxSegmentRandomRange()[1], font);
+            }
 
             // 计算总页数
             totalPages = textPage.getTotalPages();
@@ -260,6 +259,14 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         // 获取总页数
         public int getTotalPages() {
             return (int) Math.ceil((double) lines.size() / maxLinesPerPage);
+        }
+
+        public boolean isEmpty() {
+            return lines.isEmpty();
+        }
+
+        public void clear() {
+            lines.clear();
         }
     }
 
