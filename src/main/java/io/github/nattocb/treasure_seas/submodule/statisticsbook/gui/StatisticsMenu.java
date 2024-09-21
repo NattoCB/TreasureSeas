@@ -1,5 +1,6 @@
 package io.github.nattocb.treasure_seas.submodule.statisticsbook.gui;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,10 +30,18 @@ public class StatisticsMenu extends AbstractContainerMenu {
 
     private static final List<ItemStack> itemList = new ArrayList<>();
     private final Container showcaseContainer;
+    private final HashMap<String, FishWrapper> fishWrapperMap;
+
+    private FishWrapper selectedFishWrapper;
+
+    private int currentPage = 0;
 
     public StatisticsMenu(MenuType<?> type, int id, HashMap<String, FishWrapper> fishWrapperMap) {
         super(type, id);
+        this.fishWrapperMap = fishWrapperMap;
+
         if (itemList.isEmpty()) {
+            // todo 不构造垃圾和普通宝藏？或者改为直接记录已垂钓次数？
             fishWrapperMap.forEach((k, v) -> {
                 ResourceLocation itemLocation = new ResourceLocation(v.getModNamespace(), v.getFishItemName());
                 Item item = ForgeRegistries.ITEMS.getValue(itemLocation);
@@ -57,11 +66,26 @@ public class StatisticsMenu extends AbstractContainerMenu {
             for (int col = 0; col < width; col++) {
                 int index = (row + scrollOffset) * width + col;
                 if (index < itemList.size()) {
-                    this.addSlot(new ShowcaseSlot(showcaseContainer, index, 8 + col * 18, 18 + row * 18));
+                    this.addSlot(new ShowcaseSlot(showcaseContainer, index, 8 + col * 18, 18 + row * 18, this));
                     showcaseContainer.setItem(index, itemList.get(index));
                 }
             }
         }
+    }
+
+    // 保存点击的FishWrapper
+    public void setSelectedFishWrapper(ItemStack clickedStack) {
+        String key = ForgeRegistries.ITEMS.getKey(clickedStack.getItem()).toString();
+        this.selectedFishWrapper = fishWrapperMap.get(key);
+
+        // 每次选择新鱼时重置到第一页
+        currentPage = 0;
+    }
+
+
+    // 获取被点击的FishWrapper
+    public FishWrapper getSelectedFishWrapper() {
+        return selectedFishWrapper;
     }
 
     // Handle scrolling by adjusting the scrollOffset
@@ -76,16 +100,18 @@ public class StatisticsMenu extends AbstractContainerMenu {
     }
 
     private static class ShowcaseSlot extends Slot {
-        public ShowcaseSlot(Container container, int index, int xPosition, int yPosition) {
+
+        public ShowcaseSlot(Container container, int index, int xPosition, int yPosition, StatisticsMenu menu) {
             super(container, index, xPosition, yPosition);
         }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             return false;
         }
+
         @Override
         public boolean mayPickup(@NotNull Player player) {
-            // todo show fish info on the right side
             return false;
         }
     }
