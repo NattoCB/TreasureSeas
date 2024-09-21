@@ -9,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -19,6 +20,6 @@ public class ModContainerTypes {
             () -> IForgeMenuType.create((windowId, inv, data) -> new FishShopContainerMenu(windowId, inv)));
 
     public static final RegistryObject<MenuType<StatisticsMenu>> STATISTICS_CONTAINER = CONTAINERS.register("statistics_menu",
-            () -> IForgeMenuType.create((windowId, inv, data) -> new StatisticsMenu(ModContainerTypes.STATISTICS_CONTAINER.get(), windowId, List.of())));
+            () -> IForgeMenuType.create((windowId, inv, data) -> new StatisticsMenu(ModContainerTypes.STATISTICS_CONTAINER.get(), windowId, new HashMap<>())));
 
 }

@@ -110,6 +110,7 @@ public class FishingRodHandler {
                         () -> (ServerPlayer) player),
                 new FishFightPacket(
                         event.getHookEntity().position(),
+                        // todo 客户端开始游戏时就已经知道难度了，可以在渲染时根据鱼信息提高难度
                         chosenFish
                 )
         );
