@@ -62,7 +62,6 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
 
     public FishShopContainerMenu(int id, Inventory playerInventory, Item shopOutputItem) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
-        this.outputItem = shopOutputItem;
 
         if (NINE_STACK_ITEMS.containsKey(shopOutputItem)) {
             this.isNineStackableOutput = true;
