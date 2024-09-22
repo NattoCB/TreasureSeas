@@ -60,11 +60,10 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
         return totalValues;
     }
 
-    public FishShopContainerMenu(int id, Inventory playerInventory) {
+    public FishShopContainerMenu(int id, Inventory playerInventory, Item shopOutputItem) {
         super(ModContainerTypes.FISH_SHOP_CONTAINER.get(), id);
+        this.outputItem = shopOutputItem;
 
-        // check config
-        Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
         if (NINE_STACK_ITEMS.containsKey(shopOutputItem)) {
             this.isNineStackableOutput = true;
         }
