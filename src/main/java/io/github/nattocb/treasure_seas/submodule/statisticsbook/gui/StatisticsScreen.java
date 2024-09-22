@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
+import io.github.nattocb.treasure_seas.utils.gui.ItemIconButton;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,6 +14,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -63,8 +66,30 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
             }
         }));
 
+        // Adding sort buttons
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 10, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
+            this.menu.sortByFishItemName();
+            this.menu.updateVisibleSlots();
+        }));
+
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 28, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+            this.menu.sortByBasePrice();
+            this.menu.updateVisibleSlots();
+        }));
+
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 46, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+            this.menu.sortByEnchantmentLevel();
+            this.menu.updateVisibleSlots();
+        }));
+
+        // Add a button with "?" text to open a new GUI
+        this.addRenderableWidget(new Button(this.leftPos + 75, this.topPos + 127, 12, 12, new TextComponent("?"), button -> {
+            this.minecraft.setScreen(new TutorialScreen(new TutorialMenu(0), this.minecraft.player.getInventory(), new TextComponent("New GUI")));
+        }));
+
         recalculateScrollBar();
     }
+
 
     @Override
     protected void renderBg(@NotNull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {

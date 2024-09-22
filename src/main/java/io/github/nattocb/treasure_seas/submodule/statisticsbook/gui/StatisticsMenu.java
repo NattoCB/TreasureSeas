@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StatisticsMenu extends AbstractContainerMenu {
 
@@ -30,13 +31,13 @@ public class StatisticsMenu extends AbstractContainerMenu {
 
     private static final List<ItemStack> itemList = new ArrayList<>();
     private final Container showcaseContainer;
-    private final HashMap<String, FishWrapper> fishWrapperMap;
+    private final Map<String, FishWrapper> fishWrapperMap;
 
     private FishWrapper selectedFishWrapper;
 
     private int currentPage = 0;
 
-    public StatisticsMenu(MenuType<?> type, int id, HashMap<String, FishWrapper> fishWrapperMap) {
+    public StatisticsMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperMap) {
         super(type, id);
         this.fishWrapperMap = fishWrapperMap;
 
@@ -72,6 +73,7 @@ public class StatisticsMenu extends AbstractContainerMenu {
             }
         }
     }
+
 
     // 保存点击的FishWrapper
     public void setSelectedFishWrapper(ItemStack clickedStack) {
@@ -114,6 +116,32 @@ public class StatisticsMenu extends AbstractContainerMenu {
         public boolean mayPickup(@NotNull Player player) {
             return false;
         }
+    }
+
+    public void sortByFishItemName() {
+        itemList.sort((itemStack1, itemStack2) -> {
+            FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
+            FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
+            String name1 = fish1.getModNamespace() + ":" + fish1.getFishItemName();
+            String name2 = fish2.getModNamespace() + ":" + fish2.getFishItemName();
+            return name1.compareTo(name2);
+        });
+    }
+
+    public void sortByBasePrice() {
+        itemList.sort((itemStack1, itemStack2) -> {
+            FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
+            FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
+            return Integer.compare(fish1.getBasePrice(), fish2.getBasePrice());
+        });
+    }
+
+    public void sortByEnchantmentLevel() {
+        itemList.sort((itemStack1, itemStack2) -> {
+            FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
+            FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
+            return Integer.compare(fish1.getLowestLootableEnchantmentLevel(), fish2.getLowestLootableEnchantmentLevel());
+        });
     }
 
 }
