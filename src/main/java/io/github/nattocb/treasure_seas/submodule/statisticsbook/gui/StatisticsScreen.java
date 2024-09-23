@@ -67,17 +67,22 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         }));
 
         // Adding sort buttons
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 10, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 8, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
+            this.menu.sortByCategoryAndName();
+            this.menu.updateVisibleSlots();
+        }));
+
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 20, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
             this.menu.sortByFishItemName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 28, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 32, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
             this.menu.sortByBasePrice();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 46, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 44, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
             this.menu.sortByEnchantmentLevel();
             this.menu.updateVisibleSlots();
         }));

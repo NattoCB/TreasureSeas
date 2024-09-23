@@ -1,6 +1,5 @@
 package io.github.nattocb.treasure_seas.submodule.statisticsbook.gui;
 
-import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,7 +14,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +32,6 @@ public class StatisticsMenu extends AbstractContainerMenu {
     private final Map<String, FishWrapper> fishWrapperMap;
 
     private FishWrapper selectedFishWrapper;
-
-    private int currentPage = 0;
 
     public StatisticsMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperMap) {
         super(type, id);
@@ -79,9 +75,6 @@ public class StatisticsMenu extends AbstractContainerMenu {
     public void setSelectedFishWrapper(ItemStack clickedStack) {
         String key = ForgeRegistries.ITEMS.getKey(clickedStack.getItem()).toString();
         this.selectedFishWrapper = fishWrapperMap.get(key);
-
-        // 每次选择新鱼时重置到第一页
-        currentPage = 0;
     }
 
 
@@ -141,6 +134,29 @@ public class StatisticsMenu extends AbstractContainerMenu {
             FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
             FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
             return Integer.compare(fish1.getLowestLootableEnchantmentLevel(), fish2.getLowestLootableEnchantmentLevel());
+        });
+    }
+
+    public void sortByCategoryAndName() {
+        itemList.sort((itemStack1, itemStack2) -> {
+            FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
+            FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
+
+            // 比较是否是鱼、垃圾、宝藏和终极宝藏
+            int categoryComparison = Boolean.compare(fish2.isUltimateTreasure(), fish1.isUltimateTreasure());
+            if (categoryComparison == 0) {
+                categoryComparison = Boolean.compare(fish2.isTreasure(), fish1.isTreasure());
+            }
+            if (categoryComparison == 0) {
+                categoryComparison = Boolean.compare(fish2.isJunk(), fish1.isJunk());
+            }
+            if (categoryComparison == 0) {
+                // 对于普通鱼，四个类别都为 false，按名称排序
+                String name1 = fish1.getModNamespace() + ":" + fish1.getFishItemName();
+                String name2 = fish2.getModNamespace() + ":" + fish2.getFishItemName();
+                return name1.compareTo(name2);
+            }
+            return categoryComparison;
         });
     }
 
