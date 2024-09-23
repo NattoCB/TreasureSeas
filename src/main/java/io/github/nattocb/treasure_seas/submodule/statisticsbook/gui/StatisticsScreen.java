@@ -71,22 +71,22 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         }));
 
         // Adding sort buttons
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 8, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 7, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
             this.menu.sortByCategoryAndName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 22, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 21, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
             this.menu.sortByFishItemName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 34, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 35, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
             this.menu.sortByBasePrice();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 46, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 49, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
             this.menu.sortByEnchantmentLevel();
             this.menu.updateVisibleSlots();
         }));
@@ -201,12 +201,21 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         if (selectedFish != null) {
 
             // Fetch and render the player NBT data from the utility methods
-            int length = FishUtils.getFishLength(playerFishesNbt, selectedFish);
+            int maxRecordedLength = FishUtils.getFishMaxRecordedLength(playerFishesNbt, selectedFish);
             boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
-            font.draw(poseStack, "Recorded length: " + length, this.leftPos + 44, this.topPos + 140, 0xFFFFFF);
-            font.draw(poseStack, "Shiny caught: " + (isShiny ? "Yes" : "No"), this.leftPos + 44, this.topPos + 150, 0xFFFFFF);
-            font.draw(poseStack, "Catch count: " + catchCount, this.leftPos + 44, this.topPos + 160, 0xFFFFFF);
+            font.draw(poseStack, " : " + maxRecordedLength + "cm",
+                    this.titleLabelX,
+                    this.titleLabelY + 137,
+                    4210752);
+            font.draw(poseStack, "ShinyCaught: " + (isShiny ? "●" : "○"),
+                    this.titleLabelX,
+                    this.titleLabelY + 147,
+                    4210752);
+            font.draw(poseStack, "CatchCnt: " + catchCount,
+                    this.titleLabelX + 91,
+                    this.titleLabelY + 147,
+                    4210752);
 
             // 添加 FishWrapper 信息
             if (textPage.isEmpty()) {

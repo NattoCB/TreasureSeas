@@ -338,7 +338,7 @@ public class FishUtils {
     }
 
     // Retrieve the maxLength from the player's NBT data
-    public static int getFishLength(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
+    public static int getFishMaxRecordedLength(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
         if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
             TreasureSeas.getLogger().warn("FishUtils.getFishLength: treasureSeasTag not found");
             return 0;
