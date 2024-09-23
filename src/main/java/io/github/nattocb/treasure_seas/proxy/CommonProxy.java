@@ -97,8 +97,32 @@ public class CommonProxy {
 
             recordFishingResultToRodItem(player);
 
+            updatePlayerFishingNBT(player, fishWrapper, length, isShiny);
+
             player.awardStat(Stats.FISH_CAUGHT, 1);
         }
+    }
+
+    private static void updatePlayerFishingNBT(ServerPlayer player, FishWrapper fishWrapper, int length, boolean isShiny) {
+        CompoundTag playerData = player.getPersistentData();
+        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
+        if (treasureSeasTag.isEmpty()) {
+            treasureSeasTag = new CompoundTag();
+            playerData.put("treasureSeas", treasureSeasTag);
+        }
+        String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
+        CompoundTag fishTag = treasureSeasTag.getCompound(fishKey);
+        int storedLength = fishTag.getInt("maxLength");
+        if (length > storedLength) {
+            fishTag.putInt("maxLength", length);
+        }
+        if (isShiny) {
+            fishTag.putBoolean("isShiny", true);
+        }
+        int count = fishTag.getInt("cnt");
+        fishTag.putInt("cnt", count + 1);
+        treasureSeasTag.put(fishKey, fishTag);
+        playerData.put("treasureSeas", treasureSeasTag);
     }
 
     private static void checkOrGiveAdvancements(ServerPlayer player, FishWrapper fishWrapper, int length, boolean isShiny, FishRarity rarity) {

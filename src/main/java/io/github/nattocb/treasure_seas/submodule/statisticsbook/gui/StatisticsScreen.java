@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
+import io.github.nattocb.treasure_seas.utils.FishUtils;
 import io.github.nattocb.treasure_seas.utils.gui.ItemIconButton;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
@@ -234,6 +235,14 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
                 yPos += lineSpacing;
             }
         }
+
+        // Fetch and render the NBT data from the utility methods
+        int length = FishUtils.getFishLength(minecraft.player, selectedFish);
+        boolean isShiny = FishUtils.isFishShiny(minecraft.player, selectedFish);
+        int catchCount = FishUtils.getFishCatchCount(minecraft.player, selectedFish);
+        font.draw(poseStack, "Recorded length: " + length, this.leftPos + 44, this.topPos + 140, 0xFFFFFF);
+        font.draw(poseStack, "Shiny caught: " + (isShiny ? "Yes" : "No"), this.leftPos + 44, this.topPos + 150, 0xFFFFFF);
+        font.draw(poseStack, "Catch count: " + catchCount, this.leftPos + 44, this.topPos + 160, 0xFFFFFF);
     }
 
     static class TextPage {

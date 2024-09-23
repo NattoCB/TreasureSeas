@@ -337,4 +337,52 @@ public class FishUtils {
         return player.fishing;
     }
 
+    // Retrieve the maxLength from the player's NBT data
+    public static int getFishLength(Player player, FishWrapper fishWrapper) {
+        CompoundTag playerData = player.getPersistentData();
+        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
+        if (treasureSeasTag.isEmpty()) {
+            treasureSeasTag = new CompoundTag();
+            playerData.put("treasureSeas", treasureSeasTag);
+        }
+        String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
+        if (treasureSeasTag.contains(fishKey)) {
+            CompoundTag fishTag = treasureSeasTag.getCompound(fishKey);
+            return fishTag.getInt("maxLength");
+        }
+        return 0;
+    }
+
+    // Retrieve the shiny status from the player's NBT data
+    public static boolean isFishShiny(Player player, FishWrapper fishWrapper) {
+        CompoundTag playerData = player.getPersistentData();
+        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
+        if (treasureSeasTag.isEmpty()) {
+            treasureSeasTag = new CompoundTag();
+            playerData.put("treasureSeas", treasureSeasTag);
+        }
+        String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
+        if (treasureSeasTag.contains(fishKey)) {
+            CompoundTag fishTag = treasureSeasTag.getCompound(fishKey);
+            return fishTag.getBoolean("isShiny");
+        }
+        return false;
+    }
+
+    // Retrieve the catch count from the player's NBT data
+    public static int getFishCatchCount(Player player, FishWrapper fishWrapper) {
+        CompoundTag playerData = player.getPersistentData();
+        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
+        if (treasureSeasTag.isEmpty()) {
+            treasureSeasTag = new CompoundTag();
+            playerData.put("treasureSeas", treasureSeasTag);
+        }
+        String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
+        if (treasureSeasTag.contains(fishKey)) {
+            CompoundTag fishTag = treasureSeasTag.getCompound(fishKey);
+            return fishTag.getInt("cnt");
+        }
+        return 0;
+    }
+
 }

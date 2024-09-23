@@ -35,7 +35,7 @@ public class PacketHandler {
                     ctx.get().setPacketHandled(true);
                 });
 
-        // Fish fight result - todo 改为单纯在服务端判断
+        // Fish fight result
         CHANNEL.registerMessage(
                 ID++,
                 FishFightResultPacket.class,
