@@ -338,12 +338,10 @@ public class FishUtils {
     }
 
     // Retrieve the maxLength from the player's NBT data
-    public static int getFishLength(Player player, FishWrapper fishWrapper) {
-        CompoundTag playerData = player.getPersistentData();
-        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
-        if (treasureSeasTag.isEmpty()) {
-            treasureSeasTag = new CompoundTag();
-            playerData.put("treasureSeas", treasureSeasTag);
+    public static int getFishLength(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
+        if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
+            TreasureSeas.getLogger().warn("FishUtils.getFishLength: treasureSeasTag not found");
+            return 0;
         }
         String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
         if (treasureSeasTag.contains(fishKey)) {
@@ -354,12 +352,10 @@ public class FishUtils {
     }
 
     // Retrieve the shiny status from the player's NBT data
-    public static boolean isFishShiny(Player player, FishWrapper fishWrapper) {
-        CompoundTag playerData = player.getPersistentData();
-        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
-        if (treasureSeasTag.isEmpty()) {
-            treasureSeasTag = new CompoundTag();
-            playerData.put("treasureSeas", treasureSeasTag);
+    public static boolean isFishShiny(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
+        if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
+            TreasureSeas.getLogger().warn("FishUtils.isFishShiny: treasureSeasTag not found");
+            return false;
         }
         String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
         if (treasureSeasTag.contains(fishKey)) {
@@ -370,12 +366,10 @@ public class FishUtils {
     }
 
     // Retrieve the catch count from the player's NBT data
-    public static int getFishCatchCount(Player player, FishWrapper fishWrapper) {
-        CompoundTag playerData = player.getPersistentData();
-        CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
-        if (treasureSeasTag.isEmpty()) {
-            treasureSeasTag = new CompoundTag();
-            playerData.put("treasureSeas", treasureSeasTag);
+    public static int getFishCatchCount(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
+        if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
+            TreasureSeas.getLogger().warn("FishUtils.getFishCatchCount: treasureSeasTag not found");
+            return 0;
         }
         String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
         if (treasureSeasTag.contains(fishKey)) {
@@ -383,6 +377,22 @@ public class FishUtils {
             return fishTag.getInt("cnt");
         }
         return 0;
+    }
+
+
+    // Helper method to process the treasureSeas CompoundTag and extract FishWrapper data
+    public static HashMap<String, FishWrapper> getRecordedFishesFromPlayerNBT(CompoundTag treasureSeasData) {
+        HashMap<String, FishWrapper> result = new HashMap<>();
+        CompoundTag fishesTag = treasureSeasData.getCompound("Fishes");
+        for (String key : fishesTag.getAllKeys()) {
+            Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap();
+            if (fishWrapperMap.containsKey(key)) {
+                result.put(key, fishWrapperMap.get(key));
+            } else {
+                TreasureSeas.getLogger().warn("FishWrapper not found for key: " + key);
+            }
+        }
+        return result;
     }
 
 }

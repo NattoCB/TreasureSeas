@@ -1,6 +1,7 @@
 package io.github.nattocb.treasure_seas.submodule.statisticsbook.gui;
 
 import io.github.nattocb.treasure_seas.config.FishWrapper;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -19,35 +20,44 @@ import java.util.Map;
 
 public class StatisticsMenu extends AbstractContainerMenu {
 
-    // todo add sort function for: recommended level, name&mod, price
     // todo change required level to recommended level
 
     private final int width = 3;
+
     public final int visibleRows = 6;
+
     public final int totalRows;
+
     public int scrollOffset = 0;
 
     private static final List<ItemStack> itemList = new ArrayList<>();
+
     private final Container showcaseContainer;
+
     private final Map<String, FishWrapper> fishWrapperMap;
 
     private FishWrapper selectedFishWrapper;
 
-    public StatisticsMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperMap) {
+    public CompoundTag playerNbtFishes;
+
+    public StatisticsMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperConfigs, CompoundTag playerNbtRecordedFishes) {
+
         super(type, id);
-        this.fishWrapperMap = fishWrapperMap;
+
+        this.fishWrapperMap = fishWrapperConfigs;
+        this.playerNbtFishes = playerNbtRecordedFishes;
 
         if (itemList.isEmpty()) {
-            // todo 不构造垃圾和普通宝藏？或者改为直接记录已垂钓次数？
-            fishWrapperMap.forEach((k, v) -> {
+            fishWrapperConfigs.forEach((k, v) -> {
                 ResourceLocation itemLocation = new ResourceLocation(v.getModNamespace(), v.getFishItemName());
                 Item item = ForgeRegistries.ITEMS.getValue(itemLocation);
                 itemList.add(new ItemStack(item));
             });
+            sortByCategoryAndName();
         }
 
         // Calculate total rows based on item list size
-        this.totalRows = (int) Math.ceil(fishWrapperMap.size() / (float) width);
+        this.totalRows = (int) Math.ceil(fishWrapperConfigs.size() / (float) width);
 
         // Create a simple container to hold the slots
         this.showcaseContainer = new SimpleContainer(width * totalRows);
@@ -141,23 +151,32 @@ public class StatisticsMenu extends AbstractContainerMenu {
         itemList.sort((itemStack1, itemStack2) -> {
             FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
             FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
-
-            // 比较是否是鱼、垃圾、宝藏和终极宝藏
-            int categoryComparison = Boolean.compare(fish2.isUltimateTreasure(), fish1.isUltimateTreasure());
+            // 定义每个类别的优先级，越小优先级越高
+            int categoryPriority1 = getCategoryPriority(fish1);
+            int categoryPriority2 = getCategoryPriority(fish2);
+            // 先按类别优先级排序
+            int categoryComparison = Integer.compare(categoryPriority1, categoryPriority2);
             if (categoryComparison == 0) {
-                categoryComparison = Boolean.compare(fish2.isTreasure(), fish1.isTreasure());
-            }
-            if (categoryComparison == 0) {
-                categoryComparison = Boolean.compare(fish2.isJunk(), fish1.isJunk());
-            }
-            if (categoryComparison == 0) {
-                // 对于普通鱼，四个类别都为 false，按名称排序
+                // 如果类别相同，按名称排序
                 String name1 = fish1.getModNamespace() + ":" + fish1.getFishItemName();
                 String name2 = fish2.getModNamespace() + ":" + fish2.getFishItemName();
                 return name1.compareTo(name2);
             }
             return categoryComparison;
         });
+    }
+
+    // 返回类别的优先级：Fish -> Junk -> Treasure -> Ultimate Treasure
+    private int getCategoryPriority(FishWrapper fish) {
+        if (fish.isUltimateTreasure()) {
+            return 3; // Ultimate Treasure 优先级最低
+        } else if (fish.isTreasure()) {
+            return 2; // Treasure
+        } else if (fish.isJunk()) {
+            return 1; // Junk
+        } else {
+            return 0; // Fish 优先级最高
+        }
     }
 
 }

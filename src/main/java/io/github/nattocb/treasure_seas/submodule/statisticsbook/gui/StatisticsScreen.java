@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -42,10 +43,12 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     private Button nextPageButton;
     private Button prevPageButton;
     private Slot previousClickedSlot = null;
+    private CompoundTag playerFishesNbt;
 
     public StatisticsScreen(StatisticsMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageHeight = 180;
+        this.playerFishesNbt = menu.playerNbtFishes;
         recalculateScrollBar();
     }
 
@@ -73,23 +76,24 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 20, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 22, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
             this.menu.sortByFishItemName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 32, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 34, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
             this.menu.sortByBasePrice();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 44, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos + 46, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
             this.menu.sortByEnchantmentLevel();
             this.menu.updateVisibleSlots();
         }));
 
         // Add a button with "?" text to open a new GUI
         this.addRenderableWidget(new Button(this.leftPos + 75, this.topPos + 127, 12, 12, new TextComponent("?"), button -> {
+            // todo i18n
             this.minecraft.setScreen(new TutorialScreen(new TutorialMenu(0), this.minecraft.player.getInventory(), new TextComponent("New GUI")));
         }));
 
@@ -195,6 +199,15 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
         // 获取点击的 FishWrapper
         FishWrapper selectedFish = menu.getSelectedFishWrapper();
         if (selectedFish != null) {
+
+            // Fetch and render the player NBT data from the utility methods
+            int length = FishUtils.getFishLength(playerFishesNbt, selectedFish);
+            boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
+            int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
+            font.draw(poseStack, "Recorded length: " + length, this.leftPos + 44, this.topPos + 140, 0xFFFFFF);
+            font.draw(poseStack, "Shiny caught: " + (isShiny ? "Yes" : "No"), this.leftPos + 44, this.topPos + 150, 0xFFFFFF);
+            font.draw(poseStack, "Catch count: " + catchCount, this.leftPos + 44, this.topPos + 160, 0xFFFFFF);
+
             // 添加 FishWrapper 信息
             if (textPage.isEmpty()) {
                 textPage.addText("Mod: " + selectedFish.getModNamespace(), font);
@@ -235,14 +248,6 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
                 yPos += lineSpacing;
             }
         }
-
-        // Fetch and render the NBT data from the utility methods
-        int length = FishUtils.getFishLength(minecraft.player, selectedFish);
-        boolean isShiny = FishUtils.isFishShiny(minecraft.player, selectedFish);
-        int catchCount = FishUtils.getFishCatchCount(minecraft.player, selectedFish);
-        font.draw(poseStack, "Recorded length: " + length, this.leftPos + 44, this.topPos + 140, 0xFFFFFF);
-        font.draw(poseStack, "Shiny caught: " + (isShiny ? "Yes" : "No"), this.leftPos + 44, this.topPos + 150, 0xFFFFFF);
-        font.draw(poseStack, "Catch count: " + catchCount, this.leftPos + 44, this.topPos + 160, 0xFFFFFF);
     }
 
     static class TextPage {

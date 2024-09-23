@@ -3,6 +3,8 @@ package io.github.nattocb.treasure_seas.submodule.statisticsbook;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.packet.PacketHandler;
+import io.github.nattocb.treasure_seas.utils.FishUtils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -30,8 +32,24 @@ public class StatisticsBookItem extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            // param 1
             Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap();
-            PacketHandler.CHANNEL.sendTo(new OpenStatisticMenuPacket((HashMap<String, FishWrapper>) fishWrapperMap), serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+            // param 2
+            CompoundTag playerData = player.getPersistentData();
+            CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
+            if (treasureSeasTag.isEmpty()) {
+                treasureSeasTag = new CompoundTag();
+                playerData.put("treasureSeas", treasureSeasTag);
+            }
+            // send packet
+            PacketHandler.CHANNEL.sendTo(
+                    new OpenStatisticMenuPacket(
+                            fishWrapperMap, // data 1
+                            treasureSeasTag // data 2
+                    ),
+                    serverPlayer.connection.connection,
+                    NetworkDirection.PLAY_TO_CLIENT
+            );
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide());
     }

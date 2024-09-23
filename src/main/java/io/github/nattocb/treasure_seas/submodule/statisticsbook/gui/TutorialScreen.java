@@ -28,8 +28,7 @@ public class TutorialScreen extends AbstractContainerScreen<TutorialMenu> {
 
         // 添加返回按钮
         this.addRenderableWidget(new Button(this.leftPos + 50, this.topPos + 140, 80, 20, new TextComponent("<"), button -> {
-            // 当按钮点击时，返回到 StatisticsScreen
-            this.minecraft.setScreen(new StatisticsScreen(new StatisticsMenu(ModContainerTypes.STATISTICS_CONTAINER.get(), 0, TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap()), this.minecraft.player.getInventory(), new TextComponent("Statistics GUI")));
+           // todo 改为关闭界面吧，数据包有些信息除非重新传递了
         }));
     }
 
