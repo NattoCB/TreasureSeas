@@ -24,7 +24,7 @@ public class StatisticsMenu extends AbstractContainerMenu {
 
     private final int width = 3;
 
-    public final int visibleRows = 6;
+    public final int visibleRows = 5;
 
     public final int totalRows;
 

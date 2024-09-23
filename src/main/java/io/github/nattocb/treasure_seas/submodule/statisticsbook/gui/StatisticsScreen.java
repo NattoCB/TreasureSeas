@@ -30,7 +30,7 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
     private static final int SCROLLBAR_Y = 18;
     private static final int SCROLLBAR_WIDTH = 7;
-    private static final int SCROLLBAR_HEIGHT = 128;
+    private static final int SCROLLBAR_HEIGHT = 100;
     private int scrollBarScaledHeight;
     private int scrollBarXPos;
     private int scrollBarYPos;
@@ -56,43 +56,45 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     public void init() {
         super.init();
 
-        this.textPage = new TextPage(10, 88); // 每页最多显示10行，每行宽度最多88像素
+        // todo search bar
 
-        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 155, this.topPos + 127, 12, 12, new TextComponent(">"), button -> {
+        this.textPage = new TextPage(8, 88); // 每页最多显示 8 行，每行宽度最多 88 像素
+
+        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 157, this.topPos + 4, 12, 12, new TextComponent(">"), button -> {
             if (currentPage < totalPages - 1) {
                 currentPage++;
             }
         }));
 
-        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 135, this.topPos + 127, 12, 12, new TextComponent("<"), button -> {
+        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 144, this.topPos + 4, 12, 12, new TextComponent("<"), button -> {
             if (currentPage > 0) {
                 currentPage--;
             }
         }));
 
         // Adding sort buttons
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 7, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 18, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
             this.menu.sortByCategoryAndName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 21, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 33, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
             this.menu.sortByFishItemName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 35, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 48, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
             this.menu.sortByBasePrice();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos + 49, this.topPos + 127, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 63, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
             this.menu.sortByEnchantmentLevel();
             this.menu.updateVisibleSlots();
         }));
 
         // Add a button with "?" text to open a new GUI
-        this.addRenderableWidget(new Button(this.leftPos + 75, this.topPos + 127, 12, 12, new TextComponent("?"), button -> {
+        this.addRenderableWidget(new Button(this.leftPos - 12, this.topPos + 91, 12, 12, new TextComponent("?"), button -> {
             // todo i18n
             this.minecraft.setScreen(new TutorialScreen(new TutorialMenu(0), this.minecraft.player.getInventory(), new TextComponent("New GUI")));
         }));
@@ -192,7 +194,6 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
 
     @Override
     protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
-        // todo 显示客户端本地语言的鱼名字
         // 渲染屏幕标题
         font.draw(poseStack, title, (float) titleLabelX, (float) titleLabelY, 4210752);
 
@@ -204,21 +205,23 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
             int maxRecordedLength = FishUtils.getFishMaxRecordedLength(playerFishesNbt, selectedFish);
             boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
-            font.draw(poseStack, " : " + maxRecordedLength + "cm",
+            // todo i18n
+            font.draw(poseStack, "LongestSeen : " + maxRecordedLength + "cm",
                     this.titleLabelX,
-                    this.titleLabelY + 137,
+                    this.titleLabelY + 120,
                     4210752);
             font.draw(poseStack, "ShinyCaught: " + (isShiny ? "●" : "○"),
                     this.titleLabelX,
-                    this.titleLabelY + 147,
+                    this.titleLabelY + 130,
                     4210752);
             font.draw(poseStack, "CatchCnt: " + catchCount,
-                    this.titleLabelX + 91,
-                    this.titleLabelY + 147,
+                    this.titleLabelX,
+                    this.titleLabelY + 140,
                     4210752);
 
             // 添加 FishWrapper 信息
             if (textPage.isEmpty()) {
+                // todo content (+ i18n length trim)
                 textPage.addText("Mod: " + selectedFish.getModNamespace(), font);
                 textPage.addText("Item: " + selectedFish.getFishItemName(), font);
                 textPage.addText("Min Length: " + selectedFish.getMinLength(), font);
@@ -256,6 +259,9 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
                 font.draw(poseStack, line, xPos, yPos, 0xFFFFFF);
                 yPos += lineSpacing;
             }
+        } else {
+            // todo show: select a fish item to show the details (i18n)
+            // todo show: seslct a fish item to show the recorded info (i18n)
         }
     }
 
