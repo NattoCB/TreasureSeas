@@ -43,7 +43,7 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     private Button nextPageButton;
     private Button prevPageButton;
     private Slot previousClickedSlot = null;
-    private CompoundTag playerFishesNbt;
+    private final CompoundTag playerFishesNbt;
 
     public StatisticsScreen(StatisticsMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

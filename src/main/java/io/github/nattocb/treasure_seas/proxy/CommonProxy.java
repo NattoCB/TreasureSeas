@@ -46,7 +46,7 @@ public class CommonProxy {
 
     private static final Map<String, ResourceLocation> ADVANCEMENT_CACHE = new HashMap<>();
 
-    // todo 可配置
+    // todo 可配置 在 server-properties config
     private static final int SHINY_PROBABILITY = 1800;
 
     public CommonProxy() {
@@ -79,6 +79,8 @@ public class CommonProxy {
                 player.sendMessage(new TextComponent(String.format("Fish item %s:%s not found, please check your config and modlist", namespace, itemName)), player.getUUID());
                 return;
             }
+
+            // todo handle special NBT item (potion, enchant book)
 
             // get length, shiny info, rarity
             // todo add fish weight in kg
