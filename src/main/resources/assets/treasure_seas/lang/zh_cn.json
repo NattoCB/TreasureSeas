@@ -51,7 +51,7 @@
   "block.treasure_seas.fish_shop": "商用鱼篓",
   "item.treasure_seas.bound_to": "§8绑定于: %s",
   "item.treasure_seas.fish_shop.lore1": "§9可以出售通过附魔钓竿捕获的海产品",
-  "item.treasure_seas.fish_shop.lore2": "§9鱼商会给出绿宝石作为交换",
+  "item.treasure_seas.fish_shop.lore2": "§9鱼商会给出等价货币作为交换",
   "lore.treasure_seas.fishing_count": "§8捕获数: %s",
   "lore.treasure_seas.fishing_count_upgradable": "§8捕获数: §6%s §6(可升级)",
   "advancement.treasure_seas.length_50_fish.title": "大鱼！",
@@ -88,6 +88,5 @@
   "advancement.treasure_seas.root.description": "使用新的垂钓系统(鱼之战斗附魔)开始你的旅程吧!",
   "advancement.treasure_seas.co_fishing.title": "共同钓鱼！",
   "advancement.treasure_seas.co_fishing.description": "和朋友坐在一起钓鱼",
-  "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级",
-  "message.treasure_seas.exceed_max_outputs": "移动物品的价格超出本次商店交易的绿宝石最大额度"
+  "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级"
 }

@@ -51,7 +51,7 @@
   "block.treasure_seas.fish_shop": "Fish Shop",
   "item.treasure_seas.bound_to": "§8Soulbound: %s",
   "item.treasure_seas.fish_shop.lore1": "§9Can sell seafood caught with enchanted rods",
-  "item.treasure_seas.fish_shop.lore2": "§9The fishmonger will offer emeralds in exchange",
+  "item.treasure_seas.fish_shop.lore2": "§9The fishmonger will offer items in exchange",
   "lore.treasure_seas.fishing_count": "§8Fishing Count: §8%s",
   "lore.treasure_seas.fishing_count_upgradable": "§8Fishing Count: §6%s §6(Upgradable)",
   "advancement.treasure_seas.length_50_fish.title": "Big Fish!",
@@ -88,6 +88,5 @@
   "advancement.treasure_seas.root.description": "Start your journey with the new fishing system (via FishFighter's enchantment)!",
   "advancement.treasure_seas.co_fishing.title": "Fishing together!",
   "advancement.treasure_seas.co_fishing.description": "sitting together with your friends, and fishing!",
-  "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment",
-  "message.treasure_seas.exceed_max_outputs": "The item you are moving exceeds the max allowed emeralds under the current shop's output"
+  "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment"
 }
