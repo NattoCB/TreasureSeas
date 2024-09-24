@@ -206,14 +206,16 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
             boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
             // todo i18n
-            font.draw(poseStack, "LongestSeen : " + maxRecordedLength + "cm",
-                    this.titleLabelX,
-                    this.titleLabelY + 120,
-                    4210752);
-            font.draw(poseStack, "ShinyCaught: " + (isShiny ? "●" : "○"),
-                    this.titleLabelX,
-                    this.titleLabelY + 130,
-                    4210752);
+            if (!(selectedFish.isJunk() || selectedFish.isTreasure() || selectedFish.isUltimateTreasure())) {
+                font.draw(poseStack, "LongestSeen : " + maxRecordedLength + "cm",
+                        this.titleLabelX,
+                        this.titleLabelY + 120,
+                        4210752);
+                font.draw(poseStack, "ShinyCaught: " + (isShiny ? "●" : "○"),
+                        this.titleLabelX,
+                        this.titleLabelY + 130,
+                        4210752);
+            }
             font.draw(poseStack, "CatchCnt: " + catchCount,
                     this.titleLabelX,
                     this.titleLabelY + 140,

@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -80,8 +81,8 @@ public class FishingHookHandler {
         if (!wasFishing) {
             // Player just started fishing, display the HUD message
             Component message = new TranslatableComponent("message.use.scroll");
-            int totalDuration = 65;
-            int fadeOutStartTick = 42;
+            int totalDuration = 105;
+            int fadeOutStartTick = 82;
             HudDisplayManager.showHudMessage(message, totalDuration, fadeOutStartTick);
         }
         wasFishing = true;
@@ -112,6 +113,7 @@ public class FishingHookHandler {
             int waterDepth = FishUtils.calculateFluidDepth(hook.getOnPos(), hook.getLevel());
             int depthCapacity = FishUtils.getRodDepthCapacity(enchantmentLevel);
             int preferredDepth = nbtData.getInt("preferredDepth");
+            int temp = preferredDepth;
             preferredDepth = preferredDepth == 0 ? Math.min(waterDepth, depthCapacity) : Math.min(waterDepth, preferredDepth);
             double scrollDelta = event.getScrollDelta();
             if (scrollDelta > 0) {
@@ -124,6 +126,11 @@ public class FishingHookHandler {
             }
             nbtData.putInt("preferredDepth", preferredDepth);
             fishingRod.setTag(nbtData);
+
+            // depth 变化时播放音效
+            if (temp != preferredDepth) {
+                mc.player.playSound(SoundEvents.FISHING_BOBBER_RETRIEVE, 1.0F, 1.0F);
+            }
         }
     }
 

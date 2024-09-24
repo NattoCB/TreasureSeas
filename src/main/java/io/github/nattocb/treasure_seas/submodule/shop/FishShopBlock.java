@@ -1,11 +1,18 @@
 package io.github.nattocb.treasure_seas.submodule.shop;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.submodule.shop.gui.FishShopContainerMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -29,13 +36,25 @@ public class FishShopBlock extends Block implements EntityBlock {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (!world.isClientSide) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof FishShopBlockEntity) {
-                NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) blockEntity, pos);
-            }
+            Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
+            NetworkHooks.openGui((ServerPlayer) player, new MenuProvider() {
+                @Override
+                public Component getDisplayName() {
+                    return new TranslatableComponent("fish.shop.gui");
+                }
+
+                @Override
+                public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player playerEntity) {
+                    return new FishShopContainerMenu(id, playerInventory, shopOutputItem);
+                }
+            }, buf -> {
+                // 将需要的数据写入缓冲区
+                buf.writeRegistryId(shopOutputItem);
+            });
         }
         return InteractionResult.SUCCESS;
     }
+
 
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
