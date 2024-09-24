@@ -167,9 +167,11 @@ public class FishWrapper {
         if (this.isUltimateTreasure != isUltimateTreasure) return false;
         TreasureSeas.getLogger().dev("  - matches, pass isUltimateTreasure check");
 
-        // 检查附魔等级是否满足
-        if (enchantmentLevel < this.lowestLootableEnchantmentLevel) return false;
-        TreasureSeas.getLogger().dev("  - matches, pass enchantmentLevel check, {} >= {}", enchantmentLevel, this.lowestLootableEnchantmentLevel);
+        // 检查附魔等级是否满足(鱼类可以掉到超限等级的，只是更难对抗，但宝藏垃圾必须强制匹配同等及之下的等级)
+        if (this.isTreasure || this.isJunk || this.isUltimateTreasure) {
+            if (enchantmentLevel < this.lowestLootableEnchantmentLevel) return false;
+        }
+        TreasureSeas.getLogger().dev("  - matches, pass enchantmentLevel check, match requires.{}  to this.{}", enchantmentLevel, this.lowestLootableEnchantmentLevel);
 
         // 检查时间条件是否满足
         if (this.allowedTime != AllowedTime.ALL && this.allowedTime != currentTime) return false;
@@ -180,7 +182,6 @@ public class FishWrapper {
         TreasureSeas.getLogger().dev("  - matches, pass allowedWeather check");
 
         // 检查当前深度是否在允许的范围内
-        // todo 改成蓄力决定深度？在0~最大容深之间？- 下个版本
         if (currentDepth < this.minAppearDepth || currentDepth > this.maxAppearDepth) return false;
         TreasureSeas.getLogger().dev("  - matches, pass maxAppearDepth check");
 

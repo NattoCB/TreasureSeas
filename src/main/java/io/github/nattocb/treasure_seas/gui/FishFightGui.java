@@ -75,7 +75,7 @@ public class FishFightGui extends Screen {
     /**
      * 鱼移动速度的激进程度
      */
-    private final float fishSpeedMultiplier;
+    private float fishSpeedMultiplier;
 
     /**
      * 战胜鱼所需的时间（tick）
@@ -100,10 +100,11 @@ public class FishFightGui extends Screen {
     public FishFightGui(Component titleIn, Vec3 bobberPosition, FishWrapper fishWrapper) {
         super(titleIn);
         LocalPlayer player = Minecraft.getInstance().player;
-        enchantLvl = player == null ? 1 : FishUtils.getFishFighterRodEnchantLevel(player);
         this.fishWrapper = fishWrapper;
+        enchantLvl = player == null ? 1 : FishUtils.getFishFighterRodEnchantLevel(player);
         this.bobberPosition = bobberPosition;
         double yDiffLimit = 1.0;
+
         // todo test big value
         double[] yRange = {-1.155, 1.155};
          yRange = MathUtils.getRandomSubInterval(yRange, 0.7);
@@ -113,14 +114,22 @@ public class FishFightGui extends Screen {
         this.caughtTime = initCaughtTime;
         float[] flatSegmentRange = fishWrapper.getFlatSegmentRandomRange();
         float[] nonFlatSegmentRange = fishWrapper.getFluxSegmentRandomRange();
-        // make fishing easier based on enchant level
+
+        // 如果钓竿等级高，那么减少难度
         float enchantModifier = (1 + Math.min(enchantLvl - this.fishWrapper.getLowestLootableEnchantmentLevel(), 0) * 0.05F);
         flatSegmentRange[0] = flatSegmentRange[0] * enchantModifier;
         flatSegmentRange[1] = flatSegmentRange[1] * enchantModifier;
         nonFlatSegmentRange[0] = nonFlatSegmentRange[0] * enchantModifier;
         nonFlatSegmentRange[1] = nonFlatSegmentRange[1] * enchantModifier;
-
         this.waveGenerator = new WaveGenerator(yDiffLimit, yRange, flatSegmentRange, nonFlatSegmentRange);
+
+        // 如果钓竿等级低于鱼等级，那么加大难度
+        int fishLvl = fishWrapper.getLowestLootableEnchantmentLevel();
+        if (enchantLvl < fishLvl) {
+            this.winTime *= (1 + ((fishLvl-enchantLvl) * 0.25F));
+            this.fishSpeedMultiplier *= (1 + ((fishLvl-enchantLvl) * 0.25F));
+        }
+
         // 防止一开始时滑条自动往上跑，让 isClicked 在 GUI 初始时为 false，让滑条下沉
         MouseEventHandler.resetStatus();
     }
