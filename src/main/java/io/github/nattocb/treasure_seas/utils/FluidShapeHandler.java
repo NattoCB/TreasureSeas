@@ -67,7 +67,7 @@ public class FluidShapeHandler {
 
         // 没有缓存，重新计算 startPos 的形状并缓存
         FluidShape newShape = calculateRawFluidShape(world, adjustedPos);
-        newShape = checkForHole(world, adjustedPos, newShape);
+        newShape = checkForAdvanceShape(world, adjustedPos, newShape);
         RECTANGLE_AREA_CACHE.put(adjustedPos, new CachedFluidShape(newShape, System.currentTimeMillis()));
 
         return newShape;
@@ -77,7 +77,7 @@ public class FluidShapeHandler {
      * 基于 rawShape 进行额外判断，得到进一步细化的 shape 类型
      * 如基于 NARROW 判断是否为 HOLE、WELL shapes
      */
-    private static FluidShape checkForHole(Level world, BlockPos startPos, FluidShape rawShape) {
+    private static FluidShape checkForAdvanceShape(Level world, BlockPos startPos, FluidShape rawShape) {
         switch (rawShape) {
             case NARROW:
                 // 检查 Y - 1 位置的 FluidShape
@@ -112,15 +112,24 @@ public class FluidShapeHandler {
                 }
             case NEAR_SHORE:
             case OPEN_WATER:
-                // 检查 Y + 1 位置非空气方块占比，大于 90% 则为 HOLE
+                // 检查 Y + 1 位置（mc敲出来的非自然生成冰洞）非空气方块占比，大于 90% 则为 HOLE
                 double validPercentage = getAreaValidPercentage(world, startPos.above(), FluidShapeHandler::isAir);
                 if (validPercentage <= 10.0) {
                     return FluidShape.HOLE;
                 } else {
-                    return rawShape;
+                    if (rawShape == FluidShape.NEAR_SHORE) {
+                        double belowFluidPercentage = getAreaValidPercentage(world, startPos.below(), FluidShapeHandler::isFluid);
+                        if (belowFluidPercentage >= 70.0) {
+                            return FluidShape.OPEN_WATER;
+                        } else {
+                            return FluidShape.NEAR_SHORE;
+                        }
+                    } else {
+                        return FluidShape.OPEN_WATER;
+                    }
                 }
         }
-        // HOLE, WELL 均不满足
+        // 各项 advShapes 均不满足，返回原本 rawShape
         return rawShape;
     }
 
