@@ -106,6 +106,16 @@ public class FishConfigManager {
      */
     private Item shopOutputItem;
 
+    public Integer getShinyFrequency() {
+        return shinyFrequency;
+    }
+
+    public void setShinyFrequency(Integer shinyFrequency) {
+        this.shinyFrequency = shinyFrequency;
+    }
+
+    private Integer shinyFrequency;
+
     public Item getShopOutputItem() {
         return shopOutputItem;
     }
@@ -174,13 +184,18 @@ public class FishConfigManager {
     }
 
     public void loadServerConfig() {
+
         String clientConfigFilePath = "config/treasureseas-server.properties";
         Path clientConfigPath = new File(clientConfigFilePath).toPath();
         preCheckConfigExistence(clientConfigPath, clientConfigFilePath);
+
         // Load properties file
         Properties clientProperties = new Properties();
+
         try (InputStream inputStream = Files.newInputStream(clientConfigPath)) {
+
             clientProperties.load(inputStream);
+
             // Parse, check, and assign the property #1 shop.output_item
             String temp = clientProperties.getProperty("shop.output_item",  "minecraft:emerald");
             String[] split = temp.split(":");
@@ -197,6 +212,11 @@ public class FishConfigManager {
                 throw new RuntimeException("fail to load custom shop output, target item " + itemName + " was not loaded into FML");
             }
             this.shopOutputItem = ForgeRegistries.ITEMS.getValue(itemLocation);
+
+            // Parse, check, and assign the property #2 fish.shiny_frequency
+            String shinyFreq = clientProperties.getProperty("fish.shiny_frequency", "1800");
+            this.shinyFrequency = Integer.parseInt(shinyFreq);
+
             TreasureSeas.getLogger().info("Server configuration loaded successfully.");
         } catch (Exception e) {
             this.shopOutputItem = Items.EMERALD;

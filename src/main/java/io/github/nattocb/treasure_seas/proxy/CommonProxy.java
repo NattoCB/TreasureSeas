@@ -46,9 +46,6 @@ public class CommonProxy {
 
     private static final Map<String, ResourceLocation> ADVANCEMENT_CACHE = new HashMap<>();
 
-    // todo 可配置 在 server-properties config
-    private static final int SHINY_PROBABILITY = 1800;
-
     public CommonProxy() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
@@ -86,7 +83,8 @@ public class CommonProxy {
             // todo add fish weight in kg
             Pair<Double, FishRarity> lengthRarityPair = generateLengthAndRarity(player, fishWrapper, isRaining, isThundering, isNightTime);
             int length = lengthRarityPair.getA().intValue();
-            boolean isShiny = TreasureSeas.RANDOM.nextInt(SHINY_PROBABILITY) == 0;
+            int shinyFrequency = TreasureSeas.getInstance().getFishConfigManager().getShinyFrequency();
+            boolean isShiny = TreasureSeas.RANDOM.nextInt(shinyFrequency) == 0;
             FishRarity rarity = lengthRarityPair.getB();
 
             checkOrGiveAdvancements(player, fishWrapper, length, isShiny, rarity);
