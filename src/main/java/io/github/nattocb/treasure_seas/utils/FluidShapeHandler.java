@@ -125,7 +125,7 @@ public class FluidShapeHandler {
                             return FluidShape.NEAR_SHORE;
                         }
                     } else {
-                        return FluidShape.OPEN_WATER;
+                        return rawShape;
                     }
                 }
         }

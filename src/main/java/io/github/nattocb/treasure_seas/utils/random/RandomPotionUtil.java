@@ -17,7 +17,7 @@ public class RandomPotionUtil {
     // 定义不同难度的权重值
     private static final int[] WEIGHTS = {7, 8, 9};  // 1级、2级、3级的权重
     // 定义可用的持续时间数组
-    private static final int[] DURATIONS = {15, 30, 45, 60, 120, 180, 300};  // 持续时间列表
+    private static final int[] DURATIONS = {15, 30, 45, 60, 90, 120, 180};  // 持续时间列表
     // 随机数生成器
     private static final Random RANDOM = new Random();
 
@@ -81,9 +81,9 @@ public class RandomPotionUtil {
         if (level == 1) {
             return 60; // 1级最高只能返回60秒内的药水
         } else if (level == 2) {
-            return 180; // 2级最高返回180秒的药水
+            return 120; // 2级最高返回120秒的药水
         } else {
-            return 300; // 3级最高返回300秒的药水
+            return 180; // 3级最高返回180秒的药水
         }
     }
 
