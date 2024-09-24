@@ -308,8 +308,7 @@ public class FishUtils {
     }
 
     // 传入海之眷顾等级，返回 true 如果本次将 junk 转换为 treasure
-    public static boolean convertJunkToTreasure(int luckOfTheSeaLevel) {
-        Random random = new Random();
+    private static boolean convertJunkToTreasure(int luckOfTheSeaLevel) {
         double chance;
         switch (luckOfTheSeaLevel) {
             case 1 -> chance = 0.021;
@@ -317,7 +316,7 @@ public class FishUtils {
             case 3 -> chance = 0.063;
             default -> chance = 0.00;
         }
-        return random.nextDouble() < chance;
+        return TreasureSeas.RANDOM.nextDouble() < chance;
     }
 
     @NotNull
