@@ -26,7 +26,7 @@ public class AnvilOperationHandler {
         ItemStack right = event.getRight();
 
         if (left.getItem() instanceof FishingRodItem && right.getItem() == Items.ENCHANTED_BOOK) {
-            int currentRodLevel = FishUtils.getFishRodFighterEnchantLevel(left);
+            int currentRodLevel = FishUtils.getFishFighterRodEnchantLevel(left);
             int bookLevel = EnchantmentHelper.getEnchantments(right).getOrDefault(TreasureSeas.FISH_FIGHTER.get(), 0);
             if (bookLevel == 0) {
                 // 不是 FISH FIGHTER 附魔，直接 copy nbt 到 output

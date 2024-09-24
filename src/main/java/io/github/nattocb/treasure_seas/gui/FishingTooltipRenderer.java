@@ -173,7 +173,7 @@ public class FishingTooltipRenderer extends GuiComponent {
 
     private static List<ClientTooltipComponent> generateTooltipComponents(Player player, FishingHook hook) {
         ItemStack fishingRod = FishUtils.getFishRodItemFromInv(player);
-        int fishRodEnchantLevel = FishUtils.getFishRodFighterEnchantLevel(player);
+        int fishRodEnchantLevel = FishUtils.getFishFighterRodEnchantLevel(player);
         int waterDepth = FishUtils.calculateFluidDepth(hook.getOnPos(), hook.getLevel());
         int rodDepth = FishUtils.getRodDepthCapacity(fishRodEnchantLevel);
         if (fishingRod != null) {

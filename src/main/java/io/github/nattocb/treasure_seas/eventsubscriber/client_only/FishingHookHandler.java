@@ -42,7 +42,7 @@ public class FishingHookHandler {
         }
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
-        int enchantmentLevel = FishUtils.getFishRodFighterEnchantLevel(player);
+        int enchantmentLevel = FishUtils.getFishFighterRodEnchantLevel(player);
         if (enchantmentLevel == 0) return;
 
         // main logic
@@ -75,7 +75,7 @@ public class FishingHookHandler {
             wasFishing = false;
             return;
         }
-        int enchantmentLevel = FishUtils.getFishRodFighterEnchantLevel(mc.player);
+        int enchantmentLevel = FishUtils.getFishFighterRodEnchantLevel(mc.player);
         if (enchantmentLevel == 0) return;
         if (!wasFishing) {
             // Player just started fishing, display the HUD message
@@ -101,7 +101,7 @@ public class FishingHookHandler {
             // 拦截 fish fighter 附魔钓竿的 scroll event
             ItemStack fishingRod = FishUtils.getFishRodItemFromInv(mc.player);
             if (fishingRod == null) return;
-            int enchantmentLevel = FishUtils.getFishRodFighterEnchantLevel(mc.player);
+            int enchantmentLevel = FishUtils.getFishFighterRodEnchantLevel(mc.player);
             if (enchantmentLevel == 0) return;
             event.setCanceled(true);
 

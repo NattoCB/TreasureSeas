@@ -132,13 +132,13 @@ public class FishUtils {
     /**
      * 获取玩家手持鱼竿的鱼之战斗附魔等级
      */
-    public static int getFishRodFighterEnchantLevel(@NotNull Player player) {
+    public static int getFishFighterRodEnchantLevel(@NotNull Player player) {
         ItemStack heldItem = getFishRodItemFromInv(player);
         if (heldItem == null) return 0;
         return EnchantmentHelper.getItemEnchantmentLevel(TreasureSeas.FISH_FIGHTER.get(), heldItem);
     }
 
-    public static int getFishRodFighterEnchantLevel(@NotNull ItemStack itemStack) {
+    public static int getFishFighterRodEnchantLevel(@NotNull ItemStack itemStack) {
         return EnchantmentHelper.getItemEnchantmentLevel(TreasureSeas.FISH_FIGHTER.get(), itemStack);
     }
 

@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -35,7 +34,7 @@ public class FishingRodHandler {
         if (event.getHookEntity() == null) return;
         Player player = event.getPlayer();
         if (player == null) return;
-        int enchantmentLevel = FishUtils.getFishRodFighterEnchantLevel(player);
+        int enchantmentLevel = FishUtils.getFishFighterRodEnchantLevel(player);
         if (enchantmentLevel == 0) return;
 
         // get the matched (weighted-random) fish
@@ -54,7 +53,7 @@ public class FishingRodHandler {
         FishWrapper.AllowedTime currentTime = FishUtils.getCurrentTimeEnum(world);
 
         int waterDepth = FishUtils.calculateFluidDepth(event.getHookEntity().getOnPos(), event.getHookEntity().getLevel());
-        int depthCapacity = FishUtils.getRodDepthCapacity(FishUtils.getFishRodFighterEnchantLevel(player));
+        int depthCapacity = FishUtils.getRodDepthCapacity(FishUtils.getFishFighterRodEnchantLevel(player));
         depthCapacity = Math.min(waterDepth, depthCapacity);
         // if fetched userPreferred depth successfully, use the one user preferred
         ItemStack fishingRod = FishUtils.getFishRodItemFromInv(player);
@@ -119,7 +118,7 @@ public class FishingRodHandler {
     @SubscribeEvent
     public void onFishingRodUse(PlayerInteractEvent.RightClickItem event) {
         ItemStack itemStack = event.getItemStack();
-        int fishRodEnchantLevel = FishUtils.getFishRodFighterEnchantLevel(event.getPlayer());
+        int fishRodEnchantLevel = FishUtils.getFishFighterRodEnchantLevel(event.getPlayer());
         if (fishRodEnchantLevel > 0) {
             // 鱼之战斗钓竿不掉耐久度
             itemStack.setDamageValue(0);

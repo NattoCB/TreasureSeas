@@ -9,6 +9,8 @@ import io.github.nattocb.treasure_seas.FishRarity;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
 import io.github.nattocb.treasure_seas.utils.ItemUtils;
 import io.github.nattocb.treasure_seas.utils.MathUtils;
+import io.github.nattocb.treasure_seas.utils.random.RandomEnchantmentUtil;
+import io.github.nattocb.treasure_seas.utils.random.RandomPotionUtil;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,7 +28,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -77,7 +79,8 @@ public class CommonProxy {
                 return;
             }
 
-            // todo handle special NBT item (potion, enchant book)
+            // handle special NBT item (potion, enchant book)
+            itemStack = handleSpecialNbtItem(player, itemStack);
 
             // get length, shiny info, rarity
             // todo add fish weight in kg
@@ -101,6 +104,35 @@ public class CommonProxy {
 
             player.awardStat(Stats.FISH_CAUGHT, 1);
         }
+    }
+
+    @NotNull
+    private static ItemStack handleSpecialNbtItem(ServerPlayer player, ItemStack itemStack) {
+        if (itemStack.getItem() instanceof PotionItem ||
+            itemStack.getItem() instanceof SplashPotionItem ||
+            itemStack.getItem() instanceof LingeringPotionItem) {
+            int entLvl = FishUtils.getFishFighterRodEnchantLevel(player);
+            switch (entLvl) {
+                case 1 -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 1);
+                case 2 -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 2);
+                case 3 -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 2);
+                case 4 -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 3);
+                case 5 -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 3);
+                default -> itemStack = RandomPotionUtil.getRandomPotion(itemStack, 1);
+            }
+        }
+        if (itemStack.getItem() instanceof EnchantedBookItem) {
+            int entLvl = FishUtils.getFishFighterRodEnchantLevel(player);
+            switch (entLvl) {
+                case 1 -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(1);
+                case 2 -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(2);
+                case 3 -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(3);
+                case 4 -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(4);
+                case 5 -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(4);
+                default -> itemStack = RandomEnchantmentUtil.getRandomEnchantmentBook(1);
+            }
+        }
+        return itemStack;
     }
 
     private static void updatePlayerFishingNBT(ServerPlayer player, FishWrapper fishWrapper, int length, boolean isShiny) {
@@ -210,7 +242,7 @@ public class CommonProxy {
             length += (maxLength - minLength) * 0.025;
         }
         //  Adjust length based on fish fighter ent lvl
-        int entLvl = FishUtils.getFishRodFighterEnchantLevel(player);
+        int entLvl = FishUtils.getFishFighterRodEnchantLevel(player);
         float multiplier = entLvl * 0.0125F;
         length = length * (1 + multiplier);
         // Adjust length based on weather the fisher is on a boat
@@ -297,7 +329,7 @@ public class CommonProxy {
 
     private static void recordFishingResultToRodItem(ServerPlayer player) {
         ItemStack fishRod = FishUtils.getFishRodItemFromInv(player);
-        int enchantLevel = FishUtils.getFishRodFighterEnchantLevel(player);
+        int enchantLevel = FishUtils.getFishFighterRodEnchantLevel(player);
         int nextLvlExp = FishingRodUpgradeRequirement.getRequiredExperienceForLevel(enchantLevel);
         if (fishRod != null) {
             // 更新 NBT 标签

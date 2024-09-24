@@ -100,7 +100,7 @@ public class FishFightGui extends Screen {
     public FishFightGui(Component titleIn, Vec3 bobberPosition, FishWrapper fishWrapper) {
         super(titleIn);
         LocalPlayer player = Minecraft.getInstance().player;
-        enchantLvl = player == null ? 1 : FishUtils.getFishRodFighterEnchantLevel(player);
+        enchantLvl = player == null ? 1 : FishUtils.getFishFighterRodEnchantLevel(player);
         this.fishWrapper = fishWrapper;
         this.bobberPosition = bobberPosition;
         double yDiffLimit = 1.0;
