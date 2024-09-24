@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CustomLoreItem extends Item {
 
-    private final List<Component> lore;
+    protected final List<Component> lore;
 
     public CustomLoreItem(Properties properties, List<Component> lore) {
         super(properties);

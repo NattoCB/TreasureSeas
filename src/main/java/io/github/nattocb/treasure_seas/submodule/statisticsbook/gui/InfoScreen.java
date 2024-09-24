@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
+public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
 
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(TreasureSeas.MOD_ID, "textures/gui/info_book.png");
 
@@ -45,7 +45,7 @@ public class StatisticsScreen extends AbstractContainerScreen<StatisticsMenu> {
     private Slot previousClickedSlot = null;
     private final CompoundTag playerFishesNbt;
 
-    public StatisticsScreen(StatisticsMenu menu, Inventory playerInventory, Component title) {
+    public InfoScreen(InfoMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageHeight = 180;
         this.playerFishesNbt = menu.playerNbtFishes;

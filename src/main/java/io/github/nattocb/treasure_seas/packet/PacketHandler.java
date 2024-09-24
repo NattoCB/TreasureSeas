@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.packet;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.submodule.statisticsbook.OpenStatisticMenuPacket;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.OpenInfoMenuPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -57,10 +57,10 @@ public class PacketHandler {
         // Open statistics book
         CHANNEL.registerMessage(
                 ID++,
-                OpenStatisticMenuPacket.class,
-                OpenStatisticMenuPacket::encode,
-                OpenStatisticMenuPacket::decode,
-                OpenStatisticMenuPacket::handle
+                OpenInfoMenuPacket.class,
+                OpenInfoMenuPacket::encode,
+                OpenInfoMenuPacket::decode,
+                OpenInfoMenuPacket::handle
         );
 
     }

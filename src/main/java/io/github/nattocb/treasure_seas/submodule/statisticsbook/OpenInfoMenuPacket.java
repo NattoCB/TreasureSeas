@@ -2,8 +2,8 @@ package io.github.nattocb.treasure_seas.submodule.statisticsbook;
 
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
-import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsMenu;
-import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsScreen;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.InfoMenu;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.InfoScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,19 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class OpenStatisticMenuPacket {
+public class OpenInfoMenuPacket {
 
     private final Map<String, FishWrapper> fishWrapperMap;
 
     private final CompoundTag treasureSeasData;
 
-    public OpenStatisticMenuPacket(Map<String, FishWrapper> fishWrapperMap, CompoundTag treasureSeasData) {
+    public OpenInfoMenuPacket(Map<String, FishWrapper> fishWrapperMap, CompoundTag treasureSeasData) {
         this.fishWrapperMap = fishWrapperMap;
         this.treasureSeasData = treasureSeasData;
     }
 
     // Encode method to write to the buffer
-    public static void encode(OpenStatisticMenuPacket msg, FriendlyByteBuf buf) {
+    public static void encode(OpenInfoMenuPacket msg, FriendlyByteBuf buf) {
         // param 1
         buf.writeVarInt(msg.fishWrapperMap.size()); // Write the size of the HashMap
         for (Map.Entry<String, FishWrapper> entry : msg.fishWrapperMap.entrySet()) {
@@ -39,7 +39,7 @@ public class OpenStatisticMenuPacket {
     }
 
     // Decode method to read from the buffer
-    public static OpenStatisticMenuPacket decode(FriendlyByteBuf buf) {
+    public static OpenInfoMenuPacket decode(FriendlyByteBuf buf) {
         // param 1
         int size = buf.readVarInt(); // Read the size of the HashMap
         HashMap<String, FishWrapper> fishWrapperMap = new HashMap<>();
@@ -50,18 +50,18 @@ public class OpenStatisticMenuPacket {
         }
         // param 2
         CompoundTag treasureSeasData = buf.readNbt(); // Read treasureSeas compound
-        return new OpenStatisticMenuPacket(fishWrapperMap, treasureSeasData);
+        return new OpenInfoMenuPacket(fishWrapperMap, treasureSeasData);
     }
 
     // Handle method to process the packet on the client side
-    public static void handle(OpenStatisticMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(OpenInfoMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             if (ctx.get().getDirection().getReceptionSide().isClient()) {
                 Player player = Minecraft.getInstance().player;
                 if (player != null) {
                     // Open the StatisticsScreen with the FishWrapper data
-                    Minecraft.getInstance().setScreen(new StatisticsScreen(
-                            new StatisticsMenu(
+                    Minecraft.getInstance().setScreen(new InfoScreen(
+                            new InfoMenu(
                                     ModContainerTypes.STATISTICS_CONTAINER.get(),
                                     0,
                                     msg.fishWrapperMap,  // data 1

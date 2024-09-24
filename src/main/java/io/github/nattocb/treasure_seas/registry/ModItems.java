@@ -3,7 +3,7 @@ package io.github.nattocb.treasure_seas.registry;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.item.CustomLoreItem;
 import io.github.nattocb.treasure_seas.item.EdibleFruitItem;
-import io.github.nattocb.treasure_seas.submodule.statisticsbook.StatisticsBookItem;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.InfoBookItem;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -62,7 +62,12 @@ public class ModItems {
     /**
      * Register Statistics Book Item
      */
-    public static final RegistryObject<Item> STATISTICS_BOOK = ITEMS.register("statistics_book", () ->
-            new StatisticsBookItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<Item> INFO_BOOK = ITEMS.register("info_book", () ->
+            new InfoBookItem(
+                    new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),
+                    List.of(
+                            new TranslatableComponent("item.treasure_seas.info_book.lore1"),
+                            new TranslatableComponent("item.treasure_seas.info_book.lore2")
+                    )));
 
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StatisticsMenu extends AbstractContainerMenu {
+public class InfoMenu extends AbstractContainerMenu {
 
     // todo change required level to recommended level
 
@@ -40,7 +40,7 @@ public class StatisticsMenu extends AbstractContainerMenu {
 
     public CompoundTag playerNbtFishes;
 
-    public StatisticsMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperConfigs, CompoundTag playerNbtRecordedFishes) {
+    public InfoMenu(MenuType<?> type, int id, Map<String, FishWrapper> fishWrapperConfigs, CompoundTag playerNbtRecordedFishes) {
 
         super(type, id);
 
@@ -106,7 +106,7 @@ public class StatisticsMenu extends AbstractContainerMenu {
 
     private static class ShowcaseSlot extends Slot {
 
-        public ShowcaseSlot(Container container, int index, int xPosition, int yPosition, StatisticsMenu menu) {
+        public ShowcaseSlot(Container container, int index, int xPosition, int yPosition, InfoMenu menu) {
             super(container, index, xPosition, yPosition);
         }
 

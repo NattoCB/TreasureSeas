@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.submodule.shop.gui.FishShopContainerMenu;
-import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.StatisticsMenu;
+import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.InfoMenu;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
@@ -12,7 +12,6 @@ import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ModContainerTypes {
@@ -24,9 +23,9 @@ public class ModContainerTypes {
                 return new FishShopContainerMenu(windowId, inv, shopOutputItem);
             }));
 
-    public static final RegistryObject<MenuType<StatisticsMenu>> STATISTICS_CONTAINER = CONTAINERS.register("statistics_menu",
+    public static final RegistryObject<MenuType<InfoMenu>> STATISTICS_CONTAINER = CONTAINERS.register("statistics_menu",
             () -> IForgeMenuType.create((windowId, inv, data) ->
-                    new StatisticsMenu(
+                    new InfoMenu(
                         ModContainerTypes.STATISTICS_CONTAINER.get(),
                         windowId,
                         new HashMap<>(),
