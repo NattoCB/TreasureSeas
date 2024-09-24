@@ -13,9 +13,15 @@ import java.util.Random;
 
 public class RandomEnchantmentUtil {
 
-    // 定义不同稀有度的权重值（这里给出一个示例，权重可以调整）
-    private static final int[] WEIGHTS = {7, 8, 9, 10}; // 1级、2级、3级、4级的权重
-    
+    // 定义不同稀有度的权重修正系数
+    private static final int COMMON_WEIGHT = 10;
+    private static final int UNCOMMON_WEIGHT = 8;
+    private static final int RARE_WEIGHT = 6;
+    private static final int VERY_RARE_WEIGHT = 4;
+
+    // 基础权重值，代表附魔的等级
+    private static final int[] LEVEL_WEIGHTS = {7, 8, 9, 10}; // 1级、2级、3级、4级的权重
+
     // 随机数生成器
     private static final Random RANDOM = new Random();
 
@@ -36,7 +42,8 @@ public class RandomEnchantmentUtil {
             for (int i = 1; i <= enchantMaxLevel; i++) {
                 // 确保附魔等级 <= 传入等级
                 if (i <= level) {
-                    int weight = WEIGHTS[i - 1]; // 获取对应等级的权重
+                    // 基于稀有度调整权重
+                    int weight = getRarityWeight(rarity) + LEVEL_WEIGHTS[i - 1];
                     enchantmentPool.add(new EnchantmentEntry(enchantment, i, weight));
                 }
             }
@@ -72,6 +79,26 @@ public class RandomEnchantmentUtil {
 
         // 如果意外没有找到，返回默认（防御性编程）
         return enchantmentPool.get(0);
+    }
+
+    /**
+     * 根据附魔稀有度返回对应的权重修正值。
+     * @param rarity 附魔的稀有度
+     * @return 权重修正值
+     */
+    private static int getRarityWeight(Enchantment.Rarity rarity) {
+        switch (rarity) {
+            case COMMON:
+                return COMMON_WEIGHT;
+            case UNCOMMON:
+                return UNCOMMON_WEIGHT;
+            case RARE:
+                return RARE_WEIGHT;
+            case VERY_RARE:
+                return VERY_RARE_WEIGHT;
+            default:
+                return 0;
+        }
     }
 
     /**
