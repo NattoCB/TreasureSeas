@@ -15,6 +15,7 @@ import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -255,7 +256,7 @@ public class FishUtils {
     }
 
     @NotNull
-    public static RewardType getRandomRewardType(@NotNull Level world, BlockPos hookPos, int value) {
+    public static RewardType getRandomRewardType(@NotNull Player player, @NotNull Level world, BlockPos hookPos, int value) {
         if (!rewardTypeProbabilitiesForCommonWorlds.containsKey(value)) {
             TreasureSeas.getLogger().error("Fish fighter enchant level could not be lower than 1 or greater than 5");
             return RewardType.FISH;
@@ -282,15 +283,41 @@ public class FishUtils {
         } else {
             probs = rewardTypeProbabilitiesForCommonWorlds.get(value);
         }
+        RewardType result = RewardType.FISH;
         double cumulativeProbability = 0.0;
         for (int i = 0; i < probs.size(); i++) {
             cumulativeProbability += probs.get(i);
             if (chance < cumulativeProbability) {
                 TreasureSeas.getLogger().dev("reward type: " + RewardType.values()[i]);
-                return RewardType.values()[i];
+                result = RewardType.values()[i];
+                break;
             }
         }
-        return RewardType.FISH;
+
+        // 根据 luck of the sea 随机将 JUNK 转换为 TREASURE 类型
+        ItemStack fishRod = getFishRodItemFromInv(player);
+        if (result == RewardType.JUNK && fishRod != null) {
+            int luckLvl = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, fishRod);
+            boolean convertJunkToTreasure = convertJunkToTreasure(luckLvl);
+            if (convertJunkToTreasure) {
+                return RewardType.TREASURE;
+            }
+        }
+
+        return result;
+    }
+
+    // 传入海之眷顾等级，返回 true 如果本次将 junk 转换为 treasure
+    public static boolean convertJunkToTreasure(int luckOfTheSeaLevel) {
+        Random random = new Random();
+        double chance;
+        switch (luckOfTheSeaLevel) {
+            case 1 -> chance = 0.021;
+            case 2 -> chance = 0.042;
+            case 3 -> chance = 0.063;
+            default -> chance = 0.00;
+        }
+        return random.nextDouble() < chance;
     }
 
     @NotNull
@@ -377,22 +404,6 @@ public class FishUtils {
             return fishTag.getInt("cnt");
         }
         return 0;
-    }
-
-
-    // Helper method to process the treasureSeas CompoundTag and extract FishWrapper data
-    public static HashMap<String, FishWrapper> getRecordedFishesFromPlayerNBT(CompoundTag treasureSeasData) {
-        HashMap<String, FishWrapper> result = new HashMap<>();
-        CompoundTag fishesTag = treasureSeasData.getCompound("Fishes");
-        for (String key : fishesTag.getAllKeys()) {
-            Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap();
-            if (fishWrapperMap.containsKey(key)) {
-                result.put(key, fishWrapperMap.get(key));
-            } else {
-                TreasureSeas.getLogger().warn("FishWrapper not found for key: " + key);
-            }
-        }
-        return result;
     }
 
 }
