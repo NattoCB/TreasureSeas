@@ -9,11 +9,13 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FishWrapper {
+public class FishWrapper implements Cloneable, Serializable {
+
     public enum AllowedTime {
         MORNING, AFTERNOON, EVENING, NIGHT, ALL
     }
@@ -294,6 +296,10 @@ public class FishWrapper {
         return sampleWeight;
     }
 
+    public void setSampleWeight(int newWeight) {
+        sampleWeight = newWeight;
+    }
+
     public boolean isCaveOnly() {
         return caveOnly;
     }
@@ -432,5 +438,25 @@ public class FishWrapper {
                 ", isJunk=" + isJunk +
                 '}';
     }
+
+    @Override
+    public FishWrapper clone() {
+        try {
+            // 浅拷贝基本类型
+            FishWrapper cloned = (FishWrapper) super.clone();
+
+            // 深拷贝数组字段
+            cloned.flatSegmentRandomRange = this.flatSegmentRandomRange.clone();
+            cloned.fluxSegmentRandomRange = this.fluxSegmentRandomRange.clone();
+            cloned.possibleBiomes = this.possibleBiomes.clone();
+            cloned.possibleWorlds = this.possibleWorlds.clone();
+
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            // Cloneable 已经实现，理应不会抛出这个异常
+            throw new AssertionError();
+        }
+    }
+
 
 }

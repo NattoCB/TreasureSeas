@@ -98,7 +98,7 @@ public class FishingRodHandler {
                     )
                     .toList();
         };
-        FishWrapper chosenFish = FishUtils.chooseFishBySampleWeight(matchingFishes);
+        FishWrapper chosenFish = FishUtils.chooseFishBySampleWeight(player, matchingFishes);
         return chosenFish;
     }
 

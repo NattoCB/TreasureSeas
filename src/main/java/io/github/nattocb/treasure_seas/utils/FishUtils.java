@@ -99,29 +99,39 @@ public class FishUtils {
      * select fish based on weights from the matched fishes list
      */
     @NotNull
-    public static FishWrapper chooseFishBySampleWeight(@NotNull List<FishWrapper> matchingFishes) {
+    public static FishWrapper chooseFishBySampleWeight(Player player, @NotNull List<FishWrapper> matchedFishes) {
+        // deep clone to prevent modify global config's data on the blow logic
+        List<FishWrapper> localFishes = CollectionUtils.deepClone(matchedFishes);
         // existence check
-        if (matchingFishes.isEmpty()) {
+        if (matchedFishes.isEmpty()) {
             TreasureSeas.getLogger().dev("Matched fish: empty, use default fish");
             return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
         } else {
-            // prepare for logs
+            // logs
             StringBuilder sb = new StringBuilder();
-            sb.append("Matched fish: ");
-            matchingFishes.forEach(fish ->
+            sb.append("Matched fishes: ");
+            matchedFishes.forEach(fish ->
                     sb.append(fish.getModNamespace()).append(":").append(fish.getFishItemName()).append(", ")
             );
             TreasureSeas.getLogger().dev(sb.substring(0, sb.length() - 2));
         }
+        // decrease the weight for the fish that higher than rod's lvl
+        int fishFighterRodEnchantLevel = FishUtils.getFishFighterRodEnchantLevel(player);
+        localFishes.forEach(fish -> {
+            int lvlDiff = fish.getLowestLootableEnchantmentLevel() - fishFighterRodEnchantLevel;
+            if (lvlDiff > 0) {
+                fish.setSampleWeight((int) (fish.getSampleWeight() * Math.max(0, 1 - (0.25 * lvlDiff))));
+            }
+        });
         // random sampling based on weights
-        int totalWeight = matchingFishes.stream().mapToInt(FishWrapper::getSampleWeight).sum();
+        int totalWeight = localFishes.stream().mapToInt(FishWrapper::getSampleWeight).sum();
         if (totalWeight <= 0) {
             TreasureSeas.getLogger().warn("Matched fish: total weight must be positive");
             return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
         }
         int randomWeight = TreasureSeas.RANDOM.nextInt(totalWeight);
         int currentWeight = 0;
-        for (FishWrapper fish : matchingFishes) {
+        for (FishWrapper fish : localFishes) {
             currentWeight += fish.getSampleWeight();
             if (randomWeight < currentWeight) {
                 return fish;
@@ -274,7 +284,8 @@ public class FishUtils {
             case NEAR_SHORE -> chance = Math.max(0, chance - 2);
             case OPEN_WATER -> chance = Math.min(100, chance + 1);
             case HOLE -> chance = Math.min(100, chance + 1.5);
-            case UNKNOWN -> {}
+            case UNKNOWN -> {
+            }
         }
 
         List<Double> probs;
