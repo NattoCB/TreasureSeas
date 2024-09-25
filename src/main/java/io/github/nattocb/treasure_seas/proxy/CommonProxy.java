@@ -92,7 +92,7 @@ public class CommonProxy {
 
             checkOrGiveAdvancements(player, fishWrapper, length, isShiny, rarity);
 
-            recordFishingResultToFishItem(fishWrapper, itemStack, length, rarity, isShiny);
+            recordFishingResultToFishItem(player, fishWrapper, itemStack, length, rarity, isShiny);
 
             generateRewardItemToWorld(bobberPos, player, itemStack);
 
@@ -203,7 +203,7 @@ public class CommonProxy {
         player.getAdvancements().award(advancement, criteria);
     }
 
-    private static void recordFishingResultToFishItem(FishWrapper fishWrapper, ItemStack itemStack, int length, FishRarity rarity, boolean isShiny) {
+    private static void recordFishingResultToFishItem(Player player, FishWrapper fishWrapper, ItemStack itemStack, int length, FishRarity rarity, boolean isShiny) {
         if (fishWrapper.isUltimateTreasure() || fishWrapper.isTreasure() || fishWrapper.isJunk()) {
             return;
         }
@@ -212,6 +212,10 @@ public class CommonProxy {
         fishTag.putInt("length", length);
         fishTag.putString("rarity", rarity.name());
         fishTag.putBoolean("isShiny", isShiny);
+        fishTag.putLong("timestamp", System.currentTimeMillis());
+        fishTag.putString("world", player.level.dimension().location().getPath());
+        fishTag.putString("location", String.format("%d,%d,%d", player.getBlockX(), player.getBlockY(), player.getBlockZ()));
+        fishTag.putString("fisher", player.getScoreboardName());
         // lore
         ListTag lore = new ListTag();
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.length", "§7" + length))));
