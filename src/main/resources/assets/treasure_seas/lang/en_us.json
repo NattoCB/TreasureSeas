@@ -27,7 +27,7 @@
   "tooltip.fishing_hook": "§9Fishing...",
   "tooltip.fishing_hook2": "§9Fishing... §8(§8%s§8)",
   "tooltip.water_depth": "§8SeaDepth: %s m",
-  "tooltip.depth_capacity": "§8RodDepth: %s m",
+  "tooltip.depth_capacity": "§8HookDepth: %s m",
   "tooltip.biome": "§8Biome: %s",
   "tooltip.area.unknown": "§8Unknown",
   "tooltip.area.narrow": "§8Narrow",
