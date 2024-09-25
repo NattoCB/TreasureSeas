@@ -224,29 +224,17 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
             // 添加 FishWrapper 信息
             if (textPage.isEmpty()) {
                 // todo content (+ i18n length trim)
-                textPage.addText("Mod: " + selectedFish.getModNamespace(), font);
-                textPage.addText("Item: " + selectedFish.getFishItemName(), font);
-                textPage.addText("Min Length: " + selectedFish.getMinLength(), font);
-                textPage.addText("Max Length: " + selectedFish.getMaxLength(), font);
-                textPage.addText("Most Common Length: " + selectedFish.getMostCommonLength(), font);
-                textPage.addText("Length Dispersion: " + selectedFish.getLengthDispersion(), font);
-                textPage.addText("Min Appear Depth: " + selectedFish.getMinAppearDepth(), font);
-                textPage.addText("Max Appear Depth: " + selectedFish.getMaxAppearDepth(), font);
-                textPage.addText("Sample Weight: " + selectedFish.getSampleWeight(), font);
-                textPage.addText("Cave Only: " + selectedFish.isCaveOnly(), font);
-                textPage.addText("Base Price: " + selectedFish.getBasePrice(), font);
-                textPage.addText("Is Treasure: " + selectedFish.isTreasure(), font);
-                textPage.addText("Is Junk: " + selectedFish.isJunk(), font);
-                textPage.addText("Is Ultimate Treasure: " + selectedFish.isUltimateTreasure(), font);
-                textPage.addText("Allowed Time: " + selectedFish.getAllowedTime(), font);
-                textPage.addText("Allowed Weather: " + selectedFish.getAllowedWeather(), font);
-                textPage.addText("Possible Biomes: " + String.join(", ", selectedFish.getPossibleBiomes()), font);
-                textPage.addText("Possible Worlds: " + String.join(", ", selectedFish.getPossibleWorlds()), font);
-                textPage.addText("Lowest Lootable Enchantment Level: " + selectedFish.getLowestLootableEnchantmentLevel(), font);
-                textPage.addText("Ticks to Win: " + selectedFish.getTicksToWin(), font);
-                textPage.addText("Speed Modifier: " + selectedFish.getSpeedModifier(), font);
-                textPage.addText("Flat Segment Random Range: " + selectedFish.getFlatSegmentRandomRange()[0] + " - " + selectedFish.getFlatSegmentRandomRange()[1], font);
-                textPage.addText("Flux Segment Random Range: " + selectedFish.getFluxSegmentRandomRange()[0] + " - " + selectedFish.getFluxSegmentRandomRange()[1], font);
+                textPage.addText("length: " + selectedFish.getMinLength() + "~" + selectedFish.getMaxLength() + " cm", font);
+                textPage.addText("depth: " + selectedFish.getMinAppearDepth() + "~" + selectedFish.getMaxAppearDepth() + " m", font);
+                textPage.addText("fishHabit: " + (selectedFish.isCaveOnly() ? "Cave" : "General"), font);
+                textPage.addText("appearTime: " + selectedFish.getAllowedTime(), font);
+                textPage.addText("appearWeather: " + selectedFish.getAllowedWeather(), font);
+                textPage.addText("fightLvl: " + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                textPage.addText("tenacity: " + selectedFish.getTicksToWin(), font);
+                textPage.addText("dexterity: " + selectedFish.getSpeedModifier(), font);
+                textPage.addText("habitat: " + String.join(", ", selectedFish.getPossibleBiomes()), font);
+                textPage.addText("world: " + String.join(", ", selectedFish.getPossibleWorlds()), font);
+                textPage.addText("basePrice: " + selectedFish.getBasePrice(), font);
             }
 
             // 计算总页数
