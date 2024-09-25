@@ -103,14 +103,14 @@ public class FishUtils {
         // deep clone to prevent modify global config's data on the blow logic
         List<FishWrapper> localFishes = CollectionUtils.deepClone(matchedFishes);
         // existence check
-        if (matchedFishes.isEmpty()) {
+        if (localFishes.isEmpty()) {
             TreasureSeas.getLogger().dev("Matched fish: empty, use default fish");
             return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
         } else {
             // logs
             StringBuilder sb = new StringBuilder();
             sb.append("Matched fishes: ");
-            matchedFishes.forEach(fish ->
+            localFishes.forEach(fish ->
                     sb.append(fish.getModNamespace()).append(":").append(fish.getFishItemName()).append(", ")
             );
             TreasureSeas.getLogger().dev(sb.substring(0, sb.length() - 2));
