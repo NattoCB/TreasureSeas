@@ -91,5 +91,6 @@
   "advancement.treasure_seas.root.description": "使用新的垂钓系统(鱼之战斗附魔)开始你的旅程吧!",
   "advancement.treasure_seas.co_fishing.title": "共同钓鱼！",
   "advancement.treasure_seas.co_fishing.description": "和朋友坐在一起钓鱼",
-  "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级"
+  "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级",
+  "itemGroup.treasure_seas_tab": "宝藏海"
 }

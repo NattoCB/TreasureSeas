@@ -21,7 +21,7 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> PIRATE_TREASURE = ITEMS.register("pirate_treasure", () ->
-            new CustomLoreItem(new Item.Properties().stacksTo(64).tab(CreativeModeTab.TAB_MISC),
+            new CustomLoreItem(new Item.Properties().stacksTo(64).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     List.of(
                             new TranslatableComponent("item.treasure_seas.pirate_treasure.lore1"),
                             new TranslatableComponent("item.treasure_seas.pirate_treasure.lore2")
@@ -32,7 +32,7 @@ public class ModItems {
      */
     public static final RegistryObject<Item> POWER_FRUIT = ITEMS.register("power_fruit", () ->
             new EdibleFruitItem(
-                    new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),
+                    new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     0.5, // Amount to add to attack damage
                     "generic.attack_damage", // Attribute to modify
                     8, // Maximum uses
@@ -48,7 +48,7 @@ public class ModItems {
      */
     public static final RegistryObject<Item> LIFE_FRUIT = ITEMS.register("life_fruit", () ->
             new EdibleFruitItem(
-                    new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),
+                    new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     2.0, // Amount to add to max health
                     "generic.max_health", // Attribute to modify
                     3, // Maximum uses
@@ -64,7 +64,7 @@ public class ModItems {
      */
     public static final RegistryObject<Item> INFO_BOOK = ITEMS.register("info_book", () ->
             new InfoBookItem(
-                    new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC),
+                    new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     List.of(
                             new TranslatableComponent("item.treasure_seas.info_book.lore1"),
                             new TranslatableComponent("item.treasure_seas.info_book.lore2")

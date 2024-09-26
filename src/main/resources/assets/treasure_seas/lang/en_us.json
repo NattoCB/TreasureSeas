@@ -50,7 +50,7 @@
   "item.treasure_seas.life_fruit.lore2": "§6Permanently increases HP by 2 when consumed (up to 3 times)",
   "item.treasure_seas.info_book": "§bTreasureSeas' FishDex",
   "item.treasure_seas.info_book.lore1": "§9The index unveils secrets of the oceans",
-  "item.treasure_seas.info_book.lore2": "§9while recording your adventurous through this wondrous world",
+  "item.treasure_seas.info_book.lore2": "§9while recording your adventurous through this wondrous world...",
   "block.treasure_seas.fish_shop": "Fish Shop",
   "item.treasure_seas.bound_to": "§8Soulbound: %s",
   "item.treasure_seas.fish_shop.lore1": "§9Can sell seafood caught with enchanted rods",
@@ -91,5 +91,6 @@
   "advancement.treasure_seas.root.description": "Start your journey with the new fishing system (via FishFighter's enchantment)!",
   "advancement.treasure_seas.co_fishing.title": "Fishing together!",
   "advancement.treasure_seas.co_fishing.description": "sitting together with your friends, and fishing!",
-  "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment"
+  "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment",
+  "itemGroup.treasure_seas_tab": "TreasureSeas"
 }

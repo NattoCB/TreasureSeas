@@ -31,7 +31,7 @@ public class ModBlocks {
             ));
 
     public static final RegistryObject<Item> FISH_SHOP_ITEM = ITEMS.register("fish_shop",
-            () -> new CustomBlockItem(FISH_SHOP_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_MISC),
+            () -> new CustomBlockItem(FISH_SHOP_BLOCK.get(), new Item.Properties().tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     List.of(
                             new TranslatableComponent("item.treasure_seas.fish_shop.lore1"),
                             new TranslatableComponent("item.treasure_seas.fish_shop.lore2")
