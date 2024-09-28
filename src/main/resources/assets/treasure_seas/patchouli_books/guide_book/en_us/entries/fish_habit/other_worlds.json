@@ -1,0 +1,12 @@
+{
+  "name": "在其他世界战斗",
+  "icon": "minecraft:glowstone",
+  "category": "treasure_seas:fish_habit",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "原版的 minecraft 不支持在岩浆进行垂钓，但你可以通过增加其他可在岩浆进行垂钓的模组来弥补这个空缺，在那之后，你就可以对岩浆钓竿增加 $(item)鱼之战斗$() 附魔，在配好对应的配置文件之后，即可开始你的岩浆垂钓之旅。"
+    }
+  ]
+}

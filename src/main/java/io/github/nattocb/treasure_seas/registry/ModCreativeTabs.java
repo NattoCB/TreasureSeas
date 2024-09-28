@@ -10,7 +10,7 @@ public class ModCreativeTabs {
     public static final CreativeModeTab TREASURE_SEAS_TAB = new CreativeModeTab("treasure_seas_tab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ModItems.PIRATE_TREASURE.get());
+            return new ItemStack(ModItems.INFO_BOOK.get());
         }
 
         @Override

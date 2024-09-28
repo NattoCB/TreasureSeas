@@ -1,0 +1,16 @@
+{
+    "name": "鱼的稀有度",
+    "icon": "minecraft:cod",
+    "category": "treasure_seas:fish_rarity",
+    "sortnum": 0,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "每条鱼在不同$(item)天气$()、$(item)时间$()下均存在如下可能的稀有度（几率），稀有度越高代表着鱼越大、越贵、越难得：$(br)$(li) $(item)ORDINARY$() (普通): 0-50%%$(br)$(li) $(item)UNCOMMON$() (少见): 50-60%%$(br)$(li) $(item)RARE$() (稀有): 60-75%%"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(br)$(li) $(item)SUPERIOR$() (优质): 75-90%%$(br)$(li) $(item)EXCEPTIONAL$() (卓越): 90-95%%$(br)$(li) $(item)LEGEND$() (传说): 95-97.5%%$(br)$(li) $(item)MYTHIC$() (史诗): 97.5-99%%$(br)$(li) $(item)DIVINE$() (神圣): 99%%+"
+        }
+    ]
+}

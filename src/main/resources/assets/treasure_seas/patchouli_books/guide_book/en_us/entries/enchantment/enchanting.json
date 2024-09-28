@@ -1,0 +1,12 @@
+{
+  "name": "通过 [附魔台] 获取",
+  "icon": "minecraft:enchanting_table",
+  "category": "treasure_seas:enchantment",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(item)Fish Fighter 附魔 (Lv.1)$() 可能出现在附魔台中通过附魔钓竿得到。"
+    }
+  ]
+}

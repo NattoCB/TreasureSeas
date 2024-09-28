@@ -1,0 +1,16 @@
+{
+    "name": "何时何处觅大鱼？",
+    "icon": "minecraft:oak_boat",
+    "category": "treasure_seas:fish_rarity",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "许久以来，渔夫们秉着 $(item)风浪越大，鱼越贵$() 的原则出海，经过长时间的经验与总结，他们得到了如下的垂钓技巧：$(br)$(li) 雨雪天，稀有鱼的增加比率 $(item)+ 2.5%%$()$(br)$(li) 雷暴天，稀有鱼的增加比率 $(item)+ 5%%$()"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(li) 夜晚，稀有鱼的增加比率 $(item)+ 2.5%%$()$(br)$(li) 熟练钓竿，每级别【鱼之战斗】遭遇大鱼的比率 $(item)+ 1.25%%$()$(br)$(li) 行船出海，稀有鱼的增加比率 $(item)+ 1.25%%$()$(br)$(li) 在极小的概率下，你会遭遇（变异）闪光鱼，它是正常同品质鱼类的 $(item)5 倍$()价格。"
+        }
+    ]
+}

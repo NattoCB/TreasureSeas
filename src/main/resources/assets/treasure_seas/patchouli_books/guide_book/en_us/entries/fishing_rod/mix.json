@@ -1,0 +1,12 @@
+{
+    "name": "搭配其他附魔",
+    "icon": "minecraft:enchanted_book",
+    "category": "treasure_seas:fishing_rod",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "$(item)鱼之战斗$() 附魔的钓竿也可以搭配其他附魔一同使用，例如$(item)海之眷顾$()、$(item)饵钓$()，来增加你获取宝藏的几率和遭遇咬钩的速度。$(br2)对于$(item)鱼之战斗$()附魔本身的获取，请参照本书鱼之战斗附魔部分"
+        }
+    ]
+}

@@ -22,7 +22,29 @@
 
 现在你可以通过为你的钓竿增加`【鱼之战斗I-V】`附魔，从而可以触发新版钓鱼，和新版战利品规则
 
+* Fish Fighter 附魔 (Lv.1) 可能出现在附魔台中
 
+* Fish Fighter 附魔 (Lv.1-3) 在钓鱼时（使用原版无附魔鱼竿）可能遭遇
+
+* Fish Fighter 附魔 (Lv.1-5) 可能出现在地牢/末地城/村庄箱子中：
+
+  * 地牢箱子： 可能掉落 Lv.3-5 的 Fish Fighter 附魔
+
+  * 废弃矿井/末地城/沉船： 可能掉落 Lv.4-5 的 Fish Fighter 附魔
+
+  * 村庄箱子： 可能掉落 Lv.1-3 的 Fish Fighter 附魔
+
+* Fish Fighter 附魔 (Lv.1-5) 可能出现在僵尸/溺尸/守卫者/远古守卫者的战利品中：
+
+  * 僵尸： 可能掉落 Lv.1-3 的 Fish Fighter 附魔
+
+  * 溺尸： 可能掉落 Lv.2-4 的 Fish Fighter 附魔
+
+  * 守卫者： 可能掉落 Lv.4-5 的 Fish Fighter 附魔
+
+  * 远古守卫者： 必定掉落 Lv.5 的 Fish Fighter 附魔
+
+---
 
 > 新版钓鱼奖励可分为如下几类：
 >

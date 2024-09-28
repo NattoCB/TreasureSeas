@@ -14,6 +14,11 @@
   "fish.length": "§8Length: %s §7cm",
   "fish.quality": "§8Quality: %s",
   "fish.shiny": "§d§lSHINY",
+  "fish.species": "§8Species: %s",
+  "fish.world": "§8Caught in: %s",
+  "fish.timestamp": "§8Caught on: %s",
+  "fish.location": "§8Location: %s",
+  "fish.fisher": "§8Fisher: %s",
   "fish.rarity.ordinary": "§7Ordinary",
   "fish.rarity.uncommon": "§aUncommon",
   "fish.rarity.rare": "§bRare",
@@ -48,9 +53,11 @@
   "item.treasure_seas.life_fruit": "§7§lFruit of Vitality",
   "item.treasure_seas.life_fruit.lore1": "§9A mystical fruit that permanently boosts vitality",
   "item.treasure_seas.life_fruit.lore2": "§6Permanently increases HP by 2 when consumed (up to 3 times)",
+  "item.treasure_seas.gyotaku": "Gyotaku",
+  "item.treasure_seas.gyotaku.lore1": "§9A traditional fish print",
+  "item.treasure_seas.gyotaku.lore2": "§9Capturing the essence of the sea",
   "item.treasure_seas.info_book": "§bTreasureSeas' FishDex",
   "item.treasure_seas.info_book.lore1": "§9The index unveils secrets of the oceans",
-  "item.treasure_seas.info_book.lore2": "§9while recording your adventurous through this wondrous world...",
   "block.treasure_seas.fish_shop": "Fish Shop",
   "item.treasure_seas.bound_to": "§8Soulbound: %s",
   "item.treasure_seas.fish_shop.lore1": "§9Can sell seafood caught with enchanted rods",
@@ -92,5 +99,7 @@
   "advancement.treasure_seas.co_fishing.title": "Fishing together!",
   "advancement.treasure_seas.co_fishing.description": "sitting together with your friends, and fishing!",
   "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment",
-  "itemGroup.treasure_seas_tab": "TreasureSeas"
+  "itemGroup.treasure_seas_tab": "TreasureSeas",
+  "patchouli.treasure_seas.guide_book.name": "§bTreasureSeas' Guide",
+  "patchouli.treasure_seas.guide_book.landing_text": "Embark on an adventurous journey where fishing is more than just casting a line. In Treasure Seas‘ enchantment, every catch is a battle as you engage in thrilling duels with the aquatic creatures of the deep. Once you've reeled in your prized catches, sell them to earn rewards. Master your fishing rod, and become the ultimate angler in this world!"
 }

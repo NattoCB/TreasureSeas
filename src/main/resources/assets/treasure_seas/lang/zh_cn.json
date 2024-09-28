@@ -14,6 +14,11 @@
   "fish.length": "§8长度: %s §7cm",
   "fish.quality": "§8品质: %s",
   "fish.shiny": "§d§l变异",
+  "fish.species": "§8品种: %s",
+  "fish.world": "§8捕获于: %s",
+  "fish.timestamp": "§8捕获时间: %s",
+  "fish.location": "§8捕获点: %s",
+  "fish.fisher": "§8垂钓者: %s",
   "fish.rarity.ordinary": "§7普通",
   "fish.rarity.uncommon": "§a少见",
   "fish.rarity.rare": "§b稀有",
@@ -48,9 +53,11 @@
   "item.treasure_seas.life_fruit": "§7§l生机果实",
   "item.treasure_seas.life_fruit.lore1": "§9一种能使生命力永久提升的神秘水果",
   "item.treasure_seas.life_fruit.lore2": "§6食用后永久增加 2 HP (最多 3 次)",
+  "item.treasure_seas.gyotaku": "鱼拓",
+  "item.treasure_seas.gyotaku.lore1": "§9一幅传统的鱼拓",
+  "item.treasure_seas.gyotaku.lore2": "§9捕捉了大海的印记",
   "item.treasure_seas.info_book": "§b《宝藏海图鉴》",
   "item.treasure_seas.info_book.lore1": "§9该图鉴揭示了浩瀚海洋隐藏的秘密",
-  "item.treasure_seas.info_book.lore2": "§9同时记录了你在这海界的冒险历程",
   "block.treasure_seas.fish_shop": "商用鱼篓",
   "item.treasure_seas.bound_to": "§8绑定于: %s",
   "item.treasure_seas.fish_shop.lore1": "§9可以出售通过附魔钓竿捕获的海产品",
@@ -92,5 +99,7 @@
   "advancement.treasure_seas.co_fishing.title": "共同钓鱼！",
   "advancement.treasure_seas.co_fishing.description": "和朋友坐在一起钓鱼",
   "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级",
-  "itemGroup.treasure_seas_tab": "宝藏海"
+  "itemGroup.treasure_seas_tab": "宝藏海",
+  "patchouli.treasure_seas.guide_book.name": "§b《宝海志》钓鱼全解",
+  "patchouli.treasure_seas.guide_book.landing_text": "开始一段冒险之旅，在这里钓鱼不再仅仅是放线。在这宝藏之海中，每次捕获都是和深海水生生物的一场战斗，钓到你的战利品，出售它们来赚取奖励；升级你的钓竿，发现稀有的鱼种和宝藏。所向睥睨，逐步成为终极垂钓者！"
 }

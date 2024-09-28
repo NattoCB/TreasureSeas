@@ -1,0 +1,10 @@
+{
+  "name": "patchouli.treasure_seas.guide_book.name",
+  "landing_text": "patchouli.treasure_seas.guide_book.landing_text",
+  "creative_tab": "treasure_seas_tab",
+  "model": "treasure_seas:guide_book",
+  "show_progress": false,
+  "i18n": true,
+  "use_resource_pack": true,
+  "version": 1
+}

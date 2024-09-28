@@ -32,7 +32,7 @@ public class ModItems {
      */
     public static final RegistryObject<Item> POWER_FRUIT = ITEMS.register("power_fruit", () ->
             new EdibleFruitItem(
-                    new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
+                    new Item.Properties().stacksTo(16).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     0.5, // Amount to add to attack damage
                     "generic.attack_damage", // Attribute to modify
                     8, // Maximum uses
@@ -48,7 +48,7 @@ public class ModItems {
      */
     public static final RegistryObject<Item> LIFE_FRUIT = ITEMS.register("life_fruit", () ->
             new EdibleFruitItem(
-                    new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
+                    new Item.Properties().stacksTo(16).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     2.0, // Amount to add to max health
                     "generic.max_health", // Attribute to modify
                     3, // Maximum uses
@@ -66,8 +66,14 @@ public class ModItems {
             new InfoBookItem(
                     new Item.Properties().stacksTo(1).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
                     List.of(
-                            new TranslatableComponent("item.treasure_seas.info_book.lore1"),
-                            new TranslatableComponent("item.treasure_seas.info_book.lore2")
+                            new TranslatableComponent("item.treasure_seas.info_book.lore1")
+                    )));
+
+    public static final RegistryObject<Item> GYOTAKU = ITEMS.register("gyotaku", () ->
+            new CustomLoreItem(new Item.Properties().stacksTo(64).tab(ModCreativeTabs.TREASURE_SEAS_TAB),
+                    List.of(
+                            new TranslatableComponent("item.treasure_seas.gyotaku.lore1"),
+                            new TranslatableComponent("item.treasure_seas.gyotaku.lore2")
                     )));
 
 }
