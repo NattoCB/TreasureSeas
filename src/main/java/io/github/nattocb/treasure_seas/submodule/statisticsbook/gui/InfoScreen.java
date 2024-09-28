@@ -34,7 +34,7 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
     private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
     private static final int SCROLLBAR_Y = 18;
     private static final int SCROLLBAR_WIDTH = 7;
-    private static final int SCROLLBAR_HEIGHT = 100;
+    private static final int SCROLLBAR_HEIGHT = 95;
     private int scrollBarScaledHeight;
     private int scrollBarXPos;
     private int scrollBarYPos;

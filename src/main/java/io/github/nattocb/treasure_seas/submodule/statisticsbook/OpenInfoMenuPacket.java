@@ -1,5 +1,6 @@
 package io.github.nattocb.treasure_seas.submodule.statisticsbook;
 
+import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.submodule.statisticsbook.gui.InfoMenu;
@@ -8,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -56,23 +58,11 @@ public class OpenInfoMenuPacket {
     // Handle method to process the packet on the client side
     public static void handle(OpenInfoMenuPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getDirection().getReceptionSide().isClient()) {
-                Player player = Minecraft.getInstance().player;
-                if (player != null) {
-                    // Open the StatisticsScreen with the FishWrapper data
-                    Minecraft.getInstance().setScreen(new InfoScreen(
-                            new InfoMenu(
-                                    ModContainerTypes.STATISTICS_CONTAINER.get(),
-                                    0,
-                                    msg.fishWrapperMap,  // data 1
-                                    msg.treasureSeasData // data 2
-                            ),
-                            player.getInventory(),
-                            // todo i18n
-                            new TextComponent("Info Book")
-                    ));
-                }
-            }
+            ctx.get().enqueueWork(() -> TreasureSeas.PROXY.handleOpenInfoGui(
+                    ctx.get(),
+                    msg.fishWrapperMap,  // data 1
+                    msg.treasureSeasData // data 2
+            ));
         });
         ctx.get().setPacketHandled(true);
     }

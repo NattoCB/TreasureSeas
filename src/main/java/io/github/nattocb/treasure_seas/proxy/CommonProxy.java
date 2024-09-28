@@ -357,4 +357,7 @@ public class CommonProxy {
     public void handleOpenFightingGui(final NetworkEvent.Context ctx, final Vec3 bobberPos, final FishWrapper fishWrapper) {
     }
 
+    public void handleOpenInfoGui(final NetworkEvent.Context ctx, final Map<String, FishWrapper> fishWrapperMap, CompoundTag treasureSeasData) {
+    }
+
 }

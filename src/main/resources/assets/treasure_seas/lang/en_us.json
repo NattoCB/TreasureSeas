@@ -11,6 +11,7 @@
   "option.logDebugModeEnable": "Enable debugging mode (extra logs)",
   "message.use.scroll": "§eUse the mouse wheel to adjust your fishing depth",
   "gui.treasure_seas.values": "Values: ",
+  "gui.treasure_seas.infoscreen.title": "TreasureSeas' FishDex",
   "gui.treasure_seas.infoscreen.tip1": "Select an item to show the details",
   "gui.treasure_seas.infoscreen.tip2": "Select an item to show the records",
   "gui.treasure_seas.infoscreen.species": "Species: ",
