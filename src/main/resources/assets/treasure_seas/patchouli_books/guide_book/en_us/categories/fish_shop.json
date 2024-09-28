@@ -1,6 +1,6 @@
 {
-    "name": "鱼的出售",
-    "description": "每条通过鱼之战斗附魔垂钓到的鱼或终极宝藏都是可以出售的，你可以在这里了解到具体的出售方式",
+    "name": "Fish Selling",
+    "description": "Every fish caught through the Fish Fighter enchantment or ultimate treasures can be sold. Here, you can learn the specific ways to sell them.",
     "sortnum": 4,
     "icon": "treasure_seas:fish_shop"
 }

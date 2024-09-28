@@ -1,6 +1,6 @@
 {
-    "name": "鱼的习性",
-    "description": "通过掌握每种鱼类的习性，使你可以驾轻就熟地找到特定的某种鱼",
+    "name": "Fish Habits",
+    "description": "By understanding the habits of each fish species, you can easily locate specific types of fish.",
     "sortnum": 2,
     "icon": "minecraft:nether_star"
 }

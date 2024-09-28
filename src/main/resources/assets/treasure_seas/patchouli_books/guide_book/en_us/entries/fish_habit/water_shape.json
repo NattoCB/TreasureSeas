@@ -1,16 +1,20 @@
 {
-  "name": "各水域鱼类丰度",
+  "name": "Fish Abundance",
   "icon": "minecraft:water_bucket",
   "category": "treasure_seas:fish_habit",
   "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "在各个 $(item)水域形态$() 垂钓时，可能获取的物品几率各有不同：$(br)$(li) NARROW（狭窄水域）：鱼、宝藏几率减少 12.0%%$(br)$(li) PONDLET（小水塘）：鱼、宝藏几率减少 5.0%%$(br)$(li) POND（水塘）：鱼、宝藏几率减少 1.0%%"
+      "text": "Fishing in different $(item)water types$() can yield different chances for items:$(br)$(li) NARROW (narrow waters): fish and treasure drop rates decrease by 12.0%%$(br)$(li) PONDLET (small pond): fish and treasure drop rates decrease by 5.0%%"
     },
     {
       "type": "patchouli:text",
-      "text": "$(li) SURFACE（洼地表面）：鱼、宝藏几率减少 0.5%%$(br)$(li) NEAR_SHORE（近岸）：鱼、宝藏几率减少 2.0%%$(br)$(li) OPEN_WATER（开阔水域）：鱼、宝藏几率增加 1.0%%$(br)$(li) WELL（井口）：鱼、宝藏几率减少 2.5%%$(br)$(li) HOLE（洞口）：鱼、宝藏几率增加 1.5%%"
+      "text": "$(li) POND (pond): fish and treasure drop rates decrease by 1.0%%$(br)$(li) SURFACE (lowland surface): fish and treasure drop rates decrease by 0.5%%$(br)$(li) NEAR_SHORE (near shore): fish and treasure drop rates decrease by 2.0%%"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(br)$(li) OPEN_WATER (open water): fish and treasure drop rates increase by 1.0%%$(br)$(li) WELL (well): fish and treasure drop rates decrease by 2.5%%$(br)$(li) HOLE (hole): fish and treasure drop rates increase by 1.5%%"
     }
   ]
 }

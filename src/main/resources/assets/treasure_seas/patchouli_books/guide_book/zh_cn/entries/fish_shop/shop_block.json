@@ -1,0 +1,17 @@
+{
+    "name": "制作你的商用鱼篓",
+    "icon": "treasure_seas:fish_shop",
+    "category": "treasure_seas:fish_shop",
+    "sortnum": 0,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "在宝藏海，鱼类出售的方式也变得更加方便：$(br2)你仅需要 8 个任意$(item)木板$()（围成箱子形状），1 个任意$(item)原版鱼$()，即可得到$(item)商用鱼篓$()方块。$(br2)你可以在这里对鱼和宝藏进行交易，来赚取奖励。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "treasure_seas:fish_shop",
+            "title": "商用鱼篓的制作"
+        }
+    ]
+}

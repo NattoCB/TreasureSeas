@@ -1,18 +1,18 @@
 {
-  "name": "鱼图鉴及记录",
+  "name": "FishDex & Records",
   "icon": "minecraft:writable_book",
   "category": "treasure_seas:fish_habit",
   "sortnum": 0,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "每个鱼种都有各自的栖息习性，喜好在不同的$(item)时间段$()、$(item)地形$()和$(item)天气$()下现身觅食。你可以通过制作鱼类图鉴来查询所有世界内已知鱼类的习性。$(br2)此外，你也可用此书（图鉴）来记录你所垂钓过的每种鱼的最佳记录。"
+      "text": "Each fish species has its own habits and prefers to appear during different $(item)times of day$(), in various $(item)terrain$(), and under certain $(item)weather conditions$(). You can craft a FishDex to learn about the habits of all known fish in the world.$(br2)Additionally, you can use this book (FishDex) to record your best catches for each fish species you have caught."
     },
     {
       "type": "patchouli:crafting",
       "recipe": "treasure_seas:gyotaku",
       "recipe2": "treasure_seas:info_book",
-      "title": "宝藏海图鉴的制作"
+      "title": "the FishDex"
     }
   ]
 }

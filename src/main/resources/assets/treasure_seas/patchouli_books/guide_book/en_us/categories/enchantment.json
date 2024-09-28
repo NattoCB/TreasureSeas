@@ -1,6 +1,6 @@
 {
-    "name": "鱼之战斗附魔",
-    "description": "现在你可以通过为你的钓竿增加$(item)【鱼之战斗I-V】$()附魔，从而可以触发新版钓鱼，和新版战利品规则。",
+    "name": "Fish Fighter Enchantment",
+    "description": "You can now enhance your fishing rod with the $(item)[Fish Fighter I-V]$() enchantment to trigger the new fishing mechanics and loot rules.",
     "sortnum": 0,
     "icon": "minecraft:enchanted_book"
 }

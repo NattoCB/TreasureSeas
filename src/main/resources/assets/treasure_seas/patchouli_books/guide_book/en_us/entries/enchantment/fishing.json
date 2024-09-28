@@ -1,12 +1,12 @@
 {
-  "name": "通过 [垂钓] 获取",
+  "name": "Obtained via [Fishing]",
   "icon": "minecraft:fishing_rod",
   "category": "treasure_seas:enchantment",
   "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(item)Fish Fighter 附魔 (Lv.1-3)$() 在钓鱼时（使用原版无附魔鱼竿）可能遭遇。"
+      "text": "$(item)Fish Fighter Enchantment (Lv.1-3)$() can occasionally be encountered while fishing with a vanilla, unenchanted fishing rod."
     }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "name": "各水域鱼类丰度",
+  "icon": "minecraft:water_bucket",
+  "category": "treasure_seas:fish_habit",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "在各个 $(item)水域形态$() 垂钓时，可能获取的物品几率各有不同：$(br)$(li) NARROW（狭窄水域）：鱼、宝藏几率减少 12.0%%$(br)$(li) PONDLET（小水塘）：鱼、宝藏几率减少 5.0%%$(br)$(li) POND（水塘）：鱼、宝藏几率减少 1.0%%"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li) SURFACE（洼地表面）：鱼、宝藏几率减少 0.5%%$(br)$(li) NEAR_SHORE（近岸）：鱼、宝藏几率减少 2.0%%$(br)$(li) OPEN_WATER（开阔水域）：鱼、宝藏几率增加 1.0%%$(br)$(li) WELL（井口）：鱼、宝藏几率减少 2.5%%$(br)$(li) HOLE（洞口）：鱼、宝藏几率增加 1.5%%"
+    }
+  ]
+}

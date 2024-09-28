@@ -1,16 +1,20 @@
 {
-    "name": "钓竿成长与升级",
+    "name": "Rod Upgrades",
     "icon": "minecraft:anvil",
     "category": "treasure_seas:fishing_rod",
     "sortnum": 0,
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "对于带有 $(item)鱼之战斗$() 附魔的钓竿，都会记录垂钓次数（熟练度）$(br2)你越熟悉的老钓竿，越能获取到更稀有的鱼，垂钓也可能越轻松。$(br2)对应钓鱼次数（熟练度）满足后，你可以用下一本【鱼之战斗】附魔书来对钓竿在 $(item)铁砧$() 进行升级："
+            "text": "Fishing rods with the $(item)Fish Fighter$() enchantment will track the number of fish caught (experience).$(br2)The more familiar you are with an old rod, the easier it becomes to catch rarer fish.$(br2)Once the required number of catches (experience) is met,"
         },
         {
             "type": "patchouli:text",
-            "text": "$(li) 等级 1 需求: 0 只$(br)$(li) 等级 2 需求: 25 只$(br)$(li) 等级 3 需求: 85 只$(br)$(li) 等级 4 需求: 175 只$(br)$(li) 等级 5 需求: 335 只$(br2)如果附魔书等级大于当前钓竿等级，如用【V】给【I】级钓竿附魔，那么仅可以得到【II】等级钓竿。"
+            "text": "and then you can upgrade the rod using the next level of the Fish Fighter enchantment book at an $(item)anvil$():$(br)$(li) Level 1 requirement: 0 catches$(br)$(li) Level 2 requirement: 25 catches$(br)$(li) Level 3 requirement: 85 catches"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(li) Level 4 requirement: 175 catches$(br)$(li) Level 5 requirement: 335 catches$(br2)If the enchantment book level exceeds the current rod level, such as using a level V book on a level I rod, the rod can only be upgraded to level II."
         }
     ]
 }

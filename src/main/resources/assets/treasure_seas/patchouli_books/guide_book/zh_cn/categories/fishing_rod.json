@@ -1,0 +1,6 @@
+{
+    "name": "钓竿成长",
+    "description": "对于带有鱼之战斗附魔的钓竿，都会记录垂钓次数$(item)（熟练度）$()，你越熟悉的老钓竿，越能获取到更稀有的鱼，垂钓可能也越轻松",
+    "sortnum": 1,
+    "icon": "minecraft:fishing_rod"
+}
