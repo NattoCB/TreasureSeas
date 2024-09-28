@@ -1,0 +1,15 @@
+{
+  "type": "patchouli:shapeless_book_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "tag": "treasure_seas:raw_fishes"
+    },
+    {
+      "item": "minecraft:ink_sac"
+    }
+  ],
+  "book": "treasure_seas:guide_book"
+}
