@@ -5,19 +5,23 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.config.FishWrapper;
 import io.github.nattocb.treasure_seas.utils.FishUtils;
+import io.github.nattocb.treasure_seas.utils.GuiUtil;
 import io.github.nattocb.treasure_seas.utils.gui.ItemIconButton;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,6 +46,9 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
     private int totalPages = 1;  // 总页数
     private Button nextPageButton;
     private Button prevPageButton;
+    private Button sortByLvlButton;
+    private Button sortByTypeButton;
+    private Button sortByPriceButton;
     private Slot previousClickedSlot = null;
     private final CompoundTag playerFishesNbt;
 
@@ -56,47 +63,41 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
     public void init() {
         super.init();
 
+        this.imageWidth = 231;
+        this.imageHeight = 166;
+        this.leftPos = (this.width - this.imageWidth) / 2;
+
         // todo search bar
 
-        this.textPage = new TextPage(8, 88); // 每页最多显示 8 行，每行宽度最多 88 像素
+        // 每页最多显示 8 行，每行宽度最多 140 像素
+        this.textPage = new TextPage(8, 140);
 
-        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 157, this.topPos + 4, 12, 12, new TextComponent(">"), button -> {
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-            }
-        }));
-
-        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 144, this.topPos + 4, 12, 12, new TextComponent("<"), button -> {
+        prevPageButton = this.addRenderableWidget(new Button(this.leftPos + 197, this.topPos + 4, 12, 12, new TextComponent("<"), button -> {
             if (currentPage > 0) {
                 currentPage--;
             }
         }));
 
+        nextPageButton = this.addRenderableWidget(new Button(this.leftPos + 210, this.topPos + 4, 12, 12, new TextComponent(">"), button -> {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+            }
+        }));
+
         // Adding sort buttons
-        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 18, 12, 12, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
+        sortByTypeButton = this.addRenderableWidget(new ItemIconButton(this.leftPos - 18, this.topPos + 18, 18, 18, new TextComponent(""), new ItemStack(Items.TROPICAL_FISH), button -> {
             this.menu.sortByCategoryAndName();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 33, 12, 12, new TextComponent(""), new ItemStack(Items.NAME_TAG), button -> {
-            this.menu.sortByFishItemName();
-            this.menu.updateVisibleSlots();
-        }));
-
-        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 48, 12, 12, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
+        sortByPriceButton = this.addRenderableWidget(new ItemIconButton(this.leftPos - 18, this.topPos + 39, 18, 18, new TextComponent(""), new ItemStack(Items.EMERALD), button -> {
             this.menu.sortByBasePrice();
             this.menu.updateVisibleSlots();
         }));
 
-        this.addRenderableWidget(new ItemIconButton(this.leftPos - 12, this.topPos + 63, 12, 12, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
+        sortByLvlButton = this.addRenderableWidget(new ItemIconButton(this.leftPos - 18, this.topPos + 60, 18, 18, new TextComponent(""), new ItemStack(Items.ENCHANTED_BOOK), button -> {
             this.menu.sortByEnchantmentLevel();
             this.menu.updateVisibleSlots();
-        }));
-
-        // Add a button with "?" text to open a new GUI
-        this.addRenderableWidget(new Button(this.leftPos - 12, this.topPos + 91, 12, 12, new TextComponent("?"), button -> {
-            // todo i18n
-            this.minecraft.setScreen(new TutorialScreen(new TutorialMenu(0), this.minecraft.player.getInventory(), new TextComponent("New GUI")));
         }));
 
         recalculateScrollBar();
@@ -181,6 +182,18 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
         // 控制翻页按钮的显示
         prevPageButton.active = currentPage > 0;
         nextPageButton.active = currentPage < totalPages - 1;
+
+        // 按钮的 hover 提示
+        if (GuiUtil.isButtonHovering(sortByTypeButton, mouseX, mouseY)) {
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_type"), mouseX, mouseY);
+        }
+        if (GuiUtil.isButtonHovering(sortByPriceButton, mouseX, mouseY)) {
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_price"), mouseX, mouseY);
+        }
+        if (GuiUtil.isButtonHovering(sortByLvlButton, mouseX, mouseY)) {
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_lvl"), mouseX, mouseY);
+        }
+
     }
 
     private void recalculateScrollBar() {
@@ -205,36 +218,55 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
             int maxRecordedLength = FishUtils.getFishMaxRecordedLength(playerFishesNbt, selectedFish);
             boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
-            // todo i18n
-            if (!(selectedFish.isJunk() || selectedFish.isTreasure() || selectedFish.isUltimateTreasure())) {
-                font.draw(poseStack, "LongestSeen : " + maxRecordedLength + "cm",
-                        this.titleLabelX,
+            if (FishUtils.isFish(selectedFish)) {
+                font.draw(poseStack,
+                        I18n.get("gui.treasure_seas.infoscreen.longest_seen") + maxRecordedLength + "cm",
+                        this.titleLabelX + 15,
                         this.titleLabelY + 120,
                         4210752);
-                font.draw(poseStack, "ShinyCaught: " + (isShiny ? "●" : "○"),
-                        this.titleLabelX,
-                        this.titleLabelY + 130,
+                font.draw(poseStack,
+                        I18n.get("gui.treasure_seas.infoscreen.shiny_caught") +
+                                (isShiny ? I18n.get("gui.treasure_seas.infoscreen.shiny_caught_yes") : ""),
+                        this.titleLabelX + 15,
+                        this.titleLabelY + 131,
                         4210752);
             }
-            font.draw(poseStack, "CatchCnt: " + catchCount,
-                    this.titleLabelX,
-                    this.titleLabelY + 140,
-                    4210752);
+            font.draw(poseStack,
+                    I18n.get("gui.treasure_seas.infoscreen.cnt") + catchCount,
+                        this.titleLabelX + 15,
+                        this.titleLabelY + 142,
+                        4210752);
 
             // 添加 FishWrapper 信息
             if (textPage.isEmpty()) {
-                // todo content (+ i18n length trim)
-                textPage.addText("length: " + selectedFish.getMinLength() + "~" + selectedFish.getMaxLength() + " cm", font);
-                textPage.addText("depth: " + selectedFish.getMinAppearDepth() + "~" + selectedFish.getMaxAppearDepth() + " m", font);
-                textPage.addText("fishHabit: " + (selectedFish.isCaveOnly() ? "Cave" : "General"), font);
-                textPage.addText("appearTime: " + selectedFish.getAllowedTime(), font);
-                textPage.addText("appearWeather: " + selectedFish.getAllowedWeather(), font);
-                textPage.addText("fightLvl: " + selectedFish.getLowestLootableEnchantmentLevel(), font);
-                textPage.addText("tenacity: " + selectedFish.getTicksToWin(), font);
-                textPage.addText("dexterity: " + selectedFish.getSpeedModifier(), font);
-                textPage.addText("habitat: " + String.join(", ", selectedFish.getPossibleBiomes()), font);
-                textPage.addText("world: " + String.join(", ", selectedFish.getPossibleWorlds()), font);
-                textPage.addText("basePrice: " + selectedFish.getBasePrice(), font);
+                String possibleBiomes = String.join(", ", selectedFish.getPossibleBiomes());
+                String possibleWorlds = String.join(", ", selectedFish.getPossibleWorlds());
+                possibleBiomes = StringUtils.isEmpty(possibleBiomes) ? "ALL" : possibleBiomes;
+                possibleWorlds = StringUtils.isEmpty(possibleWorlds) ? "ALL" : possibleWorlds;
+                if (FishUtils.isFish(selectedFish)) {
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.species") + selectedFish.getFishItemName(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.length") + (int) selectedFish.getMinLength() + "-" + (int) selectedFish.getMaxLength() + " cm", font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
+                    textPage.addText(I18n.get(
+                            "gui.treasure_seas.infoscreen.fish_habit") +
+                            (selectedFish.isCaveOnly() ? I18n.get("gui.treasure_seas.infoscreen.fish_habit_cave") : I18n.get("gui.treasure_seas.infoscreen.fish_habit_normal")),
+                            font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.appear_time") + selectedFish.getAllowedTime(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.appear_weather") + selectedFish.getAllowedWeather(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.fight_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.tenacity") + selectedFish.getTicksToWin(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.dexterity") + selectedFish.getSpeedModifier(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.biomes") + possibleBiomes, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.worlds") + possibleWorlds, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.base_price") + selectedFish.getBasePrice(), font);
+                } else {
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.name") + selectedFish.getFishItemName(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.require_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.biomes") + possibleBiomes, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.worlds") + possibleWorlds, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.base_price") + selectedFish.getBasePrice(), font);
+                }
             }
 
             // 计算总页数
@@ -250,8 +282,15 @@ public class InfoScreen extends AbstractContainerScreen<InfoMenu> {
                 yPos += lineSpacing;
             }
         } else {
-            // todo show: select a fish item to show the details (i18n)
-            // todo show: seslct a fish item to show the recorded info (i18n)
+            String tip1 = I18n.get("gui.treasure_seas.infoscreen.tip1");
+            String tip2 = I18n.get("gui.treasure_seas.infoscreen.tip2");
+            int fontWidth1 = font.width(tip1);
+            int fontWidth2 = font.width(tip2);
+            // 居中于 149 115
+            int leftPos1 = 149 - (fontWidth1 / 2);
+            int leftPos2 = 115 - (fontWidth2 / 2);
+            font.draw(poseStack, tip1, leftPos1, titleLabelY + 51, 4210752);
+            font.draw(poseStack, tip2, leftPos2 + 5, titleLabelY + 126, 4210752);
         }
     }
 

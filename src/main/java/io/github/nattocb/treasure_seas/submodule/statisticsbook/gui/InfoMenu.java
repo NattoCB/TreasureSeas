@@ -1,6 +1,7 @@
 package io.github.nattocb.treasure_seas.submodule.statisticsbook.gui;
 
 import io.github.nattocb.treasure_seas.config.FishWrapper;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 public class InfoMenu extends AbstractContainerMenu {
-
-    // todo change required level to recommended level
 
     private final int width = 3;
 
@@ -121,16 +120,6 @@ public class InfoMenu extends AbstractContainerMenu {
         }
     }
 
-    public void sortByFishItemName() {
-        itemList.sort((itemStack1, itemStack2) -> {
-            FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
-            FishWrapper fish2 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack2.getItem()).toString());
-            String name1 = fish1.getModNamespace() + ":" + fish1.getFishItemName();
-            String name2 = fish2.getModNamespace() + ":" + fish2.getFishItemName();
-            return name1.compareTo(name2);
-        });
-    }
-
     public void sortByBasePrice() {
         itemList.sort((itemStack1, itemStack2) -> {
             FishWrapper fish1 = fishWrapperMap.get(ForgeRegistries.ITEMS.getKey(itemStack1.getItem()).toString());
@@ -157,9 +146,9 @@ public class InfoMenu extends AbstractContainerMenu {
             // 先按类别优先级排序
             int categoryComparison = Integer.compare(categoryPriority1, categoryPriority2);
             if (categoryComparison == 0) {
-                // 如果类别相同，按名称排序
-                String name1 = fish1.getModNamespace() + ":" + fish1.getFishItemName();
-                String name2 = fish2.getModNamespace() + ":" + fish2.getFishItemName();
+                // 如果类别相同，按本地化名称排序
+                String name1 = I18n.get(itemStack1.getDescriptionId()); // 获取本地化名称
+                String name2 = I18n.get(itemStack2.getDescriptionId()); // 获取本地化名称
                 return name1.compareTo(name2);
             }
             return categoryComparison;
