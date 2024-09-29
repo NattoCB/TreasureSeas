@@ -71,7 +71,7 @@ public class AnvilOperationHandler {
             ListTag loreList = displayTag.getList("Lore", 8);
             if (!loreList.isEmpty()) {
                 // 更新第0行
-                int requiredExperienceForNextLvl = FishingRodUpgradeRequirement.getRequiredExperienceForLevel(newLevel);
+                int requiredExperienceForNextLvl = FishingRodUpgradeRequirement.getRequiredFishingCntForLevel(newLevel);
                 ListTag updatedLores = FishUtils.addFishCountLoreIntoItem(loreList, count, requiredExperienceForNextLvl);
                 displayTag.put("Lore", updatedLores);
                 newTag.put("display", displayTag);
@@ -86,7 +86,7 @@ public class AnvilOperationHandler {
     }
 
     private static int calculateNeededCounts(int currentLevel) {
-        return FishingRodUpgradeRequirement.getRequiredExperienceForLevel(currentLevel);
+        return FishingRodUpgradeRequirement.getRequiredFishingCntForLevel(currentLevel);
     }
 
     private static int calculateExperienceCost(int nextLevel) {

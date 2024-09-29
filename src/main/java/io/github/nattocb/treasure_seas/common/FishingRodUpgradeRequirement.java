@@ -8,25 +8,25 @@ public enum FishingRodUpgradeRequirement {
     LEVEL_4(4, 335);
 
     private final int level;
-    private final int requiredExperience;
+    private final int requiredFishingCnt;
 
-    FishingRodUpgradeRequirement(int level, int requiredExperience) {
+    FishingRodUpgradeRequirement(int level, int requiredFishingCnt) {
         this.level = level;
-        this.requiredExperience = requiredExperience;
+        this.requiredFishingCnt = requiredFishingCnt;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public int getRequiredExperience() {
-        return requiredExperience;
+    public int getRequiredFishingCnt() {
+        return requiredFishingCnt;
     }
 
-    public static int getRequiredExperienceForLevel(int level) {
+    public static int getRequiredFishingCntForLevel(int level) {
         for (FishingRodUpgradeRequirement requirement : values()) {
             if (requirement.getLevel() == level) {
-                return requirement.getRequiredExperience();
+                return requirement.getRequiredFishingCnt();
             }
         }
         return Integer.MAX_VALUE;

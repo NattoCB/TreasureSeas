@@ -334,7 +334,7 @@ public class CommonProxy {
     private static void recordFishingResultToRodItem(ServerPlayer player) {
         ItemStack fishRod = FishUtils.getFishRodItemFromInv(player);
         int enchantLevel = FishUtils.getFishFighterRodEnchantLevel(player);
-        int nextLvlExp = FishingRodUpgradeRequirement.getRequiredExperienceForLevel(enchantLevel);
+        int nextLvlExp = FishingRodUpgradeRequirement.getRequiredFishingCntForLevel(enchantLevel);
         if (fishRod != null) {
             // 更新 NBT 标签
             CompoundTag tag = fishRod.getOrCreateTag();
