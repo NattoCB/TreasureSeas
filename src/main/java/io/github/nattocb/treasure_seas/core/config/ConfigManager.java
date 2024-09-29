@@ -17,10 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
-/**
- * todo 测试 client side config 是从服务端加载还是从客户端加载
- * todo client config 在 server 不创建和检查，从 server 运行 reload 命令也不要生效
- */
 public class ConfigManager {
 
     /**

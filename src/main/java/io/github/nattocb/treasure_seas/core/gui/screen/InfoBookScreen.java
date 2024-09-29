@@ -207,6 +207,9 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
         this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * Math.min(1f, ((float) visibleRows / totalRows)));
         this.scrollBarXPos = leftPos + 9 + 18 + 18 + 18 - 1;
         this.scrollBarYPos = topPos + SCROLLBAR_Y + ((scrollBarTotalHeight - scrollBarScaledHeight) * menu.scrollOffset / Math.max(1, totalRows - visibleRows));
+        if (scrollBarYPos + scrollBarScaledHeight > SCROLLBAR_HEIGHT) {
+            scrollBarYPos = SCROLLBAR_HEIGHT - scrollBarScaledHeight;
+        }
     }
 
     @Override
