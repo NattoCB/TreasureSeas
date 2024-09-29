@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "treasure_seas:gyotaku_shapeless",
   "ingredients": [
     {
       "item": "minecraft:paper"

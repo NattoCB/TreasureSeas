@@ -7,6 +7,7 @@ import io.github.nattocb.treasure_seas.core.proxy.CommonProxy;
 import io.github.nattocb.treasure_seas.common.registry.*;
 import io.github.nattocb.treasure_seas.core.utility.LogManager;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -48,14 +49,16 @@ public class TreasureSeas {
         );
         // 注册日志管理
         logManager = new LogManager(LoggerFactory.getLogger(TreasureSeas.class));
-        // 方块、物品、附魔、容器、战利品注册
-        ModBlockEntities.BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModContainerTypes.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModBlocks.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModEnchantments.register();
+        // 方块、物品、附魔、容器、战利品、合成表注册
+        IEventBus forgeBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModBlockEntities.BLOCK_ENTITIES.register(forgeBus);
+        ModContainerTypes.CONTAINERS.register(forgeBus);
+        ModBlocks.BLOCKS.register(forgeBus);
+        ModBlocks.ITEMS.register(forgeBus);
+        ModItems.ITEMS.register(forgeBus);
+        ModRecipeSerializers.SERIALIZERS.register(forgeBus);
+        ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(forgeBus);
+        ModEnchantments.register(forgeBus);
     }
 
     @SubscribeEvent

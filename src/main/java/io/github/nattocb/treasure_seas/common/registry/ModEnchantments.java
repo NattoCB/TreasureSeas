@@ -3,6 +3,7 @@ package io.github.nattocb.treasure_seas.common.registry;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.common.enchantment.FishFighterEnchantment;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -12,9 +13,9 @@ public class ModEnchantments {
 
     public static RegistryObject<Enchantment> FISH_FIGHTER;
 
-    public static void register() {
+    public static void register(IEventBus forgeBus) {
         DeferredRegister<Enchantment> enchantments = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, TreasureSeas.MOD_ID);
-        enchantments.register(FMLJavaModLoadingContext.get().getModEventBus());
+        enchantments.register(forgeBus);
         FISH_FIGHTER = enchantments.register("fish_fighter", FishFighterEnchantment::new);
     }
 

@@ -4,6 +4,7 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.common.registry.ModContainerTypes;
 import io.github.nattocb.treasure_seas.common.FishRarity;
 import io.github.nattocb.treasure_seas.core.FishWrapper;
+import io.github.nattocb.treasure_seas.core.utility.InventoryHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -230,28 +231,28 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
             int cntNineStackedItems = totalInputValues / 9;
             for (int i = 0; i < cntNineStackedItems / 64; ++i) {
                 ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), 64);
-                moveOrDropItem(itemStack, player);
+                InventoryHelper.moveOrDropItem(itemStack, player);
             }
             int cntNineStackedRemainingCnt = cntNineStackedItems % 64;
             if (cntNineStackedRemainingCnt > 0) {
                 ItemStack itemStack = new ItemStack(NINE_STACK_ITEMS.get(outputItem), cntNineStackedRemainingCnt);
-                moveOrDropItem(itemStack, player);
+                InventoryHelper.moveOrDropItem(itemStack, player);
             }
             int cntRemainingItems = totalInputValues - cntNineStackedItems * 9;
             if (cntRemainingItems > 0) {
                 ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                moveOrDropItem(itemStack, player);
+                InventoryHelper.moveOrDropItem(itemStack, player);
             }
         } else {
             // non-nine-stackable output
             int cntRemainingItems = totalInputValues % 64;
             for (int i = 0; i < totalInputValues / 64; ++i) {
                 ItemStack itemStack = new ItemStack(outputItem, 64);
-                moveOrDropItem(itemStack, player);
+                InventoryHelper.moveOrDropItem(itemStack, player);
             }
             if (cntRemainingItems > 0) {
                 ItemStack itemStack = new ItemStack(outputItem, cntRemainingItems);
-                moveOrDropItem(itemStack, player);
+                InventoryHelper.moveOrDropItem(itemStack, player);
             }
         }
     }
@@ -272,24 +273,6 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
                     }
                 }
             }
-        }
-    }
-
-    private int countAvailablePlayerInventorySlots(Player player) {
-        int availableSlots = 0;
-        for (int i = 0; i < player.getInventory().items.size(); ++i) {
-            if (player.getInventory().items.get(i).isEmpty()) {
-                availableSlots++;
-            }
-        }
-        return availableSlots;
-    }
-
-    private void moveOrDropItem(ItemStack itemStack, Player player) {
-        if (countAvailablePlayerInventorySlots(player) > 0) {
-            player.getInventory().add(itemStack);
-        } else {
-            player.drop(itemStack, false);
         }
     }
 
