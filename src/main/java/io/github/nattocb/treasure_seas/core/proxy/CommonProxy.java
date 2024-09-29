@@ -86,7 +86,7 @@ public class CommonProxy {
             // todo add fish weight in kg
             Pair<Double, FishRarity> lengthRarityPair = generateLengthAndRarity(player, fishWrapper, isRaining, isThundering, isNightTime);
             int length = lengthRarityPair.getA().intValue();
-            int shinyFrequency = TreasureSeas.getInstance().getFishConfigManager().getShinyFrequency();
+            int shinyFrequency = TreasureSeas.getInstance().getConfigManager().getShinyFrequency();
             boolean isShiny = TreasureSeas.RANDOM.nextInt(shinyFrequency) == 0;
             FishRarity rarity = lengthRarityPair.getB();
 

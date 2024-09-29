@@ -37,7 +37,7 @@ public class FishShopBlock extends Block implements EntityBlock {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (!world.isClientSide) {
-            Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
+            Item shopOutputItem = TreasureSeas.getInstance().getConfigManager().getShopOutputItem();
             NetworkHooks.openGui((ServerPlayer) player, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {

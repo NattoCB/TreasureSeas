@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModConfigScreen extends Screen {
 
-    private final ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+    private final ConfigManager configManager = TreasureSeas.getInstance().getConfigManager();
     private final Screen parent;
 
     private EditBox customPosXBox;

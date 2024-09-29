@@ -2,6 +2,7 @@ package io.github.nattocb.treasure_seas.core.utility;
 
 import io.github.nattocb.treasure_seas.common.FluidShape;
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.common.registry.ModEnchantments;
 import io.github.nattocb.treasure_seas.core.FishWrapper;
 import io.github.nattocb.treasure_seas.common.RewardType;
 import net.minecraft.core.BlockPos;
@@ -106,7 +107,7 @@ public class FishUtils {
         // existence check
         if (localFishes.isEmpty()) {
             TreasureSeas.getLogger().dev("Matched fish: empty, use default fish");
-            return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
+            return TreasureSeas.getInstance().getConfigManager().getDefaultFishConfig();
         } else {
             // logs
             StringBuilder sb = new StringBuilder();
@@ -128,7 +129,7 @@ public class FishUtils {
         int totalWeight = localFishes.stream().mapToInt(FishWrapper::getSampleWeight).sum();
         if (totalWeight <= 0) {
             TreasureSeas.getLogger().warn("Matched fish: total weight must be positive");
-            return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
+            return TreasureSeas.getInstance().getConfigManager().getDefaultFishConfig();
         }
         int randomWeight = TreasureSeas.RANDOM.nextInt(totalWeight);
         int currentWeight = 0;
@@ -138,7 +139,7 @@ public class FishUtils {
                 return fish;
             }
         }
-        return TreasureSeas.getInstance().getFishConfigManager().getDefaultFishConfig();
+        return TreasureSeas.getInstance().getConfigManager().getDefaultFishConfig();
     }
 
     /**
@@ -147,11 +148,11 @@ public class FishUtils {
     public static int getFishFighterRodEnchantLevel(@NotNull Player player) {
         ItemStack heldItem = getFishRodItemFromInv(player);
         if (heldItem == null) return 0;
-        return EnchantmentHelper.getItemEnchantmentLevel(TreasureSeas.FISH_FIGHTER.get(), heldItem);
+        return EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FISH_FIGHTER.get(), heldItem);
     }
 
     public static int getFishFighterRodEnchantLevel(@NotNull ItemStack itemStack) {
-        return EnchantmentHelper.getItemEnchantmentLevel(TreasureSeas.FISH_FIGHTER.get(), itemStack);
+        return EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FISH_FIGHTER.get(), itemStack);
     }
 
     /**
@@ -236,7 +237,7 @@ public class FishUtils {
         }
 
         // Check if the fishing rod has the Fish Fighter enchantment
-        if (EnchantmentHelper.getEnchantments(fishRod).containsKey(TreasureSeas.FISH_FIGHTER.get())) {
+        if (EnchantmentHelper.getEnchantments(fishRod).containsKey(ModEnchantments.FISH_FIGHTER.get())) {
             CompoundTag tag = fishRod.getTag();
             if (tag != null && tag.contains("FishingCount")) {
                 return tag.getInt("FishingCount");

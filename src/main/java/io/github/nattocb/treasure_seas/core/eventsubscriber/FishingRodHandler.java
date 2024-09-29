@@ -70,25 +70,25 @@ public class FishingRodHandler {
         boolean isCave = FishUtils.isCave(world, hookPos);
 
         RewardType rewardType = FishUtils.getRandomRewardType(player, world, hookPos, enchantmentLevel);
-        TreasureSeas.getLogger().dev("configs count: " + TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().size());
+        TreasureSeas.getLogger().dev("configs count: " + TreasureSeas.getInstance().getConfigManager().getFishConfigs().size());
         TreasureSeas.getLogger().dev("biomeFullName:{}, worldName:{}, currentWeather:{}, currentTime:{}, " +
                         "enchantmentLevel:{}, maxDepthAllowed:{}, isCave:{}",
                 biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel, finalDepth, isCave);
         List<FishWrapper> matchingFishes = switch (rewardType) {
-            case JUNK -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
+            case JUNK -> TreasureSeas.getInstance().getConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
                             finalDepth, isCave, true, false, false))
                     .toList();
-            case TREASURE -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
+            case TREASURE -> TreasureSeas.getInstance().getConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
                             finalDepth, isCave, false, true, false))
                     .toList();
-            case ULTIMATE_TREASURE -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
+            case ULTIMATE_TREASURE -> TreasureSeas.getInstance().getConfigManager().getFishConfigs().stream()
                     .filter(fish -> fish.matches(biomeFullName, worldName, currentWeather, currentTime, enchantmentLevel,
                             finalDepth, isCave, false, false, true))
                     .toList();
             // FISH
-            default -> TreasureSeas.getInstance().getFishConfigManager().getFishConfigs().stream()
+            default -> TreasureSeas.getInstance().getConfigManager().getFishConfigs().stream()
                     .filter(fish ->
                             {
                                 TreasureSeas.getLogger().dev("try matching fish: " + fish.getModNamespace() + ":" + fish.getFishItemName());

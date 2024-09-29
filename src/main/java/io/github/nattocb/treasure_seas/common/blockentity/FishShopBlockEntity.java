@@ -23,7 +23,7 @@ public class FishShopBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
-        Item shopOutputItem = TreasureSeas.getInstance().getFishConfigManager().getShopOutputItem();
+        Item shopOutputItem = TreasureSeas.getInstance().getConfigManager().getShopOutputItem();
         return new FishShopContainerMenu(id, playerInventory, shopOutputItem);
     }
 

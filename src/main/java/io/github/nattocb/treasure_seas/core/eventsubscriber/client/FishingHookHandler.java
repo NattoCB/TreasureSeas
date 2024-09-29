@@ -37,7 +37,7 @@ public class FishingHookHandler {
         // pre-check
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
         // 确保玩家客户端开启了配置
-        ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+        ConfigManager configManager = TreasureSeas.getInstance().getConfigManager();
         if (!configManager.isHudFishingInfoEnable()) {
             return;
         }

@@ -160,7 +160,7 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
         if (registryName != null) {
             String namespace = registryName.getNamespace();
             String itemName = registryName.getPath();
-            FishWrapper fishWrapper = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap().get(namespace + ":" + itemName);
+            FishWrapper fishWrapper = TreasureSeas.getInstance().getConfigManager().getFishWrapperMap().get(namespace + ":" + itemName);
             if (fishWrapper != null) {
                 int basePrice = fishWrapper.getBasePrice();
                 CompoundTag fishTag = stack.getOrCreateTag();
@@ -264,7 +264,7 @@ public class FishShopContainerMenu extends AbstractContainerMenu {
             if (registryName != null) {
                 String namespace = registryName.getNamespace();
                 String itemName = registryName.getPath();
-                FishWrapper fishWrapper = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap().get(namespace + ":" + itemName);
+                FishWrapper fishWrapper = TreasureSeas.getInstance().getConfigManager().getFishWrapperMap().get(namespace + ":" + itemName);
                 if (fishWrapper != null) {
                     int basePrice = fishWrapper.getBasePrice();
                     if (basePrice > 0) {

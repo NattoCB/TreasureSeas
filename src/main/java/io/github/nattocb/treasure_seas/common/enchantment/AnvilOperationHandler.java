@@ -1,6 +1,6 @@
 package io.github.nattocb.treasure_seas.common.enchantment;
 
-import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.common.registry.ModEnchantments;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
 import io.github.nattocb.treasure_seas.core.utility.PlayerMessageManager;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +27,7 @@ public class AnvilOperationHandler {
 
         if (left.getItem() instanceof FishingRodItem && right.getItem() == Items.ENCHANTED_BOOK) {
             int currentRodLevel = FishUtils.getFishFighterRodEnchantLevel(left);
-            int bookLevel = EnchantmentHelper.getEnchantments(right).getOrDefault(TreasureSeas.FISH_FIGHTER.get(), 0);
+            int bookLevel = EnchantmentHelper.getEnchantments(right).getOrDefault(ModEnchantments.FISH_FIGHTER.get(), 0);
             if (bookLevel == 0) {
                 // 不是 FISH FIGHTER 附魔，直接 copy nbt 到 output
                 ItemStack newRod = new ItemStack(Items.FISHING_ROD);
@@ -79,7 +79,7 @@ public class AnvilOperationHandler {
         }
         // 保留旧附魔并更新 Fish Fighter 附魔等级
         Map<Enchantment, Integer> enchantments = new HashMap<>(EnchantmentHelper.getEnchantments(oldRod));
-        enchantments.put(TreasureSeas.FISH_FIGHTER.get(), newLevel);
+        enchantments.put(ModEnchantments.FISH_FIGHTER.get(), newLevel);
         EnchantmentHelper.setEnchantments(enchantments, newRod);
         return newRod;
     }

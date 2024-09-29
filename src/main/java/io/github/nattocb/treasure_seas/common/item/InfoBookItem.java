@@ -28,7 +28,7 @@ public class InfoBookItem extends CustomLoreItem {
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             // param 1
-            Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getFishConfigManager().getFishWrapperMap();
+            Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getConfigManager().getFishWrapperMap();
             // param 2
             CompoundTag playerData = player.getPersistentData();
             CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");

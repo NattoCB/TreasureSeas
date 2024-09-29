@@ -40,7 +40,7 @@ public class TSeasCommands {
 
     private static int reloadCommon(CommandSourceStack source) {
         long startTs = System.currentTimeMillis();
-        ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+        ConfigManager configManager = TreasureSeas.getInstance().getConfigManager();
         configManager.loadCommonConfig();
         configManager.loadServerConfig();
         source.sendSuccess(new TextComponent("TreasureSeas common configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);

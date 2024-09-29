@@ -32,13 +32,13 @@ public class LogManager {
     }
 
     public void dev(String message, Object... args) {
-        if (TreasureSeas.getInstance().getFishConfigManager().isLogDebugModeEnable()) {
+        if (TreasureSeas.getInstance().getConfigManager().isLogDebugModeEnable()) {
             logger.info(COMMON_PREFIX + message, args);
         }
     }
 
     public void dev(Player receiver, String message, Object... args) {
-        if (TreasureSeas.getInstance().getFishConfigManager().isLogDebugModeEnable()) {
+        if (TreasureSeas.getInstance().getConfigManager().isLogDebugModeEnable()) {
             String formattedMessage = formatMessage(COMMON_PREFIX + message, args);
             logger.info(formattedMessage);
             receiver.sendMessage(new TextComponent(formattedMessage), receiver.getUUID());
