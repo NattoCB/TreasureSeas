@@ -1,7 +1,7 @@
 package io.github.nattocb.treasure_seas.common.registry;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.core.config.ModConfigScreen;
+import io.github.nattocb.treasure_seas.core.gui.screen.ModConfigScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

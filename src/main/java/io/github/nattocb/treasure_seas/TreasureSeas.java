@@ -1,6 +1,6 @@
 package io.github.nattocb.treasure_seas;
 
-import io.github.nattocb.treasure_seas.core.config.FishConfigManager;
+import io.github.nattocb.treasure_seas.core.config.ConfigManager;
 import io.github.nattocb.treasure_seas.common.enchantment.FishFighterEnchantment;
 import io.github.nattocb.treasure_seas.core.proxy.ClientProxy;
 import io.github.nattocb.treasure_seas.core.proxy.CommonProxy;
@@ -33,7 +33,7 @@ public class TreasureSeas {
 
     public static final Random RANDOM = new Random();
 
-    private static FishConfigManager fishConfigManager;
+    private static ConfigManager configManager;
 
     private static LogManager logManager;
 
@@ -67,23 +67,23 @@ public class TreasureSeas {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         // 因为配置中可能涉及到其他模组的鱼类物品，所以在这里才初始化，确保其余模组在 FML 已经加载完成
-        fishConfigManager = new FishConfigManager();
-        fishConfigManager.loadCommonConfig();
-        fishConfigManager.loadServerConfig();
+        configManager = new ConfigManager();
+        configManager.loadCommonConfig();
+        configManager.loadServerConfig();
     }
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         // 只在客户端加载 client 配置
-        fishConfigManager.loadClientConfig();
+        configManager.loadClientConfig();
     }
 
     public static TreasureSeas getInstance() {
         return instance;
     }
 
-    public FishConfigManager getFishConfigManager() {
-        return fishConfigManager;
+    public ConfigManager getFishConfigManager() {
+        return configManager;
     }
 
     public static LogManager getLogger() {

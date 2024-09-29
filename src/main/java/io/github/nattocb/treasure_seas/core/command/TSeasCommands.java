@@ -3,7 +3,7 @@ package io.github.nattocb.treasure_seas.core.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.core.config.FishConfigManager;
+import io.github.nattocb.treasure_seas.core.config.ConfigManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
-public class TreasureSeasCommand {
+public class TSeasCommands {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
@@ -40,7 +40,7 @@ public class TreasureSeasCommand {
 
     private static int reloadCommon(CommandSourceStack source) {
         long startTs = System.currentTimeMillis();
-        FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+        ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
         configManager.loadCommonConfig();
         configManager.loadServerConfig();
         source.sendSuccess(new TextComponent("TreasureSeas common configuration reloaded in " + (System.currentTimeMillis() - startTs) + " ms!"), true);

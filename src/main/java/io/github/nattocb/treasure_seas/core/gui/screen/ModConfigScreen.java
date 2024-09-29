@@ -1,7 +1,8 @@
-package io.github.nattocb.treasure_seas.core.config;
+package io.github.nattocb.treasure_seas.core.gui.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.core.config.ConfigManager;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -10,10 +11,13 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * 游戏主界面的 mod config 自定义配置页
+ */
 @OnlyIn(Dist.CLIENT)
 public class ModConfigScreen extends Screen {
 
-    private final FishConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+    private final ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
     private final Screen parent;
 
     private EditBox customPosXBox;

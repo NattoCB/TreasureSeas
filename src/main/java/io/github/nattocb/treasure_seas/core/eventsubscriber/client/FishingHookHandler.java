@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.core.eventsubscriber.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
-import io.github.nattocb.treasure_seas.core.config.FishConfigManager;
+import io.github.nattocb.treasure_seas.core.config.ConfigManager;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
 import io.github.nattocb.treasure_seas.core.utility.HudDisplayHelper;
 import io.github.nattocb.treasure_seas.core.gui.tooltip.FishingTooltipRenderer;
@@ -37,8 +37,8 @@ public class FishingHookHandler {
         // pre-check
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
         // 确保玩家客户端开启了配置
-        FishConfigManager fishConfigManager = TreasureSeas.getInstance().getFishConfigManager();
-        if (!fishConfigManager.isHudFishingInfoEnable()) {
+        ConfigManager configManager = TreasureSeas.getInstance().getFishConfigManager();
+        if (!configManager.isHudFishingInfoEnable()) {
             return;
         }
         Player player = Minecraft.getInstance().player;
@@ -49,12 +49,12 @@ public class FishingHookHandler {
         // main logic
         PoseStack poseStack = event.getMatrixStack();
         int tooltipX, tooltipY;
-        if (!fishConfigManager.isHudFishingInfoEnableCustomPosition()) {
+        if (!configManager.isHudFishingInfoEnableCustomPosition()) {
             tooltipX = event.getWindow().getGuiScaledWidth() / 2 + 10;
             tooltipY = event.getWindow().getGuiScaledHeight() / 2 + 10;
         } else {
-            tooltipX = fishConfigManager.getHudFishingInfoCustomX();
-            tooltipY = fishConfigManager.getHudFishingInfoCustomY();
+            tooltipX = configManager.getHudFishingInfoCustomX();
+            tooltipY = configManager.getHudFishingInfoCustomY();
         }
         FishingTooltipRenderer.checkAndRenderTooltip(poseStack, tooltipX, tooltipY);
     }
