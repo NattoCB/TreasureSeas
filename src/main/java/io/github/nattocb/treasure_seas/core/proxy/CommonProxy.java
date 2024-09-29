@@ -2,7 +2,7 @@ package io.github.nattocb.treasure_seas.core.proxy;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.core.FishWrapper;
-import io.github.nattocb.treasure_seas.common.enchantment.FishingRodUpgradeRequirement;
+import io.github.nattocb.treasure_seas.common.FishingRodUpgradeRequirement;
 import io.github.nattocb.treasure_seas.common.item.FireproofItemEntity;
 import io.github.nattocb.treasure_seas.core.packet.PacketHandler;
 import io.github.nattocb.treasure_seas.common.FishRarity;

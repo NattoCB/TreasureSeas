@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.common.enchantment;
+package io.github.nattocb.treasure_seas.common;
 
 public enum FishingRodUpgradeRequirement {
     LEVEL_0(0, 0),

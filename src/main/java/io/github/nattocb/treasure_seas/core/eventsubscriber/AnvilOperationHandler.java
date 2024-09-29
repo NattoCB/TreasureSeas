@@ -1,5 +1,6 @@
-package io.github.nattocb.treasure_seas.common.enchantment;
+package io.github.nattocb.treasure_seas.core.eventsubscriber;
 
+import io.github.nattocb.treasure_seas.common.FishingRodUpgradeRequirement;
 import io.github.nattocb.treasure_seas.common.registry.ModEnchantments;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
 import io.github.nattocb.treasure_seas.core.utility.PlayerMessageManager;
