@@ -19,7 +19,7 @@ import java.util.concurrent.*;
  * 矩形区域判断
  * 基于世界坐标缓存（因Tooltip每帧调用一次计算）自动定时清理
  */
-public class FluidShapeHandler {
+public class FluidShapeHelper {
 
     private static final ConcurrentHashMap<BlockPos, CachedFluidShape> RECTANGLE_AREA_CACHE = new ConcurrentHashMap<>();
 
@@ -87,7 +87,7 @@ public class FluidShapeHandler {
                 if (belowShape == FluidShape.OPEN_WATER || belowShape == FluidShape.NEAR_SHORE) {
                     // 下方深度大于 2，且上层 15 * 15 范围内液体占比小于等于 10% 才算 HOLE
                     if (FishUtils.calculateFluidDepth(startPos, world) > 2) {
-                        double fluidPercentage = getAreaValidPercentage(world, startPos, FluidShapeHandler::isFluid);
+                        double fluidPercentage = getAreaValidPercentage(world, startPos, FluidShapeHelper::isFluid);
                         if (fluidPercentage <= 10.0) {
                             return FluidShape.HOLE;
                         } else {
@@ -113,12 +113,12 @@ public class FluidShapeHandler {
             case NEAR_SHORE:
             case OPEN_WATER:
                 // 检查 Y + 1 位置（mc敲出来的非自然生成冰洞）非空气方块占比，大于 90% 则为 HOLE
-                double validPercentage = getAreaValidPercentage(world, startPos.above(), FluidShapeHandler::isAir);
+                double validPercentage = getAreaValidPercentage(world, startPos.above(), FluidShapeHelper::isAir);
                 if (validPercentage <= 10.0) {
                     return FluidShape.HOLE;
                 } else {
                     if (rawShape == FluidShape.NEAR_SHORE) {
-                        double belowFluidPercentage = getAreaValidPercentage(world, startPos.below(), FluidShapeHandler::isFluid);
+                        double belowFluidPercentage = getAreaValidPercentage(world, startPos.below(), FluidShapeHelper::isFluid);
                         if (belowFluidPercentage >= 70.0) {
                             return FluidShape.OPEN_WATER;
                         } else {

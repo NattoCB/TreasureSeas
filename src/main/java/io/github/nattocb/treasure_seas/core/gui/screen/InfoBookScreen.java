@@ -6,8 +6,8 @@ import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.core.FishWrapper;
 import io.github.nattocb.treasure_seas.core.gui.menu.InfoBookMenu;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
-import io.github.nattocb.treasure_seas.core.utility.GuiUtil;
-import io.github.nattocb.treasure_seas.core.utility.gui.ItemIconButton;
+import io.github.nattocb.treasure_seas.core.utility.GuiHelper;
+import io.github.nattocb.treasure_seas.core.gui.screen.button.ItemIconButton;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -185,13 +185,13 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
         nextPageButton.active = currentPage < totalPages - 1;
 
         // 按钮的 hover 提示
-        if (GuiUtil.isButtonHovering(sortByTypeButton, mouseX, mouseY)) {
+        if (GuiHelper.isButtonHovering(sortByTypeButton, mouseX, mouseY)) {
             renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_type"), mouseX, mouseY);
         }
-        if (GuiUtil.isButtonHovering(sortByPriceButton, mouseX, mouseY)) {
+        if (GuiHelper.isButtonHovering(sortByPriceButton, mouseX, mouseY)) {
             renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_price"), mouseX, mouseY);
         }
-        if (GuiUtil.isButtonHovering(sortByLvlButton, mouseX, mouseY)) {
+        if (GuiHelper.isButtonHovering(sortByLvlButton, mouseX, mouseY)) {
             renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_lvl"), mouseX, mouseY);
         }
 

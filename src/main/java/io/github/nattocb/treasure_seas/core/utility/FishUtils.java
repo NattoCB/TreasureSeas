@@ -275,7 +275,7 @@ public class FishUtils {
         double chance = TreasureSeas.RANDOM.nextDouble() * 100;
 
         // 根据水域形状类型决定 chance 前后移比例
-        FluidShape fluidShape = FluidShapeHandler.getFluidShape(world, hookPos);
+        FluidShape fluidShape = FluidShapeHelper.getFluidShape(world, hookPos);
         switch (fluidShape) {
             case NARROW -> chance = Math.max(0, chance - 12);
             case PONDLET -> chance = Math.max(0, chance - 5);

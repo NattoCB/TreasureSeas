@@ -1,4 +1,4 @@
-package io.github.nattocb.treasure_seas.core.utility.gui;
+package io.github.nattocb.treasure_seas.core.gui.screen.button;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

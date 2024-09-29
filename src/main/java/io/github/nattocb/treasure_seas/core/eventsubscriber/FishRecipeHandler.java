@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 如果用模组鱼烹饪、合成，则携带 nbt 到输出物品
+ * 如果用模组鱼相关合成，则携带 nbt 到输出物品
  */
 @Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class FishRecipeHandler {

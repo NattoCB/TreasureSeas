@@ -16,6 +16,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
+/**
+ * 为方便查找，具有 block 的 item 也一起注册在这里
+ */
 @Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
 

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.core.config.FishConfigManager;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
-import io.github.nattocb.treasure_seas.core.utility.HudDisplayManager;
+import io.github.nattocb.treasure_seas.core.utility.HudDisplayHelper;
 import io.github.nattocb.treasure_seas.core.gui.tooltip.FishingTooltipRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -83,7 +83,7 @@ public class FishingHookHandler {
             Component message = new TranslatableComponent("message.use.scroll");
             int totalDuration = 105;
             int fadeOutStartTick = 82;
-            HudDisplayManager.showHudMessage(message, totalDuration, fadeOutStartTick);
+            HudDisplayHelper.showHudMessage(message, totalDuration, fadeOutStartTick);
         }
         wasFishing = true;
     }

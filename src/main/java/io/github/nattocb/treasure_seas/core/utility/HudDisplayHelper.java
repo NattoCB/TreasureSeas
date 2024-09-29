@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
  * 该方法仅能在纯客户端类下调用，禁止在双端类调用
  */
 @Mod.EventBusSubscriber(modid = TreasureSeas.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class HudDisplayManager {
+public class HudDisplayHelper {
 
     private static Component currentMessage = null;
     private static int tickCounter = 0;
@@ -32,11 +32,11 @@ public class HudDisplayManager {
      * @param fadeOutStartTick  The tick at which the fade-out effect should start.
      */
     public static void showHudMessage(Component message, int totalDuration, int fadeOutStartTick) {
-        HudDisplayManager.currentMessage = message;
-        HudDisplayManager.totalDurationTicks = totalDuration;
-        HudDisplayManager.fadeOutStartTick = fadeOutStartTick;
-        HudDisplayManager.tickCounter = 0;
-        HudDisplayManager.alpha = 1.0f;
+        HudDisplayHelper.currentMessage = message;
+        HudDisplayHelper.totalDurationTicks = totalDuration;
+        HudDisplayHelper.fadeOutStartTick = fadeOutStartTick;
+        HudDisplayHelper.tickCounter = 0;
+        HudDisplayHelper.alpha = 1.0f;
     }
 
     /**
@@ -64,14 +64,14 @@ public class HudDisplayManager {
     public static void onRenderGameOverlay(RenderGameOverlayEvent.Text event) {
         Minecraft mc = Minecraft.getInstance();
         PoseStack poseStack = event.getMatrixStack();
-        Component message = HudDisplayManager.getHudMessage();
+        Component message = HudDisplayHelper.getHudMessage();
         if (message != null && mc.player != null) {
             int screenWidth = mc.getWindow().getGuiScaledWidth();
             int screenHeight = mc.getWindow().getGuiScaledHeight();
             int textWidth = mc.font.width(message);
             int yPosition = screenHeight - 55;
             // Calculate the alpha component of the color
-            int alphaValue = (int) (HudDisplayManager.getHudAlpha() * 255.0f) << 24;
+            int alphaValue = (int) (HudDisplayHelper.getHudAlpha() * 255.0f) << 24;
             int color = 0xFFFFFF | alphaValue; // White color with varying alpha
             // Draw the message on the screen with the calculated alpha
             GuiComponent.drawString(poseStack, mc.font, message, (screenWidth - textWidth) / 2, yPosition, color);
