@@ -54,12 +54,12 @@ public class ModConfigScreen extends Screen {
                 }, labelX, buttonX, buttonWidth, buttonHeight);
 
         // 添加配置项 3: 自定义 X 位置
-        customPosXBox = new EditBox(this.font, buttonX, optionY += gap, buttonWidth, buttonHeight, new TranslatableComponent("option.hudFishingInfoCustomPositionX"));
+        customPosXBox = new EditBox(this.font, buttonX, optionY += gap, buttonWidth, buttonHeight, new TranslatableComponent("option.treasure_seas.hudFishingInfoCustomPositionX"));
         customPosXBox.setValue(Integer.toString(configManager.getHudFishingInfoCustomX()));
         this.addRenderableWidget(customPosXBox);
 
         // 添加配置项 4: 自定义 Y 位置
-        customPosYBox = new EditBox(this.font, buttonX, optionY += gap, buttonWidth, buttonHeight, new TranslatableComponent("option.hudFishingInfoCustomPositionY"));
+        customPosYBox = new EditBox(this.font, buttonX, optionY += gap, buttonWidth, buttonHeight, new TranslatableComponent("option.treasure_seas.hudFishingInfoCustomPositionY"));
         customPosYBox.setValue(Integer.toString(configManager.getHudFishingInfoCustomY()));
         this.addRenderableWidget(customPosYBox);
 

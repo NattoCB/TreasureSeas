@@ -6,12 +6,12 @@ import io.github.nattocb.treasure_seas.common.FishingRodUpgradeRequirement;
 import io.github.nattocb.treasure_seas.common.item.FireproofItemEntity;
 import io.github.nattocb.treasure_seas.core.packet.PacketHandler;
 import io.github.nattocb.treasure_seas.common.FishRarity;
+import io.github.nattocb.treasure_seas.core.utility.AchievementHelper;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
 import io.github.nattocb.treasure_seas.core.utility.ItemUtils;
 import io.github.nattocb.treasure_seas.core.utility.MathUtils;
 import io.github.nattocb.treasure_seas.core.utility.random.RandomEnchantmentUtil;
 import io.github.nattocb.treasure_seas.core.utility.random.RandomPotionUtil;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -19,8 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -46,7 +44,6 @@ import java.util.*;
  */
 public class CommonProxy {
 
-    private static final Map<String, ResourceLocation> ADVANCEMENT_CACHE = new HashMap<>();
 
     public CommonProxy() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -161,46 +158,36 @@ public class CommonProxy {
         if (!fishWrapper.isTreasure() && !fishWrapper.isJunk() && !fishWrapper.isUltimateTreasure()) {
             // is fish
             if (length >= 200) {
-                grantAdvancement(player, "length_200_fish", "fishing");
+                AchievementHelper.grantAdvancement(player, "length_200_fish", "fishing");
             } else if (length >= 150) {
-                grantAdvancement(player, "length_150_fish", "fishing");
+                AchievementHelper.grantAdvancement(player, "length_150_fish", "fishing");
             } else if (length >= 100) {
-                grantAdvancement(player, "length_100_fish", "fishing");
+                AchievementHelper.grantAdvancement(player, "length_100_fish", "fishing");
             } else if (length >= 50) {
-                grantAdvancement(player, "length_50_fish", "fishing");
+                AchievementHelper.grantAdvancement(player, "length_50_fish", "fishing");
             }
-            if (isShiny) grantAdvancement(player, "shiny_fish", "fishing");
+            if (isShiny) AchievementHelper.grantAdvancement(player, "shiny_fish", "fishing");
             switch (rarity) {
-                case RARE -> grantAdvancement(player, "rare_fish", "fishing");
-                case EXCEPTIONAL -> grantAdvancement(player, "exceptional_fish", "fishing");
-                case UNCOMMON -> grantAdvancement(player, "uncommon_fish", "fishing");
-                case SUPERIOR -> grantAdvancement(player, "superior_fish", "fishing");
-                case LEGEND -> grantAdvancement(player, "legend_fish", "fishing");
-                case MYTHIC -> grantAdvancement(player, "mythic_fish", "fishing");
-                case DIVINE -> grantAdvancement(player, "divine_fish", "fishing");
+                case RARE -> AchievementHelper.grantAdvancement(player, "rare_fish", "fishing");
+                case EXCEPTIONAL -> AchievementHelper.grantAdvancement(player, "exceptional_fish", "fishing");
+                case UNCOMMON -> AchievementHelper.grantAdvancement(player, "uncommon_fish", "fishing");
+                case SUPERIOR -> AchievementHelper.grantAdvancement(player, "superior_fish", "fishing");
+                case LEGEND -> AchievementHelper.grantAdvancement(player, "legend_fish", "fishing");
+                case MYTHIC -> AchievementHelper.grantAdvancement(player, "mythic_fish", "fishing");
+                case DIVINE -> AchievementHelper.grantAdvancement(player, "divine_fish", "fishing");
             }
         }
         if (TreasureSeas.MOD_ID.equals(fishWrapper.getModNamespace())) {
             if ("pirate_treasure".equals(fishWrapper.getFishItemName())) {
-                grantAdvancement(player, "pirate_treasure", "fishing");
+                AchievementHelper.grantAdvancement(player, "pirate_treasure", "fishing");
             }
             if ("power_fruit".equals(fishWrapper.getFishItemName())) {
-                grantAdvancement(player, "power_fruit", "fishing");
+                AchievementHelper.grantAdvancement(player, "power_fruit", "fishing");
             }
             if ("life_fruit".equals(fishWrapper.getFishItemName())) {
-                grantAdvancement(player, "life_fruit", "fishing");
+                AchievementHelper.grantAdvancement(player, "life_fruit", "fishing");
             }
         }
-    }
-
-    private static void grantAdvancement(ServerPlayer player, String advancementKey, String criteria) {
-        ResourceLocation advancementId = ADVANCEMENT_CACHE.computeIfAbsent(advancementKey, key -> new ResourceLocation(TreasureSeas.MOD_ID, key));
-        MinecraftServer server = player.getServer();
-        if (server == null) return;
-        ServerAdvancementManager advancements = server.getAdvancements();
-        Advancement advancement = advancements.getAdvancement(advancementId);
-        if (advancement == null) return;
-        player.getAdvancements().award(advancement, criteria);
     }
 
     private static void recordFishingResultToFishItem(Player player, FishWrapper fishWrapper, ItemStack itemStack, int length, FishRarity rarity, boolean isShiny) {
@@ -218,10 +205,10 @@ public class CommonProxy {
         fishTag.putString("fisher", player.getScoreboardName());
         // lore
         ListTag lore = new ListTag();
-        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.length", "§7" + length))));
-        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.quality", rarity.getName()))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.length", "§7" + length))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.quality", rarity.getName()))));
         if (isShiny) {
-            lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.shiny"))));
+            lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.shiny"))));
         }
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("item.treasure_seas.fish.lore3"))));
         itemStack.getOrCreateTagElement("display").put("Lore", lore);
@@ -317,7 +304,7 @@ public class CommonProxy {
                             )
                     );
                     if (isFishingTogether && p instanceof ServerPlayer) {
-                        grantAdvancement((ServerPlayer) p, "co_fishing", "fishing");
+                        AchievementHelper.grantAdvancement((ServerPlayer) p, "co_fishing", "fishing");
                     }
                 });
         player.level.addFreshEntity(
