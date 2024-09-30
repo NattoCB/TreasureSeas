@@ -29,7 +29,7 @@ public class FishShopBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return new TranslatableComponent("fish.shop.gui");
+        return new TranslatableComponent("gui.treasure_seas.fish_shop.title");
     }
 
 }

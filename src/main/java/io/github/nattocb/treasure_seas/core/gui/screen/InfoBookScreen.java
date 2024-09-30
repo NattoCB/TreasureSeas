@@ -189,13 +189,13 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
 
         // 按钮的 hover 提示
         if (GuiHelper.isButtonHovering(sortByTypeButton, mouseX, mouseY)) {
-            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_type"), mouseX, mouseY);
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.info_screen.sort_type"), mouseX, mouseY);
         }
         if (GuiHelper.isButtonHovering(sortByPriceButton, mouseX, mouseY)) {
-            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_price"), mouseX, mouseY);
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.info_screen.sort_price"), mouseX, mouseY);
         }
         if (GuiHelper.isButtonHovering(sortByLvlButton, mouseX, mouseY)) {
-            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.infoscreen.sort_lvl"), mouseX, mouseY);
+            renderTooltip(poseStack, new TranslatableComponent("gui.treasure_seas.info_screen.sort_lvl"), mouseX, mouseY);
         }
 
     }
@@ -228,19 +228,19 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
             if (FishUtils.isFish(selectedFish)) {
                 font.draw(poseStack,
-                        I18n.get("gui.treasure_seas.infoscreen.longest_seen") + maxRecordedLength + "cm",
+                        I18n.get("gui.treasure_seas.info_screen.longest_seen") + maxRecordedLength + "cm",
                         this.titleLabelX + 15,
                         this.titleLabelY + 120,
                         4210752);
                 font.draw(poseStack,
-                        I18n.get("gui.treasure_seas.infoscreen.shiny_caught") +
-                                (isShiny ? I18n.get("gui.treasure_seas.infoscreen.shiny_caught_yes") : ""),
+                        I18n.get("gui.treasure_seas.info_screen.shiny_caught") +
+                                (isShiny ? I18n.get("gui.treasure_seas.info_screen.shiny_caught_yes") : ""),
                         this.titleLabelX + 15,
                         this.titleLabelY + 131,
                         4210752);
             }
             font.draw(poseStack,
-                    I18n.get("gui.treasure_seas.infoscreen.cnt") + catchCount,
+                    I18n.get("gui.treasure_seas.info_screen.cnt") + catchCount,
                         this.titleLabelX + 15,
                         this.titleLabelY + 142,
                         4210752);
@@ -252,28 +252,28 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
                 possibleBiomes = StringUtils.isEmpty(possibleBiomes) ? "ALL" : possibleBiomes;
                 possibleWorlds = StringUtils.isEmpty(possibleWorlds) ? "ALL" : possibleWorlds;
                 if (FishUtils.isFish(selectedFish)) {
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.species") + selectedFish.getFishItemName(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.length") + (int) selectedFish.getMinLength() + "-" + (int) selectedFish.getMaxLength() + " cm", font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.species") + selectedFish.getFishItemName(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.length") + (int) selectedFish.getMinLength() + "-" + (int) selectedFish.getMaxLength() + " cm", font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
                     textPage.addText(I18n.get(
-                            "gui.treasure_seas.infoscreen.fish_habit") +
-                            (selectedFish.isCaveOnly() ? I18n.get("gui.treasure_seas.infoscreen.fish_habit_cave") : I18n.get("gui.treasure_seas.infoscreen.fish_habit_normal")),
+                            "gui.treasure_seas.info_screen.fish_habit") +
+                            (selectedFish.isCaveOnly() ? I18n.get("gui.treasure_seas.info_screen.fish_habit_cave") : I18n.get("gui.treasure_seas.info_screen.fish_habit_normal")),
                             font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.appear_time") + selectedFish.getAllowedTime(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.appear_weather") + selectedFish.getAllowedWeather(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.fight_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.tenacity") + selectedFish.getTicksToWin(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.dexterity") + selectedFish.getSpeedModifier(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.biomes") + possibleBiomes, font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.worlds") + possibleWorlds, font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.base_price") + selectedFish.getBasePrice(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.appear_time") + selectedFish.getAllowedTime(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.appear_weather") + selectedFish.getAllowedWeather(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.fight_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.tenacity") + selectedFish.getTicksToWin(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.dexterity") + selectedFish.getSpeedModifier(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.biomes") + possibleBiomes, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.worlds") + possibleWorlds, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.base_price") + selectedFish.getBasePrice(), font);
                 } else {
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.name") + selectedFish.getFishItemName(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.require_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.biomes") + possibleBiomes, font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.worlds") + possibleWorlds, font);
-                    textPage.addText(I18n.get("gui.treasure_seas.infoscreen.base_price") + selectedFish.getBasePrice(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.name") + selectedFish.getFishItemName(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.depth") + selectedFish.getMinAppearDepth() + "-" + selectedFish.getMaxAppearDepth() + " m", font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.require_lvl") + selectedFish.getLowestLootableEnchantmentLevel(), font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.biomes") + possibleBiomes, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.worlds") + possibleWorlds, font);
+                    textPage.addText(I18n.get("gui.treasure_seas.info_screen.base_price") + selectedFish.getBasePrice(), font);
                 }
             }
 
@@ -290,8 +290,8 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
                 yPos += lineSpacing;
             }
         } else {
-            String tip1 = I18n.get("gui.treasure_seas.infoscreen.tip1");
-            String tip2 = I18n.get("gui.treasure_seas.infoscreen.tip2");
+            String tip1 = I18n.get("gui.treasure_seas.info_screen.tip1");
+            String tip2 = I18n.get("gui.treasure_seas.info_screen.tip2");
             int fontWidth1 = font.width(tip1);
             int fontWidth2 = font.width(tip2);
             // 居中于 149 115

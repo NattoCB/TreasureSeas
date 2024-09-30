@@ -6,14 +6,14 @@ import org.jetbrains.annotations.Nullable;
 
 public enum FishRarity {
 
-    ORDINARY(new TranslatableComponent("fish.rarity.ordinary"), 2.0, 1.0),
-    UNCOMMON(new TranslatableComponent("fish.rarity.uncommon"), 3.0, 1.2),
-    RARE(new TranslatableComponent("fish.rarity.rare"), 3.5, 1.5),
-    SUPERIOR(new TranslatableComponent("fish.rarity.superior"), 4.0, 2.0),
-    EXCEPTIONAL(new TranslatableComponent("fish.rarity.exceptional"), 5.0, 2.5),
-    LEGEND(new TranslatableComponent("fish.rarity.legend"), 7.0, 3.0),
-    MYTHIC(new TranslatableComponent("fish.rarity.mythic"), 8.0, 4.0),
-    DIVINE(new TranslatableComponent("fish.rarity.divine"), 10.0, 5.0);
+    ORDINARY(new TranslatableComponent("fish.treasure_seas.rarity.ordinary"), 2.0, 1.0),
+    UNCOMMON(new TranslatableComponent("fish.treasure_seas.rarity.uncommon"), 3.0, 1.2),
+    RARE(new TranslatableComponent("fish.treasure_seas.rarity.rare"), 3.5, 1.5),
+    SUPERIOR(new TranslatableComponent("fish.treasure_seas.rarity.superior"), 4.0, 2.0),
+    EXCEPTIONAL(new TranslatableComponent("fish.treasure_seas.rarity.exceptional"), 5.0, 2.5),
+    LEGEND(new TranslatableComponent("fish.treasure_seas.rarity.legend"), 7.0, 3.0),
+    MYTHIC(new TranslatableComponent("fish.treasure_seas.rarity.mythic"), 8.0, 4.0),
+    DIVINE(new TranslatableComponent("fish.treasure_seas.rarity.divine"), 10.0, 5.0);
 
     private final Component name;
     private final double experienceMultiplier;

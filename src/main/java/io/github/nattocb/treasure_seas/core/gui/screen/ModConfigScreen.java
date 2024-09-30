@@ -24,7 +24,7 @@ public class ModConfigScreen extends Screen {
     private EditBox customPosYBox;
 
     public ModConfigScreen(Screen parent) {
-        super(new TranslatableComponent("title.config"));
+        super(new TranslatableComponent("menu.treasure_seas.config.title"));
         this.parent = parent;
     }
 
@@ -78,7 +78,7 @@ public class ModConfigScreen extends Screen {
 
         // 保存并退出按钮
         this.addRenderableWidget(new Button(this.width / 2 - bottomButtonWidth - buttonSpacing, bottomY, bottomButtonWidth, buttonHeight,
-                new TranslatableComponent("menu.saveAndExit"),
+                new TranslatableComponent("menu.treasure_seas.config.save_and_exit"),
                 (button) -> {
                     // 保存配置值
                     configManager.setHudFishingInfoCustomX(Integer.parseInt(customPosXBox.getValue()));
@@ -90,7 +90,7 @@ public class ModConfigScreen extends Screen {
 
         // 取消按钮
         this.addRenderableWidget(new Button(this.width / 2 + buttonSpacing, bottomY, bottomButtonWidth, buttonHeight,
-                new TranslatableComponent("menu.cancel"),
+                new TranslatableComponent("menu.treasure_seas.config.cancel"),
                 (button) -> {
                     this.minecraft.setScreen(parent);
                 }
@@ -105,7 +105,7 @@ public class ModConfigScreen extends Screen {
 
     // Helper method: 获取配置状态文本 (Enabled/Disabled)
     private Component getStatusText(boolean isEnabled) {
-        return new TranslatableComponent(isEnabled ? "status.enabled" : "status.disabled");
+        return new TranslatableComponent(isEnabled ? "menu.treasure_seas.config.enabled" : "menu.treasure_seas.config.disabled");
     }
 
     @Override
@@ -118,11 +118,11 @@ public class ModConfigScreen extends Screen {
         drawCenteredString(poseStack, this.font, this.title.getString(), this.width / 2, 10, 0xFFFFFF);
 
         // 渲染每个配置项的标签，稍微下移使其居中
-        drawString(poseStack, this.font, new TranslatableComponent("option.hudFishingInfoEnable").getString(), this.width / 2 - 150, 40, 0xFFFFFF);
-        drawString(poseStack, this.font, new TranslatableComponent("option.hudFishingInfoCustomPositionEnable").getString(), this.width / 2 - 150, 70, 0xFFFFFF);
-        drawString(poseStack, this.font, new TranslatableComponent("option.hudFishingInfoCustomPositionX").getString(), this.width / 2 - 150, 100, 0xFFFFFF);
-        drawString(poseStack, this.font, new TranslatableComponent("option.hudFishingInfoCustomPositionY").getString(), this.width / 2 - 150, 130, 0xFFFFFF);
-        drawString(poseStack, this.font, new TranslatableComponent("option.logDebugModeEnable").getString(), this.width / 2 - 150, 160, 0xFFFFFF);
+        drawString(poseStack, this.font, new TranslatableComponent("option.treasure_seas.hudFishingInfoEnable").getString(), this.width / 2 - 150, 40, 0xFFFFFF);
+        drawString(poseStack, this.font, new TranslatableComponent("option.treasure_seas.hudFishingInfoCustomPositionEnable").getString(), this.width / 2 - 150, 70, 0xFFFFFF);
+        drawString(poseStack, this.font, new TranslatableComponent("option.treasure_seas.hudFishingInfoCustomPositionX").getString(), this.width / 2 - 150, 100, 0xFFFFFF);
+        drawString(poseStack, this.font, new TranslatableComponent("option.treasure_seas.hudFishingInfoCustomPositionY").getString(), this.width / 2 - 150, 130, 0xFFFFFF);
+        drawString(poseStack, this.font, new TranslatableComponent("option.treasure_seas.logDebugModeEnable").getString(), this.width / 2 - 150, 160, 0xFFFFFF);
 
         // 确保渲染后恢复状态
         poseStack.popPose();

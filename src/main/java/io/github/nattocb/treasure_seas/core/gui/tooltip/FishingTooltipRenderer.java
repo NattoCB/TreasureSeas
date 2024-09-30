@@ -186,9 +186,9 @@ public class FishingTooltipRenderer extends GuiComponent {
         List<Component> textComponents;
         if (waterDepth == 0) {
             textComponents = List.of(
-                    new TranslatableComponent("tooltip.fishing_hook"),
-                    new TranslatableComponent("tooltip.water_depth", waterDepth),
-                    new TranslatableComponent("tooltip.depth_capacity", Math.min(rodDepth, waterDepth))
+                    new TranslatableComponent("tooltip.treasure_seas.fishing_hook"),
+                    new TranslatableComponent("tooltip.treasure_seas.water_depth", waterDepth),
+                    new TranslatableComponent("tooltip.treasure_seas.depth_capacity", Math.min(rodDepth, waterDepth))
             );
         } else {
             String biomeName = biomeRes == null ? "unknown" : biomeRes.getPath();
@@ -196,10 +196,10 @@ public class FishingTooltipRenderer extends GuiComponent {
                     .getFluidShape(hook.getLevel(), hook.getOnPos())
                     .getIi8nComponent();
             textComponents = List.of(
-                    new TranslatableComponent("tooltip.fishing_hook2", fluidAreaInfo),
-                    new TranslatableComponent("tooltip.water_depth", waterDepth),
-                    new TranslatableComponent("tooltip.depth_capacity", Math.min(rodDepth, waterDepth)),
-                    new TranslatableComponent("tooltip.biome", biomeName)
+                    new TranslatableComponent("tooltip.treasure_seas.fishing_hook2", fluidAreaInfo),
+                    new TranslatableComponent("tooltip.treasure_seas.water_depth", waterDepth),
+                    new TranslatableComponent("tooltip.treasure_seas.depth_capacity", Math.min(rodDepth, waterDepth)),
+                    new TranslatableComponent("tooltip.treasure_seas.biome", biomeName)
             );
         }
 

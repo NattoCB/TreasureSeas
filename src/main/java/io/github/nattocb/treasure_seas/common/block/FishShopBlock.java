@@ -41,7 +41,7 @@ public class FishShopBlock extends Block implements EntityBlock {
             NetworkHooks.openGui((ServerPlayer) player, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new TranslatableComponent("fish.shop.gui");
+                    return new TranslatableComponent("gui.treasure_seas.fish_shop.title");
                 }
 
                 @Override

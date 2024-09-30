@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy {
                             treasureSeasData // data 2
                     ),
                     player.getInventory(),
-                    new TranslatableComponent("gui.treasure_seas.infoscreen.title")
+                    new TranslatableComponent("gui.treasure_seas.info_screen.title")
             ));
         }
     }

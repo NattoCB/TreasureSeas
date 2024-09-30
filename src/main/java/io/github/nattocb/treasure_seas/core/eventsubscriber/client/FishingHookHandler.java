@@ -80,7 +80,7 @@ public class FishingHookHandler {
         if (enchantmentLevel == 0) return;
         if (!wasFishing) {
             // Player just started fishing, display the HUD message
-            Component message = new TranslatableComponent("message.use.scroll");
+            Component message = new TranslatableComponent("message.treasure_seas.use.scroll");
             int totalDuration = 105;
             int fadeOutStartTick = 82;
             HudDisplayHelper.showHudMessage(message, totalDuration, fadeOutStartTick);

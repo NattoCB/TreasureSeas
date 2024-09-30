@@ -36,8 +36,8 @@ public class TSeasCommands {
 
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treasureseas")
                 .then(Commands.literal("reload")
+                        .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("common")
-                                .requires(source -> source.hasPermission(2))
                                 .executes(context -> reloadCommon(context.getSource()))))
                 .then(Commands.literal("log_biomes")
                         .requires(source -> source.hasPermission(2))
@@ -46,8 +46,8 @@ public class TSeasCommands {
                         .requires(source -> source.hasPermission(2))
                         .executes(context -> logWorldPaths(context.getSource())))
                 .then(Commands.literal("test")
+                        .requires(source -> source.hasPermission(2))
                         .then(Commands.argument("fish_name", StringArgumentType.word())
-                                .requires(source -> source.hasPermission(2))
                                 .suggests(
                                         (context, builder1) ->
                                                 SharedSuggestionProvider.suggest(
@@ -65,7 +65,7 @@ public class TSeasCommands {
         ConfigManager configManager = TreasureSeas.getInstance().getConfigManager();
         configManager.loadCommonConfig();
         configManager.loadServerConfig();
-        source.sendSuccess(new TranslatableComponent("command.treasureseas.reload.success", (System.currentTimeMillis() - startTs)), true);
+        source.sendSuccess(new TranslatableComponent("command.treasure_seas.reload.success", (System.currentTimeMillis() - startTs)), true);
         return 1;
     }
     
@@ -78,7 +78,7 @@ public class TSeasCommands {
                 TreasureSeas.getLogger().info("Biome: " + biomeName);
             }
         }
-        source.sendSuccess(new TranslatableComponent("command.treasureseas.log_biomes.success"), true);
+        source.sendSuccess(new TranslatableComponent("command.treasure_seas.log_biomes.success"), true);
         return 1;
     }
 
@@ -89,7 +89,7 @@ public class TSeasCommands {
             String worldPath = world.dimension().location().getPath();
             TreasureSeas.getLogger().info("World path: " + worldPath);
         }
-        source.sendSuccess(new TranslatableComponent("command.treasureseas.log_world_paths.success"), true);
+        source.sendSuccess(new TranslatableComponent("command.treasure_seas.log_world_paths.success"), true);
         return 1;
     }
 
@@ -101,7 +101,7 @@ public class TSeasCommands {
             Map<String, FishWrapper> fishWrapperMap = TreasureSeas.getInstance().getConfigManager().getFishWrapperMap();
             FishWrapper chosenFish = fishWrapperMap.get(fishName);
             if (chosenFish == null) {
-                source.sendFailure(new TranslatableComponent("command.treasureseas.test.not_found", fishName));
+                source.sendFailure(new TranslatableComponent("command.treasure_seas.test.not_found", fishName));
                 return 0;
             }
             // Send the packet to the player
@@ -109,10 +109,10 @@ public class TSeasCommands {
                     PacketDistributor.PLAYER.with(() -> player),
                     new FishFightPacket(player.position(), chosenFish)
             );
-            source.sendSuccess(new TranslatableComponent("command.treasureseas.test.success", fishName), true);
+            source.sendSuccess(new TranslatableComponent("command.treasure_seas.test.success", fishName), true);
             return 1;
         } catch (Exception e) {
-            source.sendFailure(new TranslatableComponent("command.treasureseas.test.error", e.getMessage()));
+            source.sendFailure(new TranslatableComponent("command.treasure_seas.test.error", e.getMessage()));
             return 0;
         }
     }

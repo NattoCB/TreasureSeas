@@ -97,30 +97,30 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
         }
 
         // 使用工具类更新物品的 Lore
-        ItemUtils.updateLore(output, 0, new TranslatableComponent("fish.quality", highestRarity.getName()).withStyle(ChatFormatting.GRAY));
+        ItemUtils.updateLore(output, 0, new TranslatableComponent("fish.treasure_seas.quality", highestRarity.getName()).withStyle(ChatFormatting.GRAY));
         if (isShiny) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.shiny"));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.shiny"));
         }
         if (!lastFishItem.isEmpty()) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.species", lastFishItem.getItem().getRegistryName().getPath()).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.species", lastFishItem.getItem().getRegistryName().getPath()).withStyle(ChatFormatting.GRAY));
         }
         if (timestamp > 0) {
             Date date = new Date(timestamp);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = formatter.format(date);
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.timestamp", dateString).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.timestamp", dateString).withStyle(ChatFormatting.GRAY));
         }
         if (length > 0) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.length", length).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.length", length).withStyle(ChatFormatting.GRAY));
         }
         if (!world.isEmpty()) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.world", world).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.world", world).withStyle(ChatFormatting.GRAY));
         }
         if (!location.isEmpty()) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.location", location).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.location", location).withStyle(ChatFormatting.GRAY));
         }
         if (!fisher.isEmpty()) {
-            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.fisher", fisher).withStyle(ChatFormatting.GRAY));
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.fisher", fisher).withStyle(ChatFormatting.GRAY));
         }
 
         return output;

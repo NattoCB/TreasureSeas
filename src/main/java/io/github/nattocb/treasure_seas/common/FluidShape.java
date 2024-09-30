@@ -3,39 +3,39 @@ package io.github.nattocb.treasure_seas.common;
 import net.minecraft.network.chat.TranslatableComponent;
 
 public enum FluidShape {
-    UNKNOWN("tooltip.area.unknown"),
+    UNKNOWN("tooltip.treasure_seas.area.unknown"),
     /**
      * 极小水域
      */
-    NARROW("tooltip.area.narrow"),
+    NARROW("tooltip.treasure_seas.area.narrow"),
     /**
      * 小池塘
      */
-    PONDLET("tooltip.area.pondlet"),
+    PONDLET("tooltip.treasure_seas.area.pondlet"),
     /**
      * 大池塘
      */
-    POND("tooltip.area.pond"),
+    POND("tooltip.treasure_seas.area.pond"),
     /**
      * 靠岸广阔水域
      */
-    NEAR_SHORE("tooltip.area.nearshore"),
+    NEAR_SHORE("tooltip.treasure_seas.area.nearshore"),
     /**
      * 离岸广阔水域
      */
-    OPEN_WATER("tooltip.area.openwater"),
+    OPEN_WATER("tooltip.treasure_seas.area.openwater"),
     /**
      * 洞口
      */
-    HOLE("tooltip.area.hole"),
+    HOLE("tooltip.treasure_seas.area.hole"),
     /**
      * 井口
      */
-    WELL("tooltip.area.well"),
+    WELL("tooltip.treasure_seas.area.well"),
     /**
      * 多坑洼地
      */
-    SURFACE("tooltip.area.surface");
+    SURFACE("tooltip.treasure_seas.area.surface");
 
     private final TranslatableComponent component;
 
