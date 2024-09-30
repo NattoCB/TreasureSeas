@@ -15,6 +15,4 @@ public class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<?>> GYOTAKU_RECIPE_SERIALIZER =
             SERIALIZERS.register("gyotaku_shapeless", GyotakuRecipeSerializer::new);
 
-    // todo add back the fish food nbt transfer logic
-
 }

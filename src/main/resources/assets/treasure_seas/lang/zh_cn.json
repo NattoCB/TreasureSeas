@@ -127,5 +127,11 @@
   "message.treasure_seas.insufficient_fishing_count": "该钓竿缺少 %s 经验才能应用下一附魔等级",
   "itemGroup.treasure_seas_tab": "宝藏海",
   "patchouli.treasure_seas.guide_book.name": "§b《宝海志》钓鱼全解",
-  "patchouli.treasure_seas.guide_book.landing_text": "开始一段冒险之旅，在这里钓鱼不再仅仅是放线。在这宝藏之海中，每次捕获都是和深海水生生物的一场战斗，钓到你的战利品，出售它们来赚取奖励；升级你的钓竿，发现稀有的鱼种和宝藏。所向睥睨，逐步成为终极垂钓者！"
+  "patchouli.treasure_seas.guide_book.landing_text": "开始一段冒险之旅，在这里钓鱼不再仅仅是放线。在这宝藏之海中，每次捕获都是和深海水生生物的一场战斗，钓到你的战利品，出售它们来赚取奖励；升级你的钓竿，发现稀有的鱼种和宝藏。所向睥睨，逐步成为终极垂钓者！",
+  "command.treasureseas.reload.success": "TreasureSeas 通用配置在重载完成，耗时 %s 毫秒",
+  "command.treasureseas.log_biomes.success": "已将所有生物群系名称输出到控制台",
+  "command.treasureseas.log_world_paths.success": "已将所有世界名称输出到控制台",
+  "command.treasureseas.test.success": "鱼类测试指令已执行：'%s'。",
+  "command.treasureseas.test.not_found": "未找到鱼类：'%s'。",
+  "command.treasureseas.test.error": "发生错误：%s"
 }

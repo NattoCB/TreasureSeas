@@ -127,5 +127,11 @@
   "message.treasure_seas.insufficient_fishing_count": "This rod needs at least %s fishing exp to apply the next level of this enchantment",
   "itemGroup.treasure_seas_tab": "TreasureSeas",
   "patchouli.treasure_seas.guide_book.name": "§bTreasureSeas' Guide",
-  "patchouli.treasure_seas.guide_book.landing_text": "Embark on an adventurous journey where fishing is more than just casting a line. In Treasure Seas‘ enchantment, every catch is a battle as you engage in thrilling duels with the aquatic creatures of the deep. Once you've reeled in your prized catches, sell them to earn rewards. Master your fishing rod, and become the ultimate angler in this world!"
+  "patchouli.treasure_seas.guide_book.landing_text": "Embark on an adventurous journey where fishing is more than just casting a line. In Treasure Seas‘ enchantment, every catch is a battle as you engage in thrilling duels with the aquatic creatures of the deep. Once you've reeled in your prized catches, sell them to earn rewards. Master your fishing rod, and become the ultimate angler in this world!",
+  "command.treasureseas.reload.success": "TreasureSeas common configuration reloaded in %s ms!",
+  "command.treasureseas.log_biomes.success": "Logged all biomes to the console.",
+  "command.treasureseas.log_world_paths.success": "Logged all world paths to the console.",
+  "command.treasureseas.test.success": "Test command executed for fish '%s'.",
+  "command.treasureseas.test.not_found": "Fish '%s' not found.",
+  "command.treasureseas.test.error": "An error occurred: %s"
 }
