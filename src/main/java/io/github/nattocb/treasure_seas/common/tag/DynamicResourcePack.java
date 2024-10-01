@@ -127,11 +127,9 @@ public class DynamicResourcePack implements PackResources {
             if (packObject == null) {
                 throw new JsonParseException("Missing 'pack' object in pack.mcmeta");
             }
-            // First try to get 'forge:data_pack_format', then 'pack_format'
+            // First try to get 'pack_format'
             int packFormat = -1;
-            if (packObject.has("forge:data_pack_format")) {
-                packFormat = packObject.get("forge:data_pack_format").getAsInt();
-            } else if (packObject.has("pack_format")) {
+            if (packObject.has("pack_format")) {
                 packFormat = packObject.get("pack_format").getAsInt();
             }
 
