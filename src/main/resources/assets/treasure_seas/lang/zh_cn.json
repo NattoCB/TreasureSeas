@@ -133,5 +133,25 @@
   "command.treasure_seas.log_world_paths.success": "已将所有世界名称输出到控制台",
   "command.treasure_seas.test.success": "鱼类测试指令已执行：'%s'。",
   "command.treasure_seas.test.not_found": "未找到鱼类：'%s'。",
-  "command.treasure_seas.test.error": "发生错误：%s"
+  "command.treasure_seas.test.error": "发生错误：%s",
+
+
+
+
+  "fish.length": "§8长度: %s §7cm",
+  "fish.quality": "§8品质: %s",
+  "fish.shiny": "§d§l变异",
+  "fish.species": "§8品种: %s",
+  "fish.world": "§8捕获于: %s",
+  "fish.timestamp": "§8捕获时间: %s",
+  "fish.location": "§8捕获点: %s",
+  "fish.fisher": "§8垂钓者: %s",
+  "fish.rarity.ordinary": "§7普通",
+  "fish.rarity.uncommon": "§a少见",
+  "fish.rarity.rare": "§b稀有",
+  "fish.rarity.superior": "§9优质",
+  "fish.rarity.exceptional": "§e卓越",
+  "fish.rarity.legend": "§5传说",
+  "fish.rarity.mythic": "§d史诗",
+  "fish.rarity.divine": "§6§l神圣"
 }

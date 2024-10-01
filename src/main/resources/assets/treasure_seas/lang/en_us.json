@@ -133,5 +133,25 @@
   "command.treasure_seas.log_world_paths.success": "Logged all world paths to the console.",
   "command.treasure_seas.test.success": "Test command executed for fish '%s'.",
   "command.treasure_seas.test.not_found": "Fish '%s' not found.",
-  "command.treasure_seas.test.error": "An error occurred: %s"
+  "command.treasure_seas.test.error": "An error occurred: %s",
+
+
+
+  
+  "fish.length": "§8Length: %s §7cm",
+  "fish.quality": "§8Quality: %s",
+  "fish.shiny": "§d§lSHINY",
+  "fish.species": "§8Species: %s",
+  "fish.world": "§8Caught in: %s",
+  "fish.timestamp": "§8Caught on: %s",
+  "fish.location": "§8Location: %s",
+  "fish.fisher": "§8Fisher: %s",
+  "fish.rarity.ordinary": "§7Ordinary",
+  "fish.rarity.uncommon": "§aUncommon",
+  "fish.rarity.rare": "§bRare",
+  "fish.rarity.superior": "§9Superior",
+  "fish.rarity.exceptional": "§eExceptional",
+  "fish.rarity.legend": "§5Legend",
+  "fish.rarity.mythic": "§dMythic",
+  "fish.rarity.divine": "§6§lDivine"
 }
