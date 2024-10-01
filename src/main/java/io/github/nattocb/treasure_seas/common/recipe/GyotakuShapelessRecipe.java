@@ -1,8 +1,6 @@
 package io.github.nattocb.treasure_seas.common.recipe;
 
-import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.common.FishRarity;
-import io.github.nattocb.treasure_seas.common.registry.ModRecipeSerializers;
 import io.github.nattocb.treasure_seas.common.registry.ModRecipeTags;
 import io.github.nattocb.treasure_seas.core.utility.ItemUtils;
 import net.minecraft.ChatFormatting;
@@ -31,24 +29,30 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
     }
     @Override
     public boolean matches(CraftingContainer inv, @NotNull Level world) {
-
-        boolean hasPaper = false;
-        boolean hasFish = false;
-        boolean hasInkSac = false;
+        int paperCount = 0;
+        int inkSacCount = 0;
+        int fishCount = 0;
 
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack stack = inv.getItem(i);
-            if (stack.is(Items.PAPER)) {
-                hasPaper = true;
-            } else if (stack.is(Items.INK_SAC)) {
-                hasInkSac = true;
-            } else if (stack.is(ModRecipeTags.FISHES)) {
-                hasFish = true;
+            if (!stack.isEmpty()) {
+                if (stack.is(Items.PAPER)) {
+                    paperCount++;
+                } else if (stack.is(Items.INK_SAC)) {
+                    inkSacCount++;
+                } else if (stack.is(ModRecipeTags.RAW_FISHES)) {
+                    fishCount++;
+                } else {
+                    // Invalid item present
+                    return false;
+                }
             }
         }
 
-        return hasPaper && hasInkSac && hasFish;
+        // Only one of each item should be allowed
+        return paperCount == 1 && inkSacCount == 1 && fishCount == 1;
     }
+
 
     @Override
     public @NotNull ItemStack assemble(CraftingContainer inv) {
@@ -91,7 +95,7 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
                     fisher = tag.getString("fisher");
                 }
             }
-            if (input.is(ModRecipeTags.FISHES)) {
+            if (input.is(ModRecipeTags.RAW_FISHES)) {
                 lastFishItem = input;
             }
         }
