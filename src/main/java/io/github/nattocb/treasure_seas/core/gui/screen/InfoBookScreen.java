@@ -8,6 +8,7 @@ import io.github.nattocb.treasure_seas.core.gui.menu.InfoBookMenu;
 import io.github.nattocb.treasure_seas.core.utility.FishUtils;
 import io.github.nattocb.treasure_seas.core.utility.GuiHelper;
 import io.github.nattocb.treasure_seas.core.gui.screen.button.ItemIconButton;
+import io.github.nattocb.treasure_seas.core.utility.MathUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -224,11 +225,17 @@ public class InfoBookScreen extends AbstractContainerScreen<InfoBookMenu> {
 
             // Fetch and render the player NBT data from the utility methods
             int maxRecordedLength = FishUtils.getFishMaxRecordedLength(playerFishesNbt, selectedFish);
+            int maxRecordedWeight = FishUtils.getFishMaxRecordedWeight(playerFishesNbt, selectedFish);
             boolean isShiny = FishUtils.isFishShiny(playerFishesNbt, selectedFish);
             int catchCount = FishUtils.getFishCatchCount(playerFishesNbt, selectedFish);
             if (FishUtils.isFish(selectedFish)) {
                 font.draw(poseStack,
-                        I18n.get("gui.treasure_seas.info_screen.longest_seen") + maxRecordedLength + "cm",
+                        I18n.get("gui.treasure_seas.info_screen.longest_seen") + maxRecordedLength + " cm",
+                        this.titleLabelX + 15,
+                        this.titleLabelY + 109,
+                        4210752);
+                font.draw(poseStack,
+                        I18n.get("gui.treasure_seas.info_screen.heaviest_seen") + MathUtils.convertWeight(maxRecordedWeight),
                         this.titleLabelX + 15,
                         this.titleLabelY + 120,
                         4210752);

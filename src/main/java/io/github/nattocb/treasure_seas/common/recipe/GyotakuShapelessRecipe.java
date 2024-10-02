@@ -1,9 +1,12 @@
 package io.github.nattocb.treasure_seas.common.recipe;
 
+import io.github.nattocb.treasure_seas.common.FishGender;
 import io.github.nattocb.treasure_seas.common.FishRarity;
 import io.github.nattocb.treasure_seas.common.registry.ModRecipeTags;
 import io.github.nattocb.treasure_seas.core.utility.ItemUtils;
+import io.github.nattocb.treasure_seas.core.utility.MathUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -60,10 +63,12 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
         FishRarity highestRarity = FishRarity.ORDINARY;
         boolean isShiny = false;
         int length = 0;
+        int weight = 0;
         long timestamp = 0;
         String world = "";
         String location = "";
         String fisher = "";
+        String gender = null;
         ItemStack lastFishItem = ItemStack.EMPTY;
 
         for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -81,6 +86,12 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
                 }
                 if (tag.contains("length")) {
                     length = tag.getInt("length");
+                }
+                if (tag.contains("weight")) {
+                    weight = tag.getInt("weight");
+                }
+                if (tag.contains("gender")) {
+                    gender = tag.getString("gender");
                 }
                 if (tag.contains("timestamp")) {
                     timestamp = tag.getLong("timestamp");
@@ -116,6 +127,13 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
         }
         if (length > 0) {
             ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.length", length).withStyle(ChatFormatting.GRAY));
+        }
+        if (weight > 0) {
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.weight", MathUtils.convertWeight(weight)).withStyle(ChatFormatting.GRAY));
+        }
+        if (gender != null) {
+            FishGender genderEnum = FishGender.fromString(gender);
+            ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.gender", I18n.get(genderEnum.getTranslatableComponent().getKey())).withStyle(ChatFormatting.GRAY));
         }
         if (!world.isEmpty()) {
             ItemUtils.insertLoreAtEnd(output, new TranslatableComponent("fish.treasure_seas.world", world).withStyle(ChatFormatting.GRAY));

@@ -1,5 +1,6 @@
 package io.github.nattocb.treasure_seas.core.utility;
 
+import io.github.nattocb.treasure_seas.common.FishGender;
 import io.github.nattocb.treasure_seas.common.FluidShape;
 import io.github.nattocb.treasure_seas.TreasureSeas;
 import io.github.nattocb.treasure_seas.common.registry.ModEnchantments;
@@ -389,6 +390,19 @@ public class FishUtils {
         return 0;
     }
 
+    // Retrieve the maxWeight from the player's NBT data
+    public static int getFishMaxRecordedWeight(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
+        if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
+            return 0;
+        }
+        String fishKey = fishWrapper.getModNamespace() + ":" + fishWrapper.getFishItemName();
+        if (treasureSeasTag.contains(fishKey)) {
+            CompoundTag fishTag = treasureSeasTag.getCompound(fishKey);
+            return fishTag.getInt("maxWeight");
+        }
+        return 0;
+    }
+
     // Retrieve the shiny status from the player's NBT data
     public static boolean isFishShiny(CompoundTag treasureSeasTag, FishWrapper fishWrapper) {
         if (treasureSeasTag == null || treasureSeasTag.isEmpty()) {
@@ -417,6 +431,30 @@ public class FishUtils {
 
     public static boolean isFish(FishWrapper fishWrapper) {
         return !(fishWrapper.isJunk() || fishWrapper.isTreasure() || fishWrapper.isUltimateTreasure());
+    }
+
+
+    /**
+     * 根据鱼的当前长度估算鱼的体重，使用随机的 a 和 b 系数
+     * $$
+     * \text{体重 (g)} = a \times (\text{长度 (cm)})^b
+     * $$
+     * @param maxLength 鱼的最大理论长度（cm）
+     * @param currentLength 鱼的当前长度（cm）
+     * @return 预估的体重（g）
+     */
+    public static int estimateWeight(double maxLength, double currentLength) {
+        final double MIN_A = 0.005;
+        final double MAX_A = 0.02;
+        final double MIN_B = 2.9;
+        final double MAX_B = 3.5;
+        if (currentLength > maxLength || currentLength <= 0 || maxLength <= 0) {
+            TreasureSeas.getLogger().warn("Invalid input: maxLength: {}, currentLength: {}", maxLength, currentLength);
+            return -1;
+        }
+        double a = MathUtils.getRandomInRange(MIN_A, MAX_A);
+        double b = MathUtils.getRandomInRange(MIN_B, MAX_B);
+        return (int) (a * Math.pow(currentLength, b));
     }
 
 }

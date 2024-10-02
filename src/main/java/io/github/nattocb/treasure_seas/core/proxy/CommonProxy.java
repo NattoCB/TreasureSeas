@@ -1,6 +1,7 @@
 package io.github.nattocb.treasure_seas.core.proxy;
 
 import io.github.nattocb.treasure_seas.TreasureSeas;
+import io.github.nattocb.treasure_seas.common.FishGender;
 import io.github.nattocb.treasure_seas.core.FishWrapper;
 import io.github.nattocb.treasure_seas.common.FishingRodUpgradeRequirement;
 import io.github.nattocb.treasure_seas.common.item.FireproofItemEntity;
@@ -12,6 +13,7 @@ import io.github.nattocb.treasure_seas.core.utility.ItemUtils;
 import io.github.nattocb.treasure_seas.core.utility.MathUtils;
 import io.github.nattocb.treasure_seas.core.utility.random.RandomEnchantmentUtil;
 import io.github.nattocb.treasure_seas.core.utility.random.RandomPotionUtil;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -86,10 +88,12 @@ public class CommonProxy {
             int shinyFrequency = TreasureSeas.getInstance().getConfigManager().getShinyFrequency();
             boolean isShiny = TreasureSeas.RANDOM.nextInt(shinyFrequency) == 0;
             FishRarity rarity = lengthRarityPair.getB();
+            int weightG = FishUtils.estimateWeight(fishWrapper.getMaxLength(), length);
+            FishGender gender = TreasureSeas.RANDOM.nextBoolean() ? FishGender.MALE : FishGender.FEMALE;
 
             checkOrGiveAdvancements(player, fishWrapper, length, isShiny, rarity);
 
-            recordFishingResultToFishItem(player, fishWrapper, itemStack, length, rarity, isShiny);
+            recordFishingResultToFishItem(player, fishWrapper, itemStack, length, rarity, isShiny, weightG, gender);
 
             generateRewardItemToWorld(bobberPos, player, itemStack);
 
@@ -97,7 +101,7 @@ public class CommonProxy {
 
             recordFishingResultToRodItem(player);
 
-            updatePlayerFishingNBT(player, fishWrapper, length, isShiny);
+            updatePlayerFishingNBT(player, fishWrapper, length, isShiny, weightG);
 
             player.awardStat(Stats.FISH_CAUGHT, 1);
         }
@@ -132,7 +136,8 @@ public class CommonProxy {
         return itemStack;
     }
 
-    private static void updatePlayerFishingNBT(ServerPlayer player, FishWrapper fishWrapper, int length, boolean isShiny) {
+    private static void updatePlayerFishingNBT(
+            ServerPlayer player, FishWrapper fishWrapper, int length, boolean isShiny, int weightG) {
         CompoundTag playerData = player.getPersistentData();
         CompoundTag treasureSeasTag = playerData.getCompound("treasureSeas");
         if (treasureSeasTag.isEmpty()) {
@@ -144,6 +149,10 @@ public class CommonProxy {
         int storedLength = fishTag.getInt("maxLength");
         if (length > storedLength) {
             fishTag.putInt("maxLength", length);
+        }
+        int storedWeight = fishTag.getInt("maxWeight");
+        if (weightG > storedWeight) {
+            fishTag.putInt("maxWeight", weightG);
         }
         if (isShiny) {
             fishTag.putBoolean("isShiny", true);
@@ -190,13 +199,17 @@ public class CommonProxy {
         }
     }
 
-    private static void recordFishingResultToFishItem(Player player, FishWrapper fishWrapper, ItemStack itemStack, int length, FishRarity rarity, boolean isShiny) {
+    private static void recordFishingResultToFishItem(
+            Player player, FishWrapper fishWrapper, ItemStack itemStack,
+            int length, FishRarity rarity, boolean isShiny, int weightG, FishGender gender) {
         if (fishWrapper.isUltimateTreasure() || fishWrapper.isTreasure() || fishWrapper.isJunk()) {
             return;
         }
         // nbt
         CompoundTag fishTag = itemStack.getOrCreateTag();
         fishTag.putInt("length", length);
+        fishTag.putInt("weight", weightG);
+        fishTag.putString("gender", gender.getGenderAsString());
         fishTag.putString("rarity", rarity.name());
         fishTag.putBoolean("isShiny", isShiny);
         fishTag.putLong("timestamp", System.currentTimeMillis());
@@ -205,8 +218,10 @@ public class CommonProxy {
         fishTag.putString("fisher", player.getScoreboardName());
         // lore
         ListTag lore = new ListTag();
-        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.length", "§7" + length))));
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.quality", rarity.getName()))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.length", "§7" + length))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.gender", "§7" + I18n.get(gender.getTranslatableComponent().getKey())))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.weight", "§7" + MathUtils.convertWeight(weightG)))));
         if (isShiny) {
             lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.shiny"))));
         }
@@ -232,15 +247,14 @@ public class CommonProxy {
         if (isNightTime) {
             length += (maxLength - minLength) * 0.025;
         }
-        //  Adjust length based on fish fighter ent lvl
+        // Adjust length based on fish fighter ent lvl
         int entLvl = FishUtils.getFishFighterRodEnchantLevel(player);
         float multiplier = entLvl * 0.0125F;
         length = length * (1 + multiplier);
-        // Adjust length based on weather the fisher is on a boat
+        // Adjust length based on whether the fisher is on a boat
         if (player.getVehicle() instanceof Boat) {
             length = length * (1 + 0.0125F);
         }
-
         // 避免增幅超过极值
         length = Math.min(length, maxLength);
 

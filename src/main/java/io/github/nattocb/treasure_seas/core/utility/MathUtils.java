@@ -166,4 +166,23 @@ public class MathUtils {
         return -tmp + Math.log(2.5066282746310005 * ser / x);
     }
 
+    public static double getRandomInRange(double min, double max) {
+        return min + (max - min) * TreasureSeas.RANDOM.nextDouble();
+    }
+
+    /**
+     * 将重量（单位：g）转换为 "x kg y g" 格式的字符串
+     *
+     * @param weight 以克为单位的重量
+     * @return 格式化后的字符串
+     */
+    public static String convertWeight(int weight) {
+        int kg = weight / 1000; // 计算千克
+        int g = weight % 1000;  // 计算剩余克数
+        if (kg < 1) {
+            return g + " g"; // 千克小于1，仅输出克
+        }
+        return kg + " kg " + g + " g"; // 输出千克和克的组合
+    }
+
 }
