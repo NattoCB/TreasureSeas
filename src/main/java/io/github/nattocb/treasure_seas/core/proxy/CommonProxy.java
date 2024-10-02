@@ -83,10 +83,10 @@ public class CommonProxy {
 
             // get length, shiny info, rarity
             // todo add fish weight in kg
-            Pair<Double, FishRarity> lengthRarityPair = generateLengthAndRarity(player, fishWrapper, isRaining, isThundering, isNightTime);
-            int length = lengthRarityPair.getA().intValue();
             int shinyFrequency = TreasureSeas.getInstance().getConfigManager().getShinyFrequency();
             boolean isShiny = TreasureSeas.RANDOM.nextInt(shinyFrequency) == 0;
+            Pair<Double, FishRarity> lengthRarityPair = generateLengthAndRarity(player, fishWrapper, isRaining, isThundering, isNightTime, isShiny);
+            int length = lengthRarityPair.getA().intValue();
             FishRarity rarity = lengthRarityPair.getB();
             int weightG = FishUtils.estimateWeight(fishWrapper.getMaxLength(), length);
             FishGender gender = TreasureSeas.RANDOM.nextBoolean() ? FishGender.MALE : FishGender.FEMALE;
@@ -230,7 +230,8 @@ public class CommonProxy {
     }
 
     @NotNull
-    private static Pair<Double, FishRarity> generateLengthAndRarity(ServerPlayer player, FishWrapper fishWrapper, boolean isRaining, boolean isThundering, boolean isNightTime) {
+    private static Pair<Double, FishRarity> generateLengthAndRarity(ServerPlayer player, FishWrapper fishWrapper, boolean isRaining,
+                                                                    boolean isThundering, boolean isNightTime, boolean isShiny) {
         double minLength = fishWrapper.getMinLength();
         double maxLength = fishWrapper.getMaxLength();
         double mostCommonLength = fishWrapper.getMostCommonLength();
@@ -257,6 +258,11 @@ public class CommonProxy {
         }
         // 避免增幅超过极值
         length = Math.min(length, maxLength);
+        // 如果是变异闪光鱼，那么体长可以超过最大理论值
+        if (isShiny) {
+            double lenModifier = MathUtils.getRandomInRange(1.5, 3.5);
+            length *= lenModifier;
+        }
 
         // Determine rarity based on the CDF percentage
         double modeNormalized = (mostCommonLength - minLength) / (maxLength - minLength);
