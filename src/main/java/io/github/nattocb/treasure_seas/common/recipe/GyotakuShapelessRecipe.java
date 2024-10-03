@@ -81,9 +81,6 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
                         highestRarity = rarity;
                     }
                 }
-                if (tag.getBoolean("isShiny")) {
-                    isShiny = true;
-                }
                 if (tag.contains("length")) {
                     length = tag.getInt("length");
                 }
@@ -104,6 +101,9 @@ public class GyotakuShapelessRecipe extends ShapelessRecipe {
                 }
                 if (tag.contains("fisher")) {
                     fisher = tag.getString("fisher");
+                }
+                if (tag.getBoolean("isShiny")) {
+                    isShiny = true;
                 }
             }
             if (input.is(ModRecipeTags.RAW_FISHES)) {

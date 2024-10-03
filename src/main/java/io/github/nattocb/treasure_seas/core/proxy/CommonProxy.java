@@ -207,9 +207,9 @@ public class CommonProxy {
         }
         // nbt
         CompoundTag fishTag = itemStack.getOrCreateTag();
+        fishTag.putString("gender", gender.getGenderAsString());
         fishTag.putInt("length", length);
         fishTag.putInt("weight", weightG);
-        fishTag.putString("gender", gender.getGenderAsString());
         fishTag.putString("rarity", rarity.name());
         fishTag.putBoolean("isShiny", isShiny);
         fishTag.putLong("timestamp", System.currentTimeMillis());
