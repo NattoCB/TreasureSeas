@@ -22,7 +22,7 @@
 
 现在你可以通过为你的钓竿增加`【鱼之战斗I-V】`附魔，从而可以触发新版钓鱼，和新版战利品规则
 
-![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/cn_gyotauku.jpg)
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/cn_gyotaku.jpg)
 
 *（图例：通过宝藏海附魔垂钓鱼类的鱼拓制作过程）*
 
@@ -352,7 +352,7 @@ The fishing content is highly configurable, allowing server owners and modpack c
 
 Now you can trigger the new fishing system and the new loot rules by adding the `【Fish Fighter I-V】` enchantment to your fishing rod.
 
-![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/en_gyotauku.jpg)
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/en_gyotaku.jpg)
 
 *( The process of creating a Gyotaku from fish caught with the Treasure Seas enchantment)*
 
