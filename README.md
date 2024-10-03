@@ -22,6 +22,10 @@
 
 现在你可以通过为你的钓竿增加`【鱼之战斗I-V】`附魔，从而可以触发新版钓鱼，和新版战利品规则
 
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/cn_info_book_1.jpg)
+
+*（上图为经过下方联动模组完整配置后的总图鉴样例）*
+
 * Fish Fighter 附魔 (Lv.1) 可能出现在附魔台中
 
 * Fish Fighter 附魔 (Lv.1-3) 在钓鱼时（使用原版无附魔鱼竿）可能遭遇
@@ -117,6 +121,14 @@
 * 等级5需求:  **335** 只
 
 如果附魔书等级大于当前钓竿等级，如用【V】给【I】级钓竿附魔，那么仅可以得到【II】等级钓竿。
+
+## 更多教程
+
+可通过安装 `Patchouli book` 来查看完整的【宝藏海】全流程教学：
+
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/cn_guide_book_1.jpg)
+
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/cn_guide_book_2.jpg)
 
 ## 推荐整合搭配
 
@@ -336,6 +348,11 @@ The fishing content is highly configurable, allowing server owners and modpack c
 
 Now you can trigger the new fishing system and the new loot rules by adding the `【Fish Fighter I-V】` enchantment to your fishing rod.
 
+
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/en_info_book_1.jpg)
+
+*(The image above is the example of the complete FishDex after configuring all recommended collab-mods at the below chapter)*
+
 The new fishing rewards are categorized into the following types:
 
 * 【Fish】【Junk】【Treasure】【Ultimate Treasure】
@@ -405,6 +422,13 @@ Once the required number of catches is met, you can use the next level of the `F
 
 If the enchantment book level is higher than the current fishing rod level (e.g., using a `V` level book on a `I` level fishing rod), you will only upgrade the rod to **Level II**.
 
+## More guidance
+
+You can install the `Patchouli book` to fetch the complete guide of the TreasureSeas
+
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/en_guide_book_1.jpg)
+
+![showcase](https://github.com/NattoCB/TreasureSeas/blob/main/showcases/en_guide_book_2.jpg)
 
 ## Recommended Mod Combinations
 
