@@ -10,9 +10,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -112,16 +114,6 @@ public class FishingRodHandler {
                         chosenFish
                 )
         );
-    }
-
-    @SubscribeEvent
-    public void onFishingRodUse(PlayerInteractEvent.RightClickItem event) {
-        ItemStack itemStack = event.getItemStack();
-        int fishRodEnchantLevel = FishUtils.getFishFighterRodEnchantLevel(event.getPlayer());
-        if (fishRodEnchantLevel > 0) {
-            // 鱼之战斗钓竿不掉耐久度
-            itemStack.setDamageValue(0);
-        }
     }
 
 }

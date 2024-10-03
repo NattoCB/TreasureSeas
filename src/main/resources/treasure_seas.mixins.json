@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.nattocb.treasure_seas.core.mixin",
+  "refmap": "treasure_seas.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "FishingHookMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
