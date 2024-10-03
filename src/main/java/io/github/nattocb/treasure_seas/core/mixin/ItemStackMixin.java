@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemStack.class)
-public abstract class FishingHookMixin {
+public abstract class ItemStackMixin {
 
     /**
      * 在 isDamageableItem 方法开始处注入代码，

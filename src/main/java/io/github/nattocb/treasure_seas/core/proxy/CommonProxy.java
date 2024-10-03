@@ -219,8 +219,8 @@ public class CommonProxy {
         // lore
         ListTag lore = new ListTag();
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.quality", rarity.getName()))));
-        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.length", "§7" + length))));
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.gender", "§7" + I18n.get(gender.getTranslatableComponent().getKey())))));
+        lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.length", "§7" + length))));
         lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.weight", "§7" + MathUtils.convertWeight(weightG)))));
         if (isShiny) {
             lore.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("fish.treasure_seas.shiny"))));

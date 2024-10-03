@@ -151,6 +151,15 @@ hud.fishing_info.custom_position.y=20
 log.debug_mode.enable=false
 ```
 
+### 服务端配置
+`treasureseas-server.properties`
+```properties
+# 鱼商的输出货物，遵循格式：modnamespace:itemname
+shop.output_item=minecraft:emerald
+# 鱼的闪光几率，1800 代表几率为 1/1800
+fish.shiny_frequency=1800
+```
+
 ### 通用配置
 ```toml
 [Fishes] # 一共四类 Fishes、Junks、Treasures、UltimateTreasures
@@ -299,6 +308,9 @@ basePrice = 128
 
 # 在日志界面打印当前整合包内所有已注册的世界名（供你选择给指定的世界增加鱼类配置）
 /treasureseas log_world_paths
+
+# 立即测试任意一条你配置的鱼的战斗过程，方便你的调参优化
+/treasureseas test {fish_name}
 ```
 
 ---
@@ -410,6 +422,7 @@ Of course, you can use this mod natively, or remove some incompatible or unneces
 Alternatively, you can get hands-on and write your own configuration (see tutorial below) to further enhance the adventure fun!
 
 ## Config Example
+
 ### Client-side config
 `treasureseas-client.properties`
 ```properties
@@ -421,6 +434,15 @@ hud.fishing_info.custom_position.x=0
 hud.fishing_info.custom_position.y=20
 # Whether to enable debug mode (detailed logs can be found in /.minecraft/logs/latest.log and debug.log, which you can use to check if your custom fish configuration is correctly routed)
 log.debug_mode.enable=false
+```
+
+### Server-side config
+`treasureseas-server.properties`
+```properties
+# output item of the fish shop, use the pattern under "modnamespace:itemname"
+shop.output_item=minecraft:emerald
+# shiny rate of a fish, 1800 meaning a probability of 1/1800
+fish.shiny_frequency=1800
 ```
 
 ### Common config 
@@ -468,4 +490,7 @@ more examples please see the content above
 # Print all registered world names in this modpack to the console / log file 
 # (for you to choose which worlds to add fish configurations)
 /treasureseas log_world_paths
+
+# test a fight with any registered fish your write, to help you better optimise your fish's config
+/treasureseas test {fish_name}
 ```
